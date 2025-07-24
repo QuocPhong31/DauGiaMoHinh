@@ -1,0 +1,68 @@
+USE daugiadb;
+
+CREATE TABLE nguoidungs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    hoTen VARCHAR(100),
+    soDienThoai VARCHAR(20),
+    diaChi TEXT,
+    vaiTro ENUM('nguoi_dung', 'quan_tri') DEFAULT 'nguoi_dung',
+    avatar VARCHAR(255),
+    ngayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Bang loai san pham
+CREATE TABLE loaisanpham (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tenLoai VARCHAR(50) NOT NULL
+);
+
+-- Bang san pham
+CREATE TABLE sanphams (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nguoiDung_id INT,
+    loaiSanPham_id INT,
+    tenSanPham VARCHAR(100) NOT NULL,
+    moTa TEXT,
+    hinhAnh VARCHAR(255),
+    giaKhoiDiem DECIMAL(10,2),
+    ngayDang TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id),
+    FOREIGN KEY (loaiSanPham_id) REFERENCES loaisanpham(id)
+);
+
+-- Bang phien dau gia
+CREATE TABLE phiendaugia (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sanPham_id INT,
+    thoiGianBatDau DATETIME,
+    thoiGianKetThuc DATETIME,
+    trangThai ENUM('dang_dien_ra', 'da_ket_thuc', 'huy') DEFAULT 'dang_dien_ra',
+    giaChot DECIMAL(10,2),
+    nguoiThangDauGia_id INT,
+    FOREIGN KEY (sanPham_id) REFERENCES sanphams(id),
+    FOREIGN KEY (nguoiThangDauGia_id) REFERENCES nguoidungs(id)
+);
+
+-- Bảng luot dau gia
+CREATE TABLE phiendaugia_nguoidung (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    phienDauGia_id INT,
+    nguoiDung_id INT,
+    giaDau DECIMAL(10,2),
+    thoiGianDauGia TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (phienDauGia_id) REFERENCES phiendaugia(id),
+    FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id)
+);
+
+-- Bang danh sach theo doi san pham
+CREATE TABLE theodoisanpham (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nguoiDung_id INT,
+    sanPham_id INT,
+    FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id),
+    FOREIGN KEY (sanPham_id) REFERENCES sanphams(id),
+    UNIQUE (nguoiDung_id, sanPham_id)
+);
