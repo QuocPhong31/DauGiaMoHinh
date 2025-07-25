@@ -7,6 +7,7 @@ D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\configs\ThymeleafConfi
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\configs\WebAppContextConfigs.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\ApiAdminController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\ApiNguoiDungController.java
+D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\IndexController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\filters\JwtFilter.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\pojo\LoaiSanPham.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\pojo\NguoiDung.java

@@ -38,8 +38,6 @@ public class NguoiDung implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayTao;
     
-    private MultipartFile file;
-    
     public Integer getId() {
         return id;
     }
@@ -118,5 +116,23 @@ public class NguoiDung implements Serializable{
 
     public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
+    }
+    
+    // equals, hashCode, toString
+    @Override
+    public int hashCode() {
+        return (id != null ? id.hashCode() : 0);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof NguoiDung)) return false;
+        NguoiDung other = (NguoiDung) obj;
+        return (this.id != null && this.id.equals(other.id));
+    }
+
+    @Override
+    public String toString() {
+        return "com.tqp.pojo.NguoiDung[ id=" + id + " ]";
     }
 }
