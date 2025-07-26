@@ -1,6 +1,9 @@
+com\dgmh\repositories\LoaiSanPhamRepository.class
 com\dgmh\pojo\NguoiDung.class
 com\dgmh\configs\SecurityWebApplicationInitializer.class
+com\dgmh\repositories\impl\SanPhamRepositoryImpl.class
 com\dgmh\configs\SpringSecurityConfigs.class
+com\dgmh\services\SanPhamService.class
 com\dgmh\pojo\LoaiSanPham.class
 com\dgmh\repositories\impl\NguoiDungRepositoryImpl.class
 com\dgmh\configs\MailConfig.class
@@ -16,9 +19,14 @@ com\dgmh\pojo\SanPham.class
 com\dgmh\configs\DispatcherServletInit.class
 com\dgmh\pojo\PhienDauGiaNguoiDung.class
 com\dgmh\pojo\TheoDoiSanPham.class
+com\dgmh\services\impl\LoaiSanPhamServiceImpl.class
+com\dgmh\services\LoaiSanPhamService.class
 com\dgmh\controllers\ApiAdminController.class
 com\dgmh\configs\ThymeleafConfig.class
 com\dgmh\controllers\ApiNguoiDungController.class
+com\dgmh\services\impl\SanPhamServiceImpl.class
+com\dgmh\repositories\impl\LoaiSanPhamRepositoryImpl.class
+com\dgmh\repositories\SanPhamRepository.class
 com\dgmh\utils\JwtUtils.class
 com\dgmh\pojo\PhienDauGia.class
 com\dgmh\repositories\NguoiDungRepository.class
