@@ -86,7 +86,7 @@ public class SpringSecurityConfigs {
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                 // Quyền cho admin, giáo vụ, giảng viên 
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/khoaluan/**").hasAuthority("ROLE_GIAOVU")
+                .requestMatchers("/user/**").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

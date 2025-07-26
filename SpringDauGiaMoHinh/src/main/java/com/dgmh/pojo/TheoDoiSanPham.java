@@ -11,7 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -31,6 +34,9 @@ public class TheoDoiSanPham implements Serializable{
     @ManyToOne
     @JoinColumn(name = "sanPham_id")
     private SanPham sanPham;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ngayTheoDoi;
     
     public Integer getId() {
         return id;
@@ -54,5 +60,13 @@ public class TheoDoiSanPham implements Serializable{
 
     public void setSanPham(SanPham sanPham) {
         this.sanPham = sanPham;
+    }
+    
+    public Date getNgayTheoDoi() {
+        return ngayTheoDoi;
+    }
+
+    public void setNgayTheoDoi(Date ngayTheoDoi) {
+        this.ngayTheoDoi = ngayTheoDoi;
     }
 }
