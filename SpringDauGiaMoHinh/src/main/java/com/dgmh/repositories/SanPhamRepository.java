@@ -4,10 +4,16 @@
  */
 package com.dgmh.repositories;
 
+import com.dgmh.pojo.SanPham;
+import java.util.List;
+
 /**
  *
  * @author Tran Quoc Phong
  */
-public class SanPhamRepository {
-    
+public interface SanPhamRepository {
+    SanPham add(SanPham sanPham);
+    List<SanPham> getAll();
+    SanPham getById(int id);
+    boolean delete(int id);
 }
