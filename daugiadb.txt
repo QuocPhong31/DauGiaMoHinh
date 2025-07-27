@@ -8,7 +8,7 @@ CREATE TABLE nguoidungs (
     hoTen VARCHAR(100),
     soDienThoai VARCHAR(20),
     diaChi TEXT,
-    vaiTro ENUM('nguoi_dung', 'quan_tri') DEFAULT 'nguoi_dung',
+    vaiTro ENUM('ROLE_ADMIN', 'ROLE_NGUOIBAN', 'ROLE_NGUOIMUA') DEFAULT 'ROLE_NGUOIMUA',
     avatar VARCHAR(255),
     ngayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -62,7 +62,21 @@ CREATE TABLE theodoisanpham (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nguoiDung_id INT,
     sanPham_id INT,
-    FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id),
-    FOREIGN KEY (sanPham_id) REFERENCES sanphams(id),
+    ngayTheoDoi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id) ON DELETE CASCADE,
+    FOREIGN KEY (sanPham_id) REFERENCES sanphams(id) ON DELETE CASCADE,
     UNIQUE (nguoiDung_id, sanPham_id)
+);
+
+USE daugiadb;
+UPDATE nguoidungs SET vaiTro = 'ROLE_ADMIN' WHERE username = 'admin';
+INSERT INTO nguoidungs (username, password, email, hoTen, soDienThoai, diaChi, vaiTro)
+VALUES (
+    'admin',
+    '$2a$10$WzTxGJK1tbyEO.r0ODTMCOKRGr1xjo9FD9H6RXV4Qf5NmaKZf3Vm2',
+    'admin@gmail.com',
+    'Quản Trị Viên',
+    '0123456789',
+    'TP.HCM',
+    'ROLE_ADMIN'
 );

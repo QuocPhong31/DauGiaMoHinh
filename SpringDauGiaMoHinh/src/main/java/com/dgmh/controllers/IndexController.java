@@ -4,6 +4,11 @@
  */
 package com.dgmh.controllers;
 
+import com.dgmh.pojo.NguoiDung;
+import com.dgmh.services.NguoiDungService;
+import com.dgmh.services.SanPhamService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +19,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class IndexController {
+    @Autowired
+    private SanPhamService sanPhamService;
+
+    @Autowired
+    private NguoiDungService nguoiDungService;
+
     @RequestMapping("/")
-    public String index(Model model){
-        model.addAttribute("msg", "Chào OU");
+    public String index(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String username = authentication.getName();
+            NguoiDung user = nguoiDungService.getByUsername(username);
+
+            if (user != null) {
+                String role = user.getVaiTro().trim();
+
+                if (role.equalsIgnoreCase("ROLE_ADMIN")) {
+                    System.out.println("Redirecting to /admin");
+                    return "redirect:/admin";
+                }
+                else if (role.equalsIgnoreCase("ROLE_NGUOIBAN"))
+                    return "redirect:/nguoiban";
+                else if (role.equalsIgnoreCase("ROLE_NGUOIMUA"))
+                    return "redirect:/nguoidung";
+            }
+            System.out.println("Redirecting user with role: " + user.getVaiTro());
+            System.out.println("Login user: " + authentication.getName());
+            System.out.println("Role: " + user.getVaiTro());
+        }
+
+        // Nếu không đăng nhập thì vẫn hiển thị danh sách sản phẩm
+        model.addAttribute("sanPhams", sanPhamService.getAllSanPham());
         return "index";
     }
 }

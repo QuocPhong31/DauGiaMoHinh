@@ -61,13 +61,18 @@ public class NguoiDungServiceImpl implements NguoiDungService, UserDetailsServic
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println(">>>> GỌI ĐẾN loadUserByUsername với username: " + username);
         NguoiDung u = nguoiDungRepo.getByUsername(username);
         if (u == null) {
             throw new UsernameNotFoundException("Không tìm thấy user");
         }
 
         Set<GrantedAuthority> authorities = new HashSet<>();
+        System.out.println("USERNAME: " + u.getUsername());
+        System.out.println("ROLE: [" + u.getVaiTro() + "]");
+        System.out.println("Generated hash for 123456: " + passEncoder.encode("123456"));
         authorities.add(new SimpleGrantedAuthority(u.getVaiTro()));
+        System.out.println("Authorities: " + authorities);
 
         return new org.springframework.security.core.userdetails.User(
                 u.getUsername(), u.getPassword(), authorities);

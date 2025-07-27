@@ -19,7 +19,7 @@ public interface NguoiDungService extends UserDetailsService {
     NguoiDung getById(int id); //apiAdmin, apiGiaovu
     NguoiDung addUser(NguoiDung user);
     NguoiDung mergeUser(NguoiDung user);
-    NguoiDung addUser(Map<String, String> params, MultipartFile avatar); //apiAdmin
+    NguoiDung addUser(Map<String, String> params, MultipartFile avatar); 
     boolean authenticate(String username, String rawPassword);
     boolean deleteUser(int id);
     List<NguoiDung> getAllUsers();  //apiAdmin
