@@ -56,6 +56,32 @@ public class ApiNguoiDungController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sai thông tin đăng nhập");
     }
+    
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestParam Map<String, String> params,
+                                          @RequestParam(name = "avatar", required = false) MultipartFile avatar) {
+        // Đảm bảo username và password tồn tại
+        if (!params.containsKey("username") || !params.containsKey("password")) {
+            return ResponseEntity.badRequest().body("Thiếu thông tin đăng ký");
+        }
+
+        // Gán trạng thái mặc định là CHO_DUYET
+        params.put("trangThai", "CHO_DUYET");
+
+        // Gán vai trò mặc định là ROLE_USER nếu chưa có
+        if (!params.containsKey("vaiTro")) {
+            params.put("vaiTro", "ROLE_USER");
+        }
+
+        // Gọi service để thêm người dùng
+        try {
+            NguoiDung newUser = nguoiDungService.addUser(params, avatar);
+            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Đăng ký thất bại: " + e.getMessage());
+        }
+    }
 
     @RequestMapping("/secure/profile")
     @ResponseBody

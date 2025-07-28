@@ -10,6 +10,7 @@ import com.dgmh.pojo.NguoiDung;
 import com.dgmh.repositories.NguoiDungRepository;
 import com.dgmh.services.NguoiDungService;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -100,9 +101,20 @@ public class NguoiDungServiceImpl implements NguoiDungService, UserDetailsServic
         u.setSoDienThoai(params.get("soDienThoai"));
         u.setDiaChi(params.get("diaChi"));
         u.setVaiTro(params.get("vaiTro"));
+        u.setNgayTao(new Date());
+        u.setTrangThai(params.getOrDefault("trangThai", "CHO_DUYET"));
 
         u.setPassword(passEncoder.encode(u.getPassword()));  // Mã hóa mật khẩu
 
+        if (avatar != null && !avatar.isEmpty()) {
+            try {
+                Map res = cloudinary.uploader().upload(avatar.getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto"));
+                u.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(NguoiDungServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         // Gọi repository để lưu người dùng vào DB
         return nguoiDungRepo.addUser(u);  // Đảm bảo phương thức này hỗ trợ lưu user
     }

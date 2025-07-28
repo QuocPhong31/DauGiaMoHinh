@@ -34,11 +34,24 @@ public class AdminController {
         model.addAttribute("users", users);
         return "admin";  // admin.html
     }
+    
+    @GetMapping("/themNguoiDung")
+    public String showAddUserForm(Model model) {
+        model.addAttribute("nguoiDung", new NguoiDung());
+        return "addUser"; // tên file addUser.html
+    }
 
-    @PostMapping("/add-user")
+    @PostMapping("/themNguoiDung")
     public String addUser(@RequestParam Map<String, String> params,
                           @RequestParam(value = "avatar", required = false) MultipartFile avatar,
                           RedirectAttributes redirectAttrs) {
+        // Nếu là admin thì gán trạng thái được duyệt luôn
+        if ("ROLE_ADMIN".equals(params.get("vaiTro"))) {
+            params.put("trangThai", "DUOC_DUYET");
+        } else {
+            params.put("trangThai", "CHO_DUYET");
+        }
+        
         nguoiDungService.addUser(params, avatar);
         redirectAttrs.addFlashAttribute("message", "Thêm người dùng thành công!");
         return "redirect:/admin";

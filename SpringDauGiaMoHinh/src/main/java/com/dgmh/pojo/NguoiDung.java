@@ -37,6 +37,7 @@ public class NguoiDung implements Serializable{
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayTao;
+    private String trangThai;
     
     public Integer getId() {
         return id;
@@ -116,6 +117,14 @@ public class NguoiDung implements Serializable{
 
     public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
+    }
+    
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
     
     // equals, hashCode, toString

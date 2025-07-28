@@ -32,6 +32,7 @@
                     <th>Vai trò</th>
                     <th>Mật khẩu (đã mã hóa)</th>
                     <th>Avatar</th>
+                    <th>Trạng thái</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +41,7 @@
                 <td th:text="${u.username}"></td>
                 <td th:text="${u.email}"></td>
                 <td th:text="${u.vaiTro}"></td>
+                
                 <td>
                     <input type="text" th:value="${u.password}" class="form-control form-control-sm" readonly style="font-size: 0.75rem;" />
                 </td>
@@ -47,6 +49,7 @@
                     <img th:if="${u.avatar}" th:src="${u.avatar}" alt="Avatar" width="50" height="50" class="rounded-circle"/>
                     <span th:if="${u.avatar == null}">No avatar</span>
                 </td>
+                <td th:text="${u.trangThai}"></td>
                 <td>
                     <form th:action="@{/admin/delete-user}" method="post">
                         <input type="hidden" name="userId" th:value="${u.id}" />

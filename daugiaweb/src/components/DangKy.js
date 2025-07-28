@@ -48,7 +48,7 @@ const DangKy = () => {
 
             try {
                 setLoading(true);
-                let res = await Apis.post(endpoints['dangky'], form, {
+                let res = await Apis.post(endpoints['register'], form, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
