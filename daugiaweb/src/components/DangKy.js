@@ -9,10 +9,10 @@ const DangKy = () => {
     username: '',
     password: '',
     confirmPassword: '',
-    fullname: '',
+    hoTen: '',
     email: '',
-    phone: '',
-    address: '',
+    soDienThoai: '',
+    diaChi: '',
     avatar: null,
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -47,9 +47,9 @@ const DangKy = () => {
       if (key !== 'confirmPassword') {
         data.append(key, formData[key]);
       }
-    });
+    })
 
-    console.log(...data.entries()); // Kiểm tra các giá trị đã được gửi
+    data.append('vaiTro', 'ROLE_NGUOIMUA');
 
     try {
       const res = await authApis().post(endpoints['add-user'], data, {
@@ -63,6 +63,7 @@ const DangKy = () => {
       setErrorMessage('Đăng ký thất bại, vui lòng thử lại');
     }
   };
+
 
   return (
     <Container className="mt-5">
@@ -105,12 +106,12 @@ const DangKy = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="fullname" className="mb-3">
+            <Form.Group controlId="hoTen" className="mb-3">
               <Form.Label>Họ tên</Form.Label>
               <Form.Control
                 type="text"
-                name="fullname"
-                value={formData.fullname}
+                name="hoTen"
+                value={formData.hoTen}
                 onChange={handleChange}
                 required
               />
@@ -127,23 +128,23 @@ const DangKy = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="phone" className="mb-3">
+            <Form.Group controlId="soDienThoai" className="mb-3">
               <Form.Label>Số điện thoại</Form.Label>
               <Form.Control
                 type="text"
-                name="phone"
-                value={formData.phone}
+                name="soDienThoai"
+                value={formData.soDienThoai}
                 onChange={handleChange}
                 required
               />
             </Form.Group>
 
-            <Form.Group controlId="address" className="mb-3">
+            <Form.Group controlId="diaChi" className="mb-3">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
                 type="text"
-                name="address"
-                value={formData.address}
+                name="diaChi"
+                value={formData.diaChi}
                 onChange={handleChange}
                 required
               />
