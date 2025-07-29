@@ -74,7 +74,7 @@ UPDATE nguoidungs SET vaiTro = 'ROLE_ADMIN' WHERE username = 'admin';
 INSERT INTO nguoidungs (username, password, email, hoTen, soDienThoai, diaChi, vaiTro, trangThai)
 VALUES (
     'admin',
-    '$2a$10$WzTxGJK1tbyEO.r0ODTMCOKRGr1xjo9FD9H6RXV4Qf5NmaKZf3Vm2',
+    '$2a$10$Af7DHT4moV4hfhQk.Y7DFu6ACjD5mgzXPMgs3Bjf0qKUqtx41yOhO',
     'admin@gmail.com',
     'Quản Trị Viên',
     '0123456789',

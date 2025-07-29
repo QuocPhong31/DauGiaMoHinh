@@ -70,7 +70,7 @@ public class ApiNguoiDungController {
 
         // Gán vai trò mặc định là ROLE_USER nếu chưa có
         if (!params.containsKey("vaiTro")) {
-            params.put("vaiTro", "ROLE_USER");
+            params.put("vaiTro", "ROLE_NGUOIMUA");
         }
 
         // Gọi service để thêm người dùng

@@ -20,7 +20,7 @@ console.log("Header", Header);
 console.log("Footer", Footer);
 console.log("TrangChu", TrangChu);
 console.log("DangNhap", DangNhap);
-console.log("DangKy", DangKy);
+console.log("Type of DangKy:", typeof DangKy);
 const App = () => {
   const [user, dispatch] = useReducer(MyUserReducer, null);
 

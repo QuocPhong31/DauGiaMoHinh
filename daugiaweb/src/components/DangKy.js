@@ -1,102 +1,171 @@
-import { useContext, useState, useRef } from "react";
-import { Alert, Button, Col, Form, Row } from "react-bootstrap";
-import Apis, { endpoints } from "../configs/Apis";
-import MySpinner from "./layout/MySpinner";
-import { useNavigate } from "react-router-dom";
-import { MyUserContext } from "../configs/Contexts";
+import { useState } from 'react';
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { authApis, endpoints } from '../configs/Apis'; // Nhập cấu hình API
+import cookie from 'react-cookies';
 
 const DangKy = () => {
-    const info = [
-        { label: "Tài khoản", field: "taiKhoan", type: "text" },
-        { label: "Mật khẩu", field: "matKhau", type: "password" },
-        { label: "Xác nhận mật khẩu", field: "confirm", type: "password" },
-        { label: "Họ tên", field: "hoTen", type: "text" },
-        { label: "Email", field: "email", type: "email" },
-        { label: "Số điện thoại", field: "soDienThoai", type: "tel" },
-        { label: "Địa chỉ", field: "diaChi", type: "text" }
-    ];
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    confirmPassword: '',
+    fullname: '',
+    email: '',
+    phone: '',
+    address: '',
+    avatar: null,
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
 
-    const avatar = useRef();
-    const current_user = useContext(MyUserContext);
-    const [user, setUser] = useState({});
-    const [msg, setMsg] = useState();
-    const [loading, setLoading] = useState(false);
-    const nav = useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-    const validate = () => {
-        if (!user.matKhau || user.matKhau !== user.confirm) {
-            setMsg("Mật khẩu không khớp");
-            return false;
-        }
-        return true;
-    };
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      avatar: e.target.files[0],
+    });
+  };
 
-    const dangKy = async (e) => {
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (validate()) {
-            let form = new FormData();
-            for (let key in user) {
-                if (key !== 'confirm') {
-                    form.append(key, user[key]);
-                }
-            }
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage('Mật khẩu không khớp');
+      return;
+    }
 
-            if (avatar.current?.files[0]) {
-                form.append("avatar", avatar.current.files[0]);
-            }
+    const data = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key !== 'confirmPassword') {
+        data.append(key, formData[key]);
+      }
+    });
 
-            try {
-                setLoading(true);
-                let res = await Apis.post(endpoints['register'], form, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+    console.log(...data.entries()); // Kiểm tra các giá trị đã được gửi
 
-                if (res.status === 201 || res.status === 200) {
-                    nav("/dangnhap");
-                }
-            } catch (err) {
-                console.error(err);
-                setMsg("Đăng ký thất bại. Vui lòng kiểm tra lại thông tin!");
-            } finally {
-                setLoading(false);
-            }
-        }
-    };
+    try {
+      const res = await authApis().post(endpoints['add-user'], data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setSuccessMessage('Đăng ký thành công, vui lòng đợi admin duyệt');
+      setTimeout(() => navigate('/dangnhap'), 2000); // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
+    } catch (err) {
+      setErrorMessage('Đăng ký thất bại, vui lòng thử lại');
+    }
+  };
 
-    return (
-        <>
-            <h1 className="text-center text-primary mt-2">Đăng ký tài khoản</h1>
-            {msg && <Alert variant="danger">{msg}</Alert>}
+  return (
+    <Container className="mt-5">
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <h2 className="text-center mb-4">Đăng ký tài khoản</h2>
+          {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+          {successMessage && <Alert variant="success">{successMessage}</Alert>}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="username" className="mb-3">
+              <Form.Label>Tài khoản</Form.Label>
+              <Form.Control
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-            <Form onSubmit={dangKy}>
-                {info.map(i => (
-                    <Form.Group className="mb-3" key={i.field}>
-                        <Form.Control
-                            value={user[i.field] || ""}
-                            onChange={e => setUser({ ...user, [i.field]: e.target.value })}
-                            type={i.type}
-                            placeholder={i.label}
-                            required
-                        />
-                    </Form.Group>
-                ))}
+            <Form.Group controlId="password" className="mb-3">
+              <Form.Label>Mật khẩu</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-                <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="2">Ảnh đại diện</Form.Label>
-                    <Col sm="10">
-                        <Form.Control ref={avatar} type="file" accept="image/*" required />
-                    </Col>
-                </Form.Group>
+            <Form.Group controlId="confirmPassword" className="mb-3">
+              <Form.Label>Xác nhận mật khẩu</Form.Label>
+              <Form.Control
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
 
-                <div className="text-center">
-                    {loading ? <MySpinner /> : <Button type="submit" variant="success">Đăng ký</Button>}
-                </div>
-            </Form>
-        </>
-    );
+            <Form.Group controlId="fullname" className="mb-3">
+              <Form.Label>Họ tên</Form.Label>
+              <Form.Control
+                type="text"
+                name="fullname"
+                value={formData.fullname}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email" className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="phone" className="mb-3">
+              <Form.Label>Số điện thoại</Form.Label>
+              <Form.Control
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="address" className="mb-3">
+              <Form.Label>Địa chỉ</Form.Label>
+              <Form.Control
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="avatar" className="mb-3">
+              <Form.Label>Ảnh đại diện</Form.Label>
+              <Form.Control
+                type="file"
+                name="avatar"
+                onChange={handleFileChange}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" block>
+              Đăng ký
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
 export default DangKy;

@@ -10,7 +10,6 @@ export const endpoints = {
     'current-user': 'secure/profile',
 
     // 🧑 Người dùng
-    register: 'register',                 // POST - đăng ký tài khoản (multipart/form-data)
     'add-user': 'users',                  // POST - thêm người dùng (admin)
     'get-users': 'users',                 // GET - danh sách người dùng (nếu có)
     'change-password': 'secure/change-password'  // POST - đổi mật khẩu
