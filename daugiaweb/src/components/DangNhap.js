@@ -18,7 +18,7 @@ const DangNhap = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            let res = await Apis.post(endpoints['dangnhap'], user);
+            let res = await Apis.post(endpoints['login'], user);
             cookie.save("token", res.data.token);
             localStorage.setItem("token", res.data.token);
 
