@@ -43,6 +43,7 @@ public class SanPham implements Serializable{
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayDang;
+    private String trangThai;
     
     public Integer getId() {
         return id;
@@ -106,5 +107,13 @@ public class SanPham implements Serializable{
 
     public void setNgayDang(Date ngayDang) {
         this.ngayDang = ngayDang;
+    }
+    
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 }

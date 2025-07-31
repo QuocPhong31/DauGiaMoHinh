@@ -29,6 +29,11 @@ public class SanPhamServiceImpl implements SanPhamService{
     public List<SanPham> getAllSanPham() {
         return sanPhamRepository.getAll();
     }
+    
+    @Override
+    public boolean updateTrangThai(int id, String trangThai) {
+        return sanPhamRepository.updateTrangThai(id, trangThai);
+    }
 
     @Override
     public SanPham getSanPhamById(int id) {

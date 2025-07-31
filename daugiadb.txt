@@ -30,6 +30,7 @@ CREATE TABLE sanphams (
     hinhAnh VARCHAR(255),
     giaKhoiDiem DECIMAL(10,2),
     ngayDang TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    trangThai ENUM('CHO_DUYET', 'DUYET', 'KHONG_DUYET') DEFAULT 'CHO_DUYET',
     FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id),
     FOREIGN KEY (loaiSanPham_id) REFERENCES loaisanpham(id)
 );

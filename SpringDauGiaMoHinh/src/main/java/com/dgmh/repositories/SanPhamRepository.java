@@ -14,6 +14,7 @@ import java.util.List;
 public interface SanPhamRepository {
     SanPham add(SanPham sanPham);
     List<SanPham> getAll();
+    boolean updateTrangThai(int id, String trangThai);
     SanPham getById(int id);
     boolean delete(int id);
 }

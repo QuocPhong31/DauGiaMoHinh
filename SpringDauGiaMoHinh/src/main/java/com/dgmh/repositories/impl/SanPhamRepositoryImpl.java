@@ -37,6 +37,18 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
         Query<SanPham> q = session.createQuery("FROM SanPham", SanPham.class);
         return q.getResultList();
     }
+    
+    @Override
+    public boolean updateTrangThai(int id, String trangThai) {
+        Session session = this.factory.getObject().getCurrentSession();
+        SanPham sanPham = session.get(SanPham.class, id);
+        if (sanPham != null) {
+            sanPham.setTrangThai(trangThai);  
+            session.update(sanPham);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public SanPham getById(int id) {
