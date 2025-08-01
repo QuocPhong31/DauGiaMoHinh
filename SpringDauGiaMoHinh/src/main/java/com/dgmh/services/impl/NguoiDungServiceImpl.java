@@ -134,15 +134,20 @@ public class NguoiDungServiceImpl implements NguoiDungService, UserDetailsServic
     public boolean authenticate(String username, String rawPassword) {
         NguoiDung u = this.getByUsername(username);
         if (u != null) {
-            System.out.println(" Testing login:");
-            System.out.println(" - Username: " + u.getUsername());
-            System.out.println(" - Raw password: " + rawPassword);
-            System.out.println(" - Stored hash: " + u.getPassword());
-            System.out.println(" - Password match: " + passEncoder.matches(rawPassword, u.getPassword()));
-
-            System.out.println("Raw: " + rawPassword);
-            System.out.println("Encoded: " + u.getPassword());
-            System.out.println("Match: " + passEncoder.matches(rawPassword, u.getPassword()));
+            
+            if (!"DUOC_DUYET".equals(u.getTrangThai())) {
+            // Trạng thái không phải "DUOC_DUYET", không cho phép đăng nhập
+            return false;
+        }
+//            System.out.println(" Testing login:");
+//            System.out.println(" - Username: " + u.getUsername());
+//            System.out.println(" - Raw password: " + rawPassword);
+//            System.out.println(" - Stored hash: " + u.getPassword());
+//            System.out.println(" - Password match: " + passEncoder.matches(rawPassword, u.getPassword()));
+//
+//            System.out.println("Raw: " + rawPassword);
+//            System.out.println("Encoded: " + u.getPassword());
+//            System.out.println("Match: " + passEncoder.matches(rawPassword, u.getPassword()));
         }
         return u != null && passEncoder.matches(rawPassword, u.getPassword());
     }

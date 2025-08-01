@@ -48,6 +48,15 @@ public class ApiNguoiDungController {
     public ResponseEntity<?> login(@RequestBody NguoiDung u) {
         if (this.nguoiDungService.authenticate(u.getUsername(), u.getPassword())) {
             try {
+                
+                // Lấy người dùng từ service
+                NguoiDung user = nguoiDungService.getByUsername(u.getUsername());
+                // Kiểm tra trạng thái người dùng
+                if (!"DUOC_DUYET".equals(user.getTrangThai())) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                            .body("Tài khoản chưa được duyệt.");
+                }
+                
                 String token = JwtUtils.generateToken(u.getUsername());
                 return ResponseEntity.ok(Collections.singletonMap("token", token));
             } catch (Exception e) {
