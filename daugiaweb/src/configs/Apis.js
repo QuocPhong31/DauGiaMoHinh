@@ -12,7 +12,10 @@ export const endpoints = {
     // 🧑 Người dùng
     'add-user': 'users',                  // POST - thêm người dùng (admin)
     'get-users': 'users',                 // GET - danh sách người dùng (nếu có)
-    'change-password': 'secure/change-password'  // POST - đổi mật khẩu
+    'change-password': 'secure/change-password',  // POST - đổi mật khẩu
+    "add-product": "products",
+
+
 
     // 👉 Bạn có thể thêm các endpoint khác như sản phẩm, đấu giá... ở đây
 };

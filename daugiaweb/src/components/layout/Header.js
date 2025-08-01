@@ -41,7 +41,7 @@ const Header = () => {
               </>
             ) : (
               <>
-                <div className="d-flex align-items-center gap-2 text-dark">
+                <Link to="/thong-tin-ca-nhan" className="d-flex align-items-center gap-2 text-dark text-decoration-none">
                   <Image
                     src={user.avatar || "https://via.placeholder.com/40"}
                     roundedCircle
@@ -52,7 +52,7 @@ const Header = () => {
                   <span title={user.username}>
                     {user.username}
                   </span>
-                </div>
+                </Link>
                 <Button variant="outline-danger" size="sm" onClick={handleLogout}>
                   Đăng xuất
                 </Button>

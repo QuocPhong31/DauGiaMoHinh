@@ -9,18 +9,14 @@ import Footer from "./components/layout/Footer";
 import TrangChu from "./components/TrangChu";
 import DangNhap from "./components/DangNhap";
 import DangKy from "./components/DangKy";
-// Thêm các page khác khi bạn đã tạo
+import ThongTinCaNhan from "./components/ThongTinCaNhan";
+import TaoSanPhamDG from "./components/TaoSanPhamDG";
 
 import { MyUserContext, MyDispatchContext } from "./configs/Contexts";
 import MyUserReducer from "./reducers/MyUserReducer";
 import { authApis, endpoints } from "./configs/Apis";
 import cookie from "react-cookies";
 
-console.log("Header", Header);
-console.log("Footer", Footer);
-console.log("TrangChu", TrangChu);
-console.log("DangNhap", DangNhap);
-console.log("Type of DangKy:", typeof DangKy);
 const App = () => {
   const [user, dispatch] = useReducer(MyUserReducer, null);
 
@@ -52,7 +48,8 @@ const App = () => {
               <Route path="/" element={<TrangChu />} />
               <Route path="/dangnhap" element={<DangNhap />} />
               <Route path="/dangky" element={<DangKy />} />
-              {/* Thêm route cho trang đấu giá, sản phẩm, v.v. */}
+              <Route path="/thong-tin-ca-nhan" element={<ThongTinCaNhan />} />
+              <Route path="/tao-dau-gia" element={<TaoSanPhamDG />} />
             </Routes>
           </Container>
           <Footer />
