@@ -14,6 +14,7 @@ export const endpoints = {
     'get-users': 'users',                 // GET - danh sách người dùng (nếu có)
     'change-password': 'secure/change-password',  // POST - đổi mật khẩu
     "add-product": "products",
+    "loai-san-pham": "loaisanpham",
 
 
 

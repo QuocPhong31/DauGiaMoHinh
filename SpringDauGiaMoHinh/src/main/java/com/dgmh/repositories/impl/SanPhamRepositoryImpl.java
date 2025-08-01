@@ -8,6 +8,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.dgmh.pojo.SanPham;
 import com.cloudinary.Cloudinary;
 import com.dgmh.pojo.LoaiSanPham;
+import com.dgmh.pojo.NguoiDung;
 import com.dgmh.repositories.SanPhamRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -34,39 +35,37 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
     private Cloudinary cloudinary;
 
     @Override
-    public SanPham addSanPham(Map<String, String> params, MultipartFile avatar) {
+    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, int loaiSanPhamId, String username, MultipartFile avatar) {
+        Session session = this.factory.getObject().getCurrentSession();
         // Tạo đối tượng SanPham từ thông tin trong params
         SanPham sanPham = new SanPham();
-        sanPham.setTenSanPham(params.get("tenSanPham"));
-        sanPham.setMoTa(params.get("moTa"));
-        sanPham.setGiaKhoiDiem(new BigDecimal(params.get("giaKhoiDiem")));
-        sanPham.setBuocNhay(new BigDecimal(params.getOrDefault("buocNhay", "0")));  // Mặc định 0 nếu không có
-        sanPham.setTrangThai(params.get("trangThai"));
-        
-        // Lấy ID của loại sản phẩm từ params và truy vấn đối tượng LoaiSanPham
-        String loaiSanPhamId = params.get("loaiSanPham");
-        if (loaiSanPhamId != null) {
-            // Truy vấn LoaiSanPham theo ID
-            Session session = this.factory.getObject().getCurrentSession();
-            LoaiSanPham loaiSanPham = session.get(LoaiSanPham.class, Integer.parseInt(loaiSanPhamId));
-            sanPham.setLoaiSanPham(loaiSanPham);  // Gán LoaiSanPham vào SanPham
-        }
-        
-        // Nếu có avatar, xử lý tải ảnh lên Cloudinary
+        sanPham.setTenSanPham(tenSanPham);
+        sanPham.setMoTa(moTa);
+        sanPham.setGiaKhoiDiem(giaKhoiDiem);
+        sanPham.setBuocNhay(buocNhay);
+        sanPham.setTrangThai("CHO_DUYET");
+
+        // Lấy đối tượng LoaiSanPham từ ID
+        LoaiSanPham loaiSanPham = session.get(LoaiSanPham.class, loaiSanPhamId);
+        sanPham.setLoaiSanPham(loaiSanPham);
+
+        // Lấy đối tượng NguoiDung từ username
+        Query<NguoiDung> query = session.createQuery("FROM NguoiDung WHERE username = :un", NguoiDung.class);
+        query.setParameter("un", username);
+        NguoiDung nguoiDung = query.uniqueResult();
+        sanPham.setNguoiDung(nguoiDung);
+
+        // Upload ảnh nếu có
         if (avatar != null && !avatar.isEmpty()) {
             try {
-                // Tải ảnh lên Cloudinary
                 Map uploadResult = cloudinary.uploader().upload(avatar.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-                // Lấy URL ảnh và gán vào đối tượng sanPham
                 sanPham.setHinhAnh(uploadResult.get("secure_url").toString());
             } catch (Exception e) {
                 e.printStackTrace();
-                // Bạn có thể xử lý lỗi ở đây (ví dụ: bỏ qua ảnh nếu có lỗi)
             }
         }
 
-        // Lưu sản phẩm vào cơ sở dữ liệu
-        Session session = this.factory.getObject().getCurrentSession();
+        // Lưu sản phẩm vào DB
         session.persist(sanPham);
         return sanPham;
     }

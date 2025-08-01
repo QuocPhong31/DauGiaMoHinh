@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Form, Button, Alert, Card } from "react-bootstrap";
 import { authApis, endpoints } from "../configs/Apis";
 
 const TaoSanPhamDG = () => {
+  const [loaiSanPhamId, setLoaiSanPhamId] = useState("");
+  const [dsLoai, setDsLoai] = useState([]);
   const [tenSanPham, setTenSanPham] = useState("");
   const [moTa, setMoTa] = useState("");
   const [giaKhoiDiem, setGiaKhoiDiem] = useState("");
   const [buocNhay, setBuocNhay] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [message, setMessage] = useState({ type: "", text: "" });
+
+  // Lấy danh sách loại sản phẩm từ backend
+  useEffect(() => {
+    const fetchLoai = async () => {
+      try {
+        const res = await authApis().get(endpoints["loai-san-pham"]);
+        setDsLoai(res.data);
+      } catch (err) {
+        console.error("Lỗi khi tải loại sản phẩm:", err);
+      }
+    };
+    fetchLoai();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +34,7 @@ const TaoSanPhamDG = () => {
     }
 
     const formData = new FormData();
+    formData.append("loaiSanPham_id", loaiSanPhamId);
     formData.append("tenSanPham", tenSanPham);
     formData.append("moTa", moTa);
     formData.append("giaKhoiDiem", giaKhoiDiem);
@@ -34,6 +50,7 @@ const TaoSanPhamDG = () => {
 
       if (res.status === 201) {
         setMessage({ type: "success", text: "Đăng sản phẩm thành công! Vui lòng chờ duyệt." });
+        setLoaiSanPhamId("");
         setTenSanPham("");
         setMoTa("");
         setGiaKhoiDiem("");
@@ -56,6 +73,20 @@ const TaoSanPhamDG = () => {
         )}
 
         <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Loại sản phẩm</Form.Label>
+            <Form.Select
+              value={loaiSanPhamId}
+              onChange={(e) => setLoaiSanPhamId(e.target.value)}
+              required
+            >
+              <option value="">-- Chọn loại sản phẩm --</option>
+              {dsLoai.map((l) => (
+                <option key={l.id} value={l.id}>{l.tenLoai}</option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Tên sản phẩm</Form.Label>
             <Form.Control

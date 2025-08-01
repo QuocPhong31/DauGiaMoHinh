@@ -5,6 +5,7 @@
 package com.dgmh.repositories;
 
 import com.dgmh.pojo.SanPham;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Tran Quoc Phong
  */
 public interface SanPhamRepository {
-    SanPham addSanPham(Map<String, String> params, MultipartFile avatar);
+    SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, int loaiSanPhamId, String username, MultipartFile avatar);
     List<SanPham> getAll();
     boolean updateTrangThai(int id, String trangThai);
     SanPham getById(int id);
