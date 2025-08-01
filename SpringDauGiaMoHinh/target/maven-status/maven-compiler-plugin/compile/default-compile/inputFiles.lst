@@ -8,6 +8,7 @@ D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\configs\WebAppContextC
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\AdminController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\ApiAdminController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\ApiNguoiDungController.java
+D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\ApiSanPhamController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\IndexController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\NguoiDungController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\filters\JwtFilter.java

@@ -8,8 +8,10 @@ import com.dgmh.pojo.SanPham;
 import com.dgmh.repositories.SanPhamRepository;
 import com.dgmh.services.SanPhamService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -21,8 +23,8 @@ public class SanPhamServiceImpl implements SanPhamService{
     private SanPhamRepository sanPhamRepository;
 
     @Override
-    public SanPham addSanPham(SanPham sanPham) {
-        return sanPhamRepository.add(sanPham);
+    public SanPham addSanPham(Map<String, String> params, MultipartFile avatar) {
+        return sanPhamRepository.addSanPham(params, avatar);
     }
 
     @Override

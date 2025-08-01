@@ -36,6 +36,7 @@ com\dgmh\controllers\NguoiDungController.class
 com\dgmh\controllers\IndexController.class
 com\dgmh\controllers\AdminController.class
 com\dgmh\pojo\PhienDauGiaNguoiDung.class
+com\dgmh\controllers\ApiSanPhamController.class
 com\dgmh\services\LoaiSanPhamService.class
 com\dgmh\services\TheoDoiSanPhamService.class
 com\dgmh\controllers\ApiAdminController.class

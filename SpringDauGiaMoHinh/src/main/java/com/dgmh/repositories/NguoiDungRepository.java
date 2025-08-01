@@ -16,7 +16,9 @@ public interface NguoiDungRepository {
     NguoiDung getById(int id);
     NguoiDung addUser(NguoiDung u);
     NguoiDung merge(NguoiDung u);
+    boolean vaiTro(String username, String vaiTro);
     boolean deleteUser(int id);
     boolean authenticate(String username, String rawPassword);
     List<NguoiDung> getAllUsers();
+    boolean duyetNguoiDung(int userId);
 }

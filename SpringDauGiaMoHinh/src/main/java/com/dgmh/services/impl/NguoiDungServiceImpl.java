@@ -118,6 +118,12 @@ public class NguoiDungServiceImpl implements NguoiDungService, UserDetailsServic
         // Gọi repository để lưu người dùng vào DB
         return nguoiDungRepo.addUser(u);  // Đảm bảo phương thức này hỗ trợ lưu user
     }
+    
+    @Override
+    public boolean vaiTro(String username, String vaiTro) {
+        NguoiDung nguoiDung = nguoiDungRepo.getByUsername(username);  // Lấy thông tin người dùng từ repository
+        return nguoiDung != null && nguoiDung.getVaiTro().equals(vaiTro);  // Kiểm tra vai trò
+    }
 
     @Override
     public boolean deleteUser(int id) {
@@ -145,4 +151,9 @@ public class NguoiDungServiceImpl implements NguoiDungService, UserDetailsServic
     public List<NguoiDung> getAllUsers() {
         return nguoiDungRepo.getAllUsers();
     }
+    
+    @Override
+    public boolean duyetNguoiDung(int userId) {
+        return nguoiDungRepo.duyetNguoiDung(userId);  // Gọi phương thức approveUser từ repository
+    } 
 }

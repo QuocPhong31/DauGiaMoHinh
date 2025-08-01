@@ -15,12 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Tran Quoc Phong
  */
 public interface NguoiDungService extends UserDetailsService {
-    NguoiDung getByUsername(String username); //apiGiaovu
-    NguoiDung getById(int id); //apiAdmin, apiGiaovu
+    NguoiDung getByUsername(String username); 
+    NguoiDung getById(int id);
     NguoiDung addUser(NguoiDung user);
     NguoiDung mergeUser(NguoiDung user);
     NguoiDung addUser(Map<String, String> params, MultipartFile avatar); 
     boolean authenticate(String username, String rawPassword);
+    boolean vaiTro(String username, String vaiTro);
     boolean deleteUser(int id);
-    List<NguoiDung> getAllUsers();  //apiAdmin
+    List<NguoiDung> getAllUsers();
+    boolean duyetNguoiDung(int userId);
 }

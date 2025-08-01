@@ -6,13 +6,15 @@ package com.dgmh.services;
 
 import com.dgmh.pojo.SanPham;
 import java.util.List;
+import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author Tran Quoc Phong
  */
 public interface SanPhamService {
-    SanPham addSanPham(SanPham sanPham);
+    SanPham addSanPham(Map<String, String> params, MultipartFile avatar);
     List<SanPham> getAllSanPham();
     boolean updateTrangThai(int id, String trangThai);
     SanPham getSanPhamById(int id);

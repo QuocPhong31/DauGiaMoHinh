@@ -60,6 +60,12 @@ public class NguoiDungRepositoryImpl implements NguoiDungRepository{
         Session s = this.factory.getObject().getCurrentSession();
         return (NguoiDung) s.merge(u);  // Dùng merge để cập nhật entity đã tồn tại
     }
+    
+    @Override
+    public boolean vaiTro(String username, String vaiTro) {
+        NguoiDung nguoiDung = this.getByUsername(username);
+        return nguoiDung != null && nguoiDung.getVaiTro().equals(vaiTro);  // Kiểm tra vai trò
+    }
 
     @Override
     public boolean deleteUser(int id) {
@@ -83,5 +89,17 @@ public class NguoiDungRepositoryImpl implements NguoiDungRepository{
         Session session = this.factory.getObject().getCurrentSession();
         Query query = session.createQuery("FROM NguoiDung");
         return query.getResultList();
+    }
+    
+    @Override
+    public boolean duyetNguoiDung(int userId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        NguoiDung user = session.get(NguoiDung.class, userId);
+        if (user != null) {
+            user.setTrangThai("DUOC_DUYET");  // Cập nhật trạng thái thành "DUOC_DUYET"
+            session.update(user);  // Lưu thay đổi vào cơ sở dữ liệu
+            return true;
+        }
+        return false;
     }
 }

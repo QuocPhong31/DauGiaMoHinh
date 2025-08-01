@@ -35,6 +35,20 @@ public class AdminController {
         return "admin";  // admin.html
     }
     
+    @GetMapping("/duyetNguoiDung")
+    public String duyetNguoiDung(Model model) {
+        List<NguoiDung> users = nguoiDungService.getAllUsers();  // Lấy danh sách người dùng cần duyệt
+        model.addAttribute("users", users);
+        return "duyetNguoiDung"; // Trả về view "duyetNguoiDung.html"
+    }
+    
+    @PostMapping("/duyetNguoiDung")
+    public String approveUser(@RequestParam("userId") int userId, RedirectAttributes redirectAttrs) {
+        boolean result = nguoiDungService.duyetNguoiDung(userId);
+        redirectAttrs.addFlashAttribute("message", result ? "Duyệt người dùng thành công!" : "Duyệt người dùng thất bại!");
+        return "redirect:/admin/duyetNguoiDung";
+    }
+    
     @GetMapping("/themNguoiDung")
     public String showAddUserForm(Model model) {
         model.addAttribute("nguoiDung", new NguoiDung());
