@@ -56,6 +56,11 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
         query.setParameter("un", username);
         NguoiDung nguoiDung = query.uniqueResult(); 
         sanPham.setNguoiDung(nguoiDung);
+        
+        System.out.println("SanPham debug:");
+        System.out.println("Ten: " + tenSanPham);
+        System.out.println("NguoiDung: " + (nguoiDung != null ? nguoiDung.getUsername() : "NULL"));
+        System.out.println("LoaiSanPham: " + (loaiSanPham != null ? loaiSanPham.getTenLoai() : "NULL"));
 
         // Upload ảnh nếu có
         if (avatar != null && !avatar.isEmpty()) {

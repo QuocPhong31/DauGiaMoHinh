@@ -29,7 +29,7 @@ public class JwtFilter implements Filter{
 
         // Chỉ kiểm tra token với các request bắt đầu bằng /api/secure
         if (uri.contains("/api/secure")
-                || uri.contains("/api/tieuchi")
+                || uri.contains("/api/sanpham")
                 || uri.contains("/api/hoidong")
                 || uri.contains("/api/giaovu")
                 || uri.contains("/api/giangvien")
