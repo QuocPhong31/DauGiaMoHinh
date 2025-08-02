@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Tran Quoc Phong
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/sanpham")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ApiSanPhamController {
     @Autowired
@@ -38,11 +38,12 @@ public class ApiSanPhamController {
     private NguoiDungService nguoiDungService;
 
     // API để đăng sản phẩm mới
-    @PostMapping("/products")
+    @PostMapping("/dangsanpham")
     public ResponseEntity<?> createProduct(@RequestParam("tenSanPham") String tenSanPham,
                                            @RequestParam("moTa") String moTa,
                                            @RequestParam("giaKhoiDiem") BigDecimal giaKhoiDiem,
                                            @RequestParam("buocNhay") BigDecimal buocNhay,
+                                           @RequestParam("giaBua") BigDecimal giaBua,
                                            @RequestParam("loaiSanPham_id") int loaiSanPhamId,
                                            @RequestParam(value = "avatar", required = false) MultipartFile avatar,
                                            Principal principal) {
@@ -54,15 +55,15 @@ public class ApiSanPhamController {
         String username = principal.getName();
 
         // Kiểm tra nếu người dùng không có vai trò "ROLE_NGUOIBAN"
-        if (!nguoiDungService.vaiTro(username, "ROLE_NGUOIBAN")) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("Chỉ người bán mới có quyền đăng sản phẩm.");
-        }
+//        if (!nguoiDungService.vaiTro(username, "ROLE_NGUOIBAN")) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+//                    .body("Chỉ người bán mới có quyền đăng sản phẩm.");
+//        }
 
         try {
             // Gọi service để thêm sản phẩm
             SanPham sanPham = sanPhamService.addSanPham(
-                tenSanPham, moTa, giaKhoiDiem, buocNhay, loaiSanPhamId, username, avatar
+                tenSanPham, moTa, giaKhoiDiem, buocNhay, giaBua, loaiSanPhamId, username, avatar
             );
             return new ResponseEntity<>(sanPham, HttpStatus.CREATED);
         } catch (Exception e) {

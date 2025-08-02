@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -19,13 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Tran Quoc Phong
  */
 @Service
+@Transactional
 public class SanPhamServiceImpl implements SanPhamService{
     @Autowired
     private SanPhamRepository sanPhamRepository;
 
     @Override
-    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, int loaiSanPhamId, String username, MultipartFile avatar) {
-        return sanPhamRepository.addSanPham(tenSanPham, moTa, giaKhoiDiem, buocNhay, loaiSanPhamId, username, avatar);
+    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, BigDecimal giaBua, int loaiSanPhamId, String username, MultipartFile avatar) {
+        return sanPhamRepository.addSanPham(tenSanPham, moTa, giaKhoiDiem, buocNhay, giaBua, loaiSanPhamId, username, avatar);
     }
 
     @Override

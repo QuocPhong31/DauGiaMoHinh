@@ -35,7 +35,7 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
     private Cloudinary cloudinary;
 
     @Override
-    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, int loaiSanPhamId, String username, MultipartFile avatar) {
+    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, BigDecimal giaBua, int loaiSanPhamId, String username, MultipartFile avatar) {
         Session session = this.factory.getObject().getCurrentSession();
         // Tạo đối tượng SanPham từ thông tin trong params
         SanPham sanPham = new SanPham();
@@ -43,6 +43,8 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
         sanPham.setMoTa(moTa);
         sanPham.setGiaKhoiDiem(giaKhoiDiem);
         sanPham.setBuocNhay(buocNhay);
+        sanPham.setGiaBua(giaBua);
+        sanPham.setNgayDang(new java.util.Date());
         sanPham.setTrangThai("CHO_DUYET");
 
         // Lấy đối tượng LoaiSanPham từ ID
@@ -52,7 +54,7 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
         // Lấy đối tượng NguoiDung từ username
         Query<NguoiDung> query = session.createQuery("FROM NguoiDung WHERE username = :un", NguoiDung.class);
         query.setParameter("un", username);
-        NguoiDung nguoiDung = query.uniqueResult();
+        NguoiDung nguoiDung = query.uniqueResult(); 
         sanPham.setNguoiDung(nguoiDung);
 
         // Upload ảnh nếu có

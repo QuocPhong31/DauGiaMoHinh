@@ -5,25 +5,22 @@ import cookie from "react-cookies";
 const BASE_URL = 'http://localhost:8080/SpringDauGiaMoHinh/api/';
 
 export const endpoints = {
-    // 🔐 Authentication
+    // Authentication
     login: 'login',
     'current-user': 'secure/profile',
 
-    // 🧑 Người dùng
+    // Người dùng
     'add-user': 'users',                  // POST - thêm người dùng (admin)
     'get-users': 'users',                 // GET - danh sách người dùng (nếu có)
     'change-password': 'secure/change-password',  // POST - đổi mật khẩu
-    "add-product": "products",
+    "add-product": "sanpham/dangsanpham",
     "loai-san-pham": "loaisanpham",
-
-
-
-    // 👉 Bạn có thể thêm các endpoint khác như sản phẩm, đấu giá... ở đây
 };
 
 // Gọi API có kèm token (xác thực)
 export const authApis = () => {
     const token = cookie.load('token');
+    console.log(">>> Token trong cookie:", token);
     return axios.create({
         baseURL: BASE_URL,
         headers: {

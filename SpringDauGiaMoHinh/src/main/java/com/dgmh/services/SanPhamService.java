@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Tran Quoc Phong
  */
 public interface SanPhamService {
-    SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, int loaiSanPhamId, String username, MultipartFile avatar);
+    SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, BigDecimal giaBua, int loaiSanPhamId, String username, MultipartFile avatar);
     List<SanPham> getAllSanPham();
     boolean updateTrangThai(int id, String trangThai);
     SanPham getSanPhamById(int id);

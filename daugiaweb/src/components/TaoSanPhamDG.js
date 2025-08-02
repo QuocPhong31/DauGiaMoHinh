@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Form, Button, Alert, Card } from "react-bootstrap";
 import { authApis, endpoints } from "../configs/Apis";
+import cookie from "react-cookies";
 
 const TaoSanPhamDG = () => {
   const [loaiSanPhamId, setLoaiSanPhamId] = useState("");
@@ -33,30 +34,34 @@ const TaoSanPhamDG = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("loaiSanPham_id", loaiSanPhamId);
-    formData.append("tenSanPham", tenSanPham);
-    formData.append("moTa", moTa);
-    formData.append("giaKhoiDiem", giaKhoiDiem);
-    formData.append("buocNhay", buocNhay);
-    if (avatar) formData.append("avatar", avatar); // optional
-
     try {
-      const res = await authApis().post(endpoints["add-product"], formData, {
+      const formData = new FormData();
+      formData.append("loaiSanPham_id", loaiSanPhamId);
+      formData.append("tenSanPham", tenSanPham);
+      formData.append("moTa", moTa);
+      formData.append("giaKhoiDiem", giaKhoiDiem);
+      formData.append("buocNhay", buocNhay);
+      if (avatar) formData.append("avatar", avatar);
+
+      // 🔐 Gửi với token thủ công vì headers ghi đè
+      const token = cookie.load("token");
+
+      await authApis().post(endpoints["add-product"], formData, {
         headers: {
-          "Content-Type": "multipart/form-data"
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
         }
       });
 
-      if (res.status === 201) {
-        setMessage({ type: "success", text: "Đăng sản phẩm thành công! Vui lòng chờ duyệt." });
-        setLoaiSanPhamId("");
-        setTenSanPham("");
-        setMoTa("");
-        setGiaKhoiDiem("");
-        setBuocNhay("");
-        setAvatar(null);
-      }
+      setMessage({ type: "success", text: "Đăng sản phẩm thành công! Vui lòng chờ duyệt." });
+
+      // Reset form
+      setLoaiSanPhamId("");
+      setTenSanPham("");
+      setMoTa("");
+      setGiaKhoiDiem("");
+      setBuocNhay("");
+      setAvatar(null);
     } catch (err) {
       const msg = err?.response?.data || "Lỗi khi đăng sản phẩm!";
       setMessage({ type: "danger", text: msg });

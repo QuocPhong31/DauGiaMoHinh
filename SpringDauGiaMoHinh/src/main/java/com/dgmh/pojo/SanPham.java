@@ -41,6 +41,7 @@ public class SanPham implements Serializable{
     private String hinhAnh;
     private BigDecimal giaKhoiDiem;
     private BigDecimal buocNhay;
+    private BigDecimal giaBua;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayDang;
@@ -108,6 +109,14 @@ public class SanPham implements Serializable{
 
     public void setBuocNhay(BigDecimal buocNhay) {
         this.buocNhay = buocNhay;
+    }
+    
+    public BigDecimal getGiaBua() {
+        return giaBua;
+    }
+
+    public void setGiaBua(BigDecimal giaBua) {
+        this.giaBua = giaBua;
     }
 
     public Date getNgayDang() {
