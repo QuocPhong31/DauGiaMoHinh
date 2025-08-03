@@ -3,7 +3,7 @@ import { Card, Row, Col, Container, Spinner, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { endpoints, authApis } from "../configs/Apis";
 
-const DanhSachDauGia = () => {
+const TrangDauGia = () => {
     const [dsPhien, setDsPhien] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -56,4 +56,4 @@ const DanhSachDauGia = () => {
     );
 };
 
-export default DanhSachDauGia;
+export default TrangDauGia;
