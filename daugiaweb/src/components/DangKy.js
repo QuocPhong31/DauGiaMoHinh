@@ -13,7 +13,8 @@ const DangKy = () => {
     email: '',
     soDienThoai: '',
     diaChi: '',
-    avatar: null,
+    vaiTro: 'ROLE_NGUOIMUA',
+    avatar: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -148,6 +149,30 @@ const DangKy = () => {
                 onChange={handleChange}
                 required
               />
+            </Form.Group>
+
+            <Form.Group controlId="vaiTro" className="mb-3">
+              <Form.Label>Vai trò</Form.Label>
+              <div>
+                <Form.Check
+                  inline
+                  label="Người mua"
+                  name="vaiTro"
+                  type="radio"
+                  value="ROLE_NGUOIMUA"
+                  checked={formData.vaiTro === "ROLE_NGUOIMUA"}
+                  onChange={handleChange}
+                />
+                <Form.Check
+                  inline
+                  label="Người bán"
+                  name="vaiTro"
+                  type="radio"
+                  value="ROLE_NGUOIBAN"
+                  checked={formData.vaiTro === "ROLE_NGUOIBAN"}
+                  onChange={handleChange}
+                />
+              </div>
             </Form.Group>
 
             <Form.Group controlId="avatar" className="mb-3">

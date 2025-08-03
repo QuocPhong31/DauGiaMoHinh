@@ -43,16 +43,18 @@ const TrangChu = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col md={4}>
-                    <Card className="mb-4 shadow">
-                        <Card.Body>
-                            <Link to="/tao-dau-gia" className="text-decoration-none text-dark">
-                                <Card.Title>📦 Tạo đấu giá</Card.Title>
-                                <Card.Text>Đăng sản phẩm để đấu giá và quản lý trạng thái giao dịch.</Card.Text>
-                            </Link>
-                        </Card.Body>
-                    </Card>
-                </Col>
+                {user?.vaiTro === "ROLE_NGUOIBAN" && (
+                    <Col md={4}>
+                        <Card className="mb-4 shadow">
+                            <Card.Body>
+                                <Link to="/tao-dau-gia" className="text-decoration-none text-dark">
+                                    <Card.Title>📦 Tạo đấu giá</Card.Title>
+                                    <Card.Text>Đăng sản phẩm để đấu giá và quản lý trạng thái giao dịch.</Card.Text>
+                                </Link>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                )}
                 <Col md={4}>
                     <Card className="mb-4 shadow">
                         <Card.Body>

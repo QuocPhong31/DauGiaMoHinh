@@ -12,6 +12,7 @@ const DangSanPham = () => {
   const [giaKhoiDiem, setGiaKhoiDiem] = useState("");
   const [buocNhay, setBuocNhay] = useState("");
   const [giaBua, setGiaBua] = useState("");
+  const [thoiGianKetThuc, setThoiGianKetThuc] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [message, setMessage] = useState(null);
 
@@ -30,6 +31,27 @@ const DangSanPham = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const startPrice = parseFloat(giaKhoiDiem);
+    const stepPrice = parseFloat(buocNhay);
+    const hammerPrice = parseFloat(giaBua || 0);
+
+    // Kiểm tra giá trị âm
+    if (startPrice <= 0) {
+      setMessage({ type: "danger", text: "Giá khởi điểm phải lớn hơn 0." });
+      return;
+    }
+    // Kiểm tra giá trị âm
+    if (stepPrice <= 0) {
+      setMessage({ type: "danger", text: "Bước nhảy phải lớn hơn 0." });
+      return;
+    }
+
+    // Nếu có nhập giá búa thì kiểm tra phải > giá khởi điểm
+    if (giaBua && hammerPrice <= startPrice) {
+      setMessage({ type: "danger", text: "Giá búa phải lớn hơn giá khởi điểm." });
+      return;
+    }
+
     const token = cookie.load("token");
     if (!token) {
       setMessage({ type: "danger", text: "Bạn cần đăng nhập để đăng sản phẩm." });
@@ -42,6 +64,7 @@ const DangSanPham = () => {
     formData.append("giaKhoiDiem", giaKhoiDiem);
     formData.append("buocNhay", buocNhay);
     formData.append("giaBua", giaBua || 0);
+    formData.append("thoiGianKetThuc", thoiGianKetThuc);
     formData.append("loaiSanPham_id", loaiSanPhamId);
     if (avatar) formData.append("avatar", avatar);
 
@@ -59,6 +82,7 @@ const DangSanPham = () => {
       setGiaKhoiDiem("");
       setBuocNhay("");
       setGiaBua(null);
+      setThoiGianKetThuc("");
       setAvatar(null);
       setLoaiSanPhamId("");
     } catch (err) {
@@ -111,6 +135,16 @@ const DangSanPham = () => {
           <Form.Group className="mb-3">
             <Form.Label>Giá búa (nếu có)</Form.Label>
             <Form.Control type="number" value={giaBua} onChange={(e) => setGiaBua(e.target.value)} />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Thời gian kết thúc</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              value={thoiGianKetThuc}
+              onChange={(e) => setThoiGianKetThuc(e.target.value)}
+              required
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">

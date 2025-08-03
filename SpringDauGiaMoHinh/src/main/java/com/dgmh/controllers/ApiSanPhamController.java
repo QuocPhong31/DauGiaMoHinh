@@ -9,6 +9,8 @@ import com.dgmh.services.NguoiDungService;
 import com.dgmh.services.SanPhamService;
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +47,7 @@ public class ApiSanPhamController {
                                            @RequestParam("buocNhay") BigDecimal buocNhay,
                                            @RequestParam("giaBua") BigDecimal giaBua,
                                            //@RequestParam(value = "giaBua", required = false) BigDecimal giaBua,
+                                           @RequestParam("thoiGianKetThuc") String thoiGianKetThucStr,
                                            @RequestParam("loaiSanPham_id") int loaiSanPhamId,
                                            @RequestParam(value = "avatar", required = false) MultipartFile avatar,
                                            Principal principal) {
@@ -56,15 +59,19 @@ public class ApiSanPhamController {
         String username = principal.getName();
 
         // Kiểm tra nếu người dùng không có vai trò "ROLE_NGUOIBAN"
-//        if (!nguoiDungService.vaiTro(username, "ROLE_NGUOIBAN")) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-//                    .body("Chỉ người bán mới có quyền đăng sản phẩm.");
-//        }
+        if (!nguoiDungService.vaiTro(username, "ROLE_NGUOIBAN")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Chỉ người bán mới có quyền đăng sản phẩm.");
+        }
 
         try {
+            // Parse thời gian kết thúc từ String -> Date
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            Date thoiGianKetThuc = sdf.parse(thoiGianKetThucStr);
+            
             // Gọi service để thêm sản phẩm
             SanPham sanPham = sanPhamService.addSanPham(
-                tenSanPham, moTa, giaKhoiDiem, buocNhay, giaBua, loaiSanPhamId, username, avatar
+                tenSanPham, moTa, giaKhoiDiem, buocNhay, giaBua, thoiGianKetThuc, loaiSanPhamId, username, avatar
             );
             return new ResponseEntity<>(sanPham, HttpStatus.CREATED);
         } catch (Exception e) {

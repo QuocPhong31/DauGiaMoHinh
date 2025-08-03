@@ -8,6 +8,7 @@ import com.dgmh.pojo.SanPham;
 import com.dgmh.repositories.SanPhamRepository;
 import com.dgmh.services.SanPhamService;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class SanPhamServiceImpl implements SanPhamService{
     private SanPhamRepository sanPhamRepository;
 
     @Override
-    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, BigDecimal giaBua, int loaiSanPhamId, String username, MultipartFile avatar) {
-        return sanPhamRepository.addSanPham(tenSanPham, moTa, giaKhoiDiem, buocNhay, giaBua, loaiSanPhamId, username, avatar);
+    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, BigDecimal giaBua, Date thoiGianKetThuc, int loaiSanPhamId, String username, MultipartFile avatar) {
+        return sanPhamRepository.addSanPham(tenSanPham, moTa, giaKhoiDiem, buocNhay, giaBua, thoiGianKetThuc, loaiSanPhamId, username, avatar);
     }
 
     @Override

@@ -32,6 +32,7 @@ CREATE TABLE sanphams (
     buocNhay DECIMAL(10,2) NOT NULL,
     giaBua DECIMAL(10,2),
     ngayDang TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    thoiGianKetThuc DATETIME NOT NULL,
     trangThai ENUM('CHO_DUYET', 'DUYET', 'KHONG_DUYET') DEFAULT 'CHO_DUYET',
     FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id),
     FOREIGN KEY (loaiSanPham_id) REFERENCES loaisanpham(id)
@@ -43,7 +44,7 @@ CREATE TABLE phiendaugia (
     sanPham_id INT,
     thoiGianBatDau DATETIME,
     thoiGianKetThuc DATETIME,
-    trangThai ENUM('dang_dien_ra', 'da_ket_thuc', 'huy') DEFAULT 'dang_dien_ra',
+    trangThai ENUM('dang_dien_ra', 'da_ket_thuc') DEFAULT 'dang_dien_ra',
     giaChot DECIMAL(10,2),
     nguoiThangDauGia_id INT,
     FOREIGN KEY (sanPham_id) REFERENCES sanphams(id),
