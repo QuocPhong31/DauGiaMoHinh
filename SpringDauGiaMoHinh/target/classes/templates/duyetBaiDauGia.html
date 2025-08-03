@@ -61,7 +61,7 @@
             </td>
             <td th:text="${#numbers.formatDecimal(sp.giaKhoiDiem, 0, 'COMMA', 2, 'POINT')} + ' đ'"></td>
             <td th:text="${sp.buocNhay}"></td>
-            <td th:text="${#dates.format(sp.thoiGianBatDau, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#dates.format(sp.ngayDang, 'dd/MM/yyyy HH:mm')}"></td>
             <td th:text="${#dates.format(sp.thoiGianKetThuc, 'dd/MM/yyyy HH:mm')}"></td>
             <td>
                 <form th:action="@{/admin/duyet-san-pham}" method="post" class="mb-1">

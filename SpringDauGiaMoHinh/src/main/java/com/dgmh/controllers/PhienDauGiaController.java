@@ -48,7 +48,7 @@ public class PhienDauGiaController {
                 // tạo phiên đấu giá
                 PhienDauGia phien = new PhienDauGia();
                 phien.setSanPham(sp);
-                phien.setTrangThai("CHO_DUYET");
+                phien.setTrangThai("dang_dien_ra");
                 phien.setThoiGianBatDau(sp.getNgayDang());
                 phien.setThoiGianKetThuc(sp.getThoiGianKetThuc());
                 phienDauGiaService.themPhienDauGia(phien);
