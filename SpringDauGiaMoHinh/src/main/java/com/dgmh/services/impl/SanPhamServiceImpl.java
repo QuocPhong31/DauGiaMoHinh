@@ -50,4 +50,9 @@ public class SanPhamServiceImpl implements SanPhamService{
     public boolean deleteSanPham(int id) {
         return sanPhamRepository.delete(id);
     }
+    
+    @Override
+    public List<SanPham> getSanPhamsTheoTrangThai(String trangThai) {
+        return sanPhamRepository.getSanPhamsTheoTrangThai(trangThai);
+    }
 }

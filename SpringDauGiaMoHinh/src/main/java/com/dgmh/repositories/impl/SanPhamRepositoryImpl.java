@@ -114,4 +114,12 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
         }
         return false;
     }
+    
+    @Override
+    public List<SanPham> getSanPhamsTheoTrangThai(String trangThai) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Query<SanPham> q = session.createQuery("FROM SanPham WHERE trangThai = :tt", SanPham.class);
+        q.setParameter("tt", trangThai);
+        return q.getResultList();
+    }
 }

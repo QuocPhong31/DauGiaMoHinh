@@ -29,6 +29,7 @@ com\dgmh\pojo\NguoiDung.class
 com\dgmh\configs\SecurityWebApplicationInitializer.class
 com\dgmh\configs\SpringSecurityConfigs.class
 com\dgmh\services\SanPhamService.class
+com\dgmh\controllers\PhienDauGiaController.class
 com\dgmh\repositories\impl\NguoiDungRepositoryImpl.class
 com\dgmh\services\NguoiDungService.class
 com\dgmh\services\impl\NguoiDungServiceImpl.class

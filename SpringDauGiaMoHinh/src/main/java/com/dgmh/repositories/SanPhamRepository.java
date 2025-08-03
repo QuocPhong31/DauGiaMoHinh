@@ -21,4 +21,5 @@ public interface SanPhamRepository {
     boolean updateTrangThai(int id, String trangThai);
     SanPham getById(int id);
     boolean delete(int id);
+    List<SanPham> getSanPhamsTheoTrangThai(String trangThai);
 }
