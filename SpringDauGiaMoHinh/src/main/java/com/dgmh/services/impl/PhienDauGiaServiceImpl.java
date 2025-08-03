@@ -23,7 +23,7 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService{
     @Override
     public PhienDauGia themPhienDauGia(PhienDauGia p) {
         // Mặc định trạng thái là "CHO_DUYET"
-        p.setTrangThai("CHO_DUYET");
+        //p.setTrangThai("CHO_DUYET");
         return phienDauGiaRepository.themPhienDauGia(p);
     }
 

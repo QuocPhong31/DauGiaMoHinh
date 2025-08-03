@@ -27,10 +27,10 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Trang chủ</Nav.Link>
-            <Nav.Link as={Link} to="/cuoc-dau-gia">Cuộc đấu giá</Nav.Link>
-            <Nav.Link as={Link} to="/tin-tuc">Tin tức</Nav.Link>
-            <Nav.Link as={Link} to="/gioi-thieu">Giới thiệu</Nav.Link>
-            <Nav.Link as={Link} to="/lien-he">Liên hệ & Góp ý</Nav.Link>
+            <Nav.Link as={Link} to="/cuocdaugia">Cuộc đấu giá</Nav.Link>
+            <Nav.Link as={Link} to="/tintuc">Luật đấu giá</Nav.Link>
+            <Nav.Link as={Link} to="/gioithieu">Giới thiệu</Nav.Link>
+            <Nav.Link as={Link} to="/lienhe">Liên hệ & Góp ý</Nav.Link>
           </Nav>
 
           <Nav className="d-flex align-items-center gap-3">
@@ -41,7 +41,7 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link to="/thong-tin-ca-nhan" className="d-flex align-items-center gap-2 text-dark text-decoration-none">
+                <Link to="/thongtincanhan" className="d-flex align-items-center gap-2 text-dark text-decoration-none">
                   <Image
                     src={user.avatar || "https://via.placeholder.com/40"}
                     roundedCircle

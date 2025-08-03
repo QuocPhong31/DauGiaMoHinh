@@ -15,6 +15,7 @@ export const endpoints = {
     'change-password': 'secure/change-password',  // POST - đổi mật khẩu
     "add-product": "sanpham/dangsanpham",
     "loai-san-pham": "loaisanpham",
+    "cuoc-dau-gia": "phiendaugia",
 };
 
 // Gọi API có kèm token (xác thực)

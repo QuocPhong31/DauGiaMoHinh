@@ -2,6 +2,7 @@ com\dgmh\repositories\impl\SanPhamRepositoryImpl.class
 com\dgmh\services\impl\PhienDauGiaServiceImpl.class
 com\dgmh\pojo\LoaiSanPham.class
 com\dgmh\services\impl\TheoDoiSanPhamServiceImpl.class
+com\dgmh\controllers\ApiPhienDauGiaController.class
 com\dgmh\configs\MailConfig.class
 com\dgmh\springdaugiamohinh\JakartaRestConfiguration.class
 com\dgmh\springdaugiamohinh\resources\JakartaEE11Resource.class

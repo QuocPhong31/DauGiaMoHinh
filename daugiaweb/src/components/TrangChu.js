@@ -47,7 +47,7 @@ const TrangChu = () => {
                     <Col md={4}>
                         <Card className="mb-4 shadow">
                             <Card.Body>
-                                <Link to="/tao-dau-gia" className="text-decoration-none text-dark">
+                                <Link to="/taodaugia" className="text-decoration-none text-dark">
                                     <Card.Title>📦 Tạo đấu giá</Card.Title>
                                     <Card.Text>Đăng sản phẩm để đấu giá và quản lý trạng thái giao dịch.</Card.Text>
                                 </Link>
@@ -58,6 +58,7 @@ const TrangChu = () => {
                 <Col md={4}>
                     <Card className="mb-4 shadow">
                         <Card.Body>
+                            <Link to="/taodaugia" className="text-decoration-none text-dark"></Link>
                             <Card.Title>👤 Hồ sơ cá nhân</Card.Title>
                             <Card.Text>Quản lý thông tin tài khoản, xem lịch sử giao dịch và cập nhật ảnh đại diện.</Card.Text>
                         </Card.Body>

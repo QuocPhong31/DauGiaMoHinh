@@ -11,6 +11,7 @@ import DangNhap from "./components/DangNhap";
 import DangKy from "./components/DangKy";
 import ThongTinCaNhan from "./components/ThongTinCaNhan";
 import DangSanPham from "./components/DangSanPham";
+import TrangDauGia from "./components/TrangDauGia";
 
 import { MyUserContext, MyDispatchContext } from "./configs/Contexts";
 import MyUserReducer from "./reducers/MyUserReducer";
@@ -48,8 +49,9 @@ const App = () => {
               <Route path="/" element={<TrangChu />} />
               <Route path="/dangnhap" element={<DangNhap />} />
               <Route path="/dangky" element={<DangKy />} />
-              <Route path="/thong-tin-ca-nhan" element={<ThongTinCaNhan />} />
-              <Route path="/tao-dau-gia" element={<DangSanPham />} />
+              <Route path="/thongtincanhan" element={<ThongTinCaNhan />} />
+              <Route path="/taodaugia" element={<DangSanPham />} />
+              <Route path="/cuocdaugia" element={<TrangDauGia />} />
             </Routes>
           </Container>
           <Footer />
