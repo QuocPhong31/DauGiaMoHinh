@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
  * @author Tran Quoc Phong
  */
 @Service
-public class PhienDauGiaServiceImpl implements PhienDauGiaService{
+public class PhienDauGiaServiceImpl implements PhienDauGiaService {
+
     @Autowired
     private PhienDauGiaRepository phienDauGiaRepository;
 
