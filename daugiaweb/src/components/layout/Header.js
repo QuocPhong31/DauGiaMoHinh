@@ -29,7 +29,7 @@ const Header = () => {
             <Nav.Link as={Link} to="/">Trang chủ</Nav.Link>
             <Nav.Link as={Link} to="/cuocdaugia">Cuộc đấu giá</Nav.Link>
             <Nav.Link as={Link} to="/tintuc">Luật đấu giá</Nav.Link>
-            <Nav.Link as={Link} to="/gioithieu">Giới thiệu</Nav.Link>
+            <Nav.Link as={Link} to="/lienhe">Liên hệ với mọi người</Nav.Link>
             <Nav.Link as={Link} to="/lienhegopy">Liên hệ & Góp ý</Nav.Link>
           </Nav>
 

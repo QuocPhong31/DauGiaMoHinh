@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -45,35 +44,55 @@ public class ApiPhienDauGiaNguoiDungController {
     @PostMapping("/dat-gia")
     public ResponseEntity<?> datGia(@RequestBody Map<String, String> params, Principal principal) {
         try {
-            // Lấy thông tin phiên
-            int phienId = Integer.parseInt(params.get("phienDauGiaId"));
-            BigDecimal gia = new BigDecimal(params.get("gia"));
-            PhienDauGia phien = this.phienDauGiaService.getLayPhienTheoId(phienId);
-            if (phien == null)
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Không tìm thấy phiên đấu giá");
-
-            // Lấy username từ JWT token
-            if (principal == null)
+            //Kiểm tra đăng nhập
+            if (principal == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bạn cần đăng nhập để đấu giá");
-
+            }
             String username = principal.getName();
-            NguoiDung nd = this.nguoiDungService.getByUsername(username); // Bạn cần implement
-
-            if (nd == null)
+            NguoiDung nguoiDung = this.nguoiDungService.getByUsername(username);
+            if (nguoiDung == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Không tìm thấy thông tin người dùng");
+            }
 
-            // Tạo lượt đặt giá
+            //Lấy thông tin phiên và giá từ client
+            int phienId = Integer.parseInt(params.get("phienDauGiaId"));
+            BigDecimal giaMoi = new BigDecimal(params.get("gia"));
+
+            PhienDauGia phien = this.phienDauGiaService.getLayPhienTheoId(phienId);
+            if (phien == null) {
+                return ResponseEntity.badRequest().body("Không tìm thấy phiên đấu giá");
+            }
+
+            // Lấy giá hiện tại cao nhất
+            PhienDauGiaNguoiDung giaCaoNhatRecord = this.phienDauGiaNguoiDungService.getGiaCaoNhat(phienId);
+            BigDecimal giaCaoNhat = giaCaoNhatRecord != null
+                    ? giaCaoNhatRecord.getGiaDau()
+                    : phien.getSanPham().getGiaKhoiDiem();
+
+            // Tính giá hợp lệ
+            BigDecimal buocNhay = phien.getSanPham().getBuocNhay();
+            BigDecimal giaToiThieu = giaCaoNhat.add(buocNhay);
+
+            if (giaMoi.compareTo(giaToiThieu) < 0) {
+                return ResponseEntity.badRequest()
+                        .body("Giá bạn nhập phải lớn hơn hoặc bằng " + giaToiThieu.toPlainString());
+            }
+
+            // Lưu giá đấu
             PhienDauGiaNguoiDung pdgNd = new PhienDauGiaNguoiDung();
             pdgNd.setPhienDauGia(phien);
-            pdgNd.setNguoiDung(nd);
-            pdgNd.setGiaDau(gia);
+            pdgNd.setNguoiDung(nguoiDung);
+            pdgNd.setGiaDau(giaMoi);
             pdgNd.setThoiGianDauGia(LocalDateTime.now());
 
             this.phienDauGiaNguoiDungService.datGia(pdgNd);
+
             return ResponseEntity.ok("Đặt giá thành công!");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi xử lý đặt giá: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Lỗi xử lý đặt giá: " + e.getMessage());
         }
     }
+
 }

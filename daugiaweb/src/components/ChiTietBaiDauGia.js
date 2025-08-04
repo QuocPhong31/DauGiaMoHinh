@@ -37,7 +37,11 @@ const ChiTietBaiDauGia = () => {
         e.preventDefault();
         const gia = parseInt(giaDauGia);
         if (isNaN(gia) || gia < minBid || gia % sp.buocNhay !== 0) {
-            setInputError(`Giá bạn nhập phải lớn hơn hoặc bằng ${minBid.toLocaleString()} và chia hết cho bước nhảy (${sp.buocNhay.toLocaleString()})`);
+            if (gia < minBid) {
+                setInputError(`Giá hiện tại là ${currentHighestBid.toLocaleString()} đ. Vui lòng nhập giá cao hơn tối thiểu ${minBid.toLocaleString()} đ`);
+            } else {
+                setInputError(`Giá bạn nhập phải chia hết cho bước nhảy (${sp.buocNhay.toLocaleString()})`);
+            }
             return;
         }
 
@@ -70,8 +74,8 @@ const ChiTietBaiDauGia = () => {
     const sp = phien.sanPham;
     const now = new Date();
     const endTime = new Date(phien.thoiGianKetThuc);
-    const highestBid = phien.giaChot || 0;
-    const minBid = highestBid ? highestBid + sp.buocNhay : sp.giaKhoiDiem;
+    const currentHighestBid = phien.giaHienTai || 0;  // Lấy từ backend trả về
+    const minBid = currentHighestBid > 0 ? currentHighestBid + sp.buocNhay : sp.giaKhoiDiem;
 
     return (
         <Container className="mt-4">
@@ -85,7 +89,7 @@ const ChiTietBaiDauGia = () => {
                         <p><strong>Bước nhảy:</strong> {sp.buocNhay.toLocaleString()} đ</p>
                         {sp.giaBua && <p><strong>Giá búa:</strong> {sp.giaBua.toLocaleString()} đ</p>}
                         <p><strong>Thời gian kết thúc:</strong> {endTime.toLocaleString("vi-VN")}</p>
-                        <p><strong>Giá hiện tại:</strong> {highestBid?.toLocaleString() || "Chưa có"} đ</p>
+                        <p><strong>Giá hiện tại:</strong> {currentHighestBid > 0 ? `${currentHighestBid.toLocaleString()} đ` : "Chưa có"} </p>
                         {disabled ? (
                             <Alert variant="secondary">Phiên đấu giá đã kết thúc!</Alert>
                         ) : (
