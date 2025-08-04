@@ -46,7 +46,6 @@ public class ApiSanPhamController {
                                            @RequestParam("giaKhoiDiem") BigDecimal giaKhoiDiem,
                                            @RequestParam("buocNhay") BigDecimal buocNhay,
                                            @RequestParam("giaBua") BigDecimal giaBua,
-                                           //@RequestParam(value = "giaBua", required = false) BigDecimal giaBua,
                                            @RequestParam("thoiGianKetThuc") String thoiGianKetThucStr,
                                            @RequestParam("loaiSanPham_id") int loaiSanPhamId,
                                            @RequestParam(value = "avatar", required = false) MultipartFile avatar,

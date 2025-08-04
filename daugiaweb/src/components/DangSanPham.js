@@ -62,7 +62,7 @@ const DangSanPham = () => {
     formData.append("tenSanPham", tenSanPham);
     formData.append("moTa", moTa);
     formData.append("giaKhoiDiem", giaKhoiDiem);
-    formData.append("buocNhay", buocNhay);
+    formData.append("buocNhay", Math.round(parseFloat(buocNhay)));
     formData.append("giaBua", giaBua || 0);
     formData.append("thoiGianKetThuc", thoiGianKetThuc);
     formData.append("loaiSanPham_id", loaiSanPhamId);

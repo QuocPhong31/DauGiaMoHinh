@@ -10,6 +10,7 @@ const ChiTietBaiDauGia = () => {
     const [giaDauGia, setGiaDauGia] = useState("");
     const [message, setMessage] = useState({ type: "", text: "" });
     const [disabled, setDisabled] = useState(false);
+    const [inputError, setInputError] = useState("");
 
     useEffect(() => {
         const fetchPhien = async () => {
@@ -34,7 +35,13 @@ const ChiTietBaiDauGia = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!giaDauGia) return;
+        const gia = parseInt(giaDauGia);
+        if (isNaN(gia) || gia < minBid || gia % sp.buocNhay !== 0) {
+            setInputError(`Giá bạn nhập phải lớn hơn hoặc bằng ${minBid.toLocaleString()} và chia hết cho bước nhảy (${sp.buocNhay.toLocaleString()})`);
+            return;
+        }
+
+        setInputError(""); // Xóa lỗi nếu hợp lệ
 
         try {
             const form = new FormData();
@@ -84,12 +91,11 @@ const ChiTietBaiDauGia = () => {
                                         <Form.Label>Nhập giá của bạn (≥ {minBid.toLocaleString()} đ)</Form.Label>
                                         <Form.Control
                                             type="number"
-                                            min={minBid}
-                                            step={sp.buocNhay}
                                             value={giaDauGia}
                                             onChange={(e) => setGiaDauGia(e.target.value)}
                                             required
                                         />
+                                        {inputError && <div className="text-danger mt-1">{inputError}</div>}
                                     </Form.Group>
                                     <Button type="submit" variant="success">Đặt giá</Button>
                                 </Form>
