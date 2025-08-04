@@ -19,8 +19,8 @@ export default function ChatSidebar({ user, onSelectUser }) {
 
     // Search
     const filtered = filteredUsers.filter(u =>
-        u.fullname.toLowerCase().includes(search.toLowerCase()) ||
-        u.username.toLowerCase().includes(search.toLowerCase())
+    (u.fullname && u.fullname.toLowerCase().includes(search.toLowerCase())) ||
+    (u.username && u.username.toLowerCase().includes(search.toLowerCase()))
     );
 
     return (

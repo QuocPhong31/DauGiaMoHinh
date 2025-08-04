@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,10 @@ public class ApiNguoiDungController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(this.nguoiDungService.getAllUsers());
+    }
     @PostMapping("/users")
     public ResponseEntity<NguoiDung> create(@RequestParam Map<String, String> params,
             @RequestParam(name = "avatar", required = false) MultipartFile avatar) {
