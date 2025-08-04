@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Tran Quoc Phong
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/phiendaugia")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ApiPhienDauGiaController {
 

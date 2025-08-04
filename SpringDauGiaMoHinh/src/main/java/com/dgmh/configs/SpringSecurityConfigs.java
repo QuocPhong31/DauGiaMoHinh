@@ -85,6 +85,7 @@ public class SpringSecurityConfigs {
                 // Chỉ bảo vệ đường dẫn bắt đầu bằng /api/secure/**
                 .requestMatchers("/api/secure/**").authenticated()
                 .requestMatchers("/api/sanpham/**").authenticated()
+                .requestMatchers("/api/phiendaugianguoidung/**").authenticated()
                 // Các đường dẫn khác được phép truy cập công khai
                 .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()

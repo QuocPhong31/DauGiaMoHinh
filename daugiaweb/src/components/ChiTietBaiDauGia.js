@@ -48,8 +48,12 @@ const ChiTietBaiDauGia = () => {
             form.append("phienDauGiaId", id);
             form.append("gia", giaDauGia);
 
-            const res = await authApis().post(endpoints["dat-gia"], form, {
+            const res = await authApis().post(endpoints["dat-gia"], {
+                phienDauGiaId: id,
+                gia: giaDauGia
+            }, {
                 headers: {
+                    "Content-Type": "application/json",
                     Authorization: `Bearer ${cookie.load("token")}`
                 }
             });

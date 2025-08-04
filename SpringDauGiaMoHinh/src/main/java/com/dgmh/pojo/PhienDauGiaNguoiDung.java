@@ -11,10 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -38,8 +37,7 @@ public class PhienDauGiaNguoiDung implements Serializable{
 
     private BigDecimal giaDau;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date thoiGianDauGia;
+    private LocalDateTime thoiGianDauGia;
     
     public Integer getId() {
         return id;
@@ -73,11 +71,11 @@ public class PhienDauGiaNguoiDung implements Serializable{
         this.giaDau = giaDau;
     }
 
-    public Date getThoiGianDauGia() {
+    public LocalDateTime getThoiGianDauGia() {
         return thoiGianDauGia;
     }
 
-    public void setThoiGianDauGia(Date thoiGianDauGia) {
+    public void setThoiGianDauGia(LocalDateTime thoiGianDauGia) {
         this.thoiGianDauGia = thoiGianDauGia;
     }
 }

@@ -15,7 +15,8 @@ export const endpoints = {
     'change-password': 'secure/change-password',  // POST - đổi mật khẩu
     "add-product": "sanpham/dangsanpham",
     "loai-san-pham": "loaisanpham",
-    "cuoc-dau-gia": "phiendaugia",
+    "cuoc-dau-gia": "phiendaugia/phiendaugia",
+    "dat-gia": "phiendaugianguoidung/dat-gia",
     "chuyen-vai-tro": "secure/chuyen-vai-tro-nguoi-ban",
 
 };
