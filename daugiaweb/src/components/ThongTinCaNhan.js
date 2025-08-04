@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Container, Row, Col, Card, Image, Form, Button, Alert } from "react-bootstrap";
 import { MyUserContext } from "../configs/Contexts";
 import { authApis, endpoints } from "../configs/Apis";
+import cookie from "react-cookies";
 
 const ThongTinCaNhan = () => {
     const user = useContext(MyUserContext);
@@ -9,6 +10,7 @@ const ThongTinCaNhan = () => {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState({ type: "", text: "" });
+    const [roleUpdated, setRoleUpdated] = useState(false);
 
     const handleChangePassword = async (e) => {
         e.preventDefault();
@@ -37,6 +39,22 @@ const ThongTinCaNhan = () => {
         }
     };
 
+    const handleUpgradeToSeller = async () => {
+        try {
+            const res = await authApis().post(endpoints["chuyen-vai-tro"]); 
+            if (res.status === 200) {
+                setRoleUpdated(true);
+                setMessage({ type: "success", text: "Chuyển vai trò thành công, vui lòng đăng nhập lại." });
+                cookie.remove("token");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            }
+        } catch (err) {
+            const msg = err?.response?.data || "Lỗi khi chuyển vai trò!";
+            setMessage({ type: "danger", text: msg });
+        }
+    };
 
     if (!user) return <Container><Alert variant="danger">Vui lòng đăng nhập để xem thông tin cá nhân.</Alert></Container>;
 
@@ -53,7 +71,17 @@ const ThongTinCaNhan = () => {
                             className="mx-auto mb-3"
                         />
                         <h5>{user.hoTen || user.username}</h5>
-                        <p className="text-muted">{user.email}</p>
+                        <p className="text-muted mb-1">{user.email}</p>
+                        <p className="mb-1"><strong>SĐT:</strong> {user.soDienThoai || "Chưa cập nhật"}</p>
+                        <p className="mb-1"><strong>Địa chỉ:</strong> {user.diaChi || "Chưa cập nhật"}</p>
+                        <p className="mb-2"><strong>Vai trò:</strong> {user.vaiTro}</p>
+
+                        {/* Nút chuyển vai trò nếu đang là người mua */}
+                        {user.vaiTro === "ROLE_NGUOIMUA" && !roleUpdated && (
+                            <Button variant="warning" onClick={handleUpgradeToSeller}>
+                                Chuyển vai trò sang người bán
+                            </Button>
+                        )}
                     </Card>
                 </Col>
 

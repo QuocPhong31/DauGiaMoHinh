@@ -13,6 +13,7 @@ import ThongTinCaNhan from "./components/ThongTinCaNhan";
 import DangSanPham from "./components/DangSanPham";
 import TrangDauGia from "./components/TrangDauGia";
 import ChiTietBaiDauGia from "./components/ChiTietBaiDauGia";
+import LienHeGopY from "./components/LienHeGopY"
 
 import { MyUserContext, MyDispatchContext } from "./configs/Contexts";
 import MyUserReducer from "./reducers/MyUserReducer";
@@ -54,6 +55,7 @@ const App = () => {
               <Route path="/taodaugia" element={<DangSanPham />} />
               <Route path="/cuocdaugia" element={<TrangDauGia />} />
               <Route path="/cuoc-dau-gia/:id" element={<ChiTietBaiDauGia />} />
+              <Route path="/lienhegopy" element={<LienHeGopY />} />
             </Routes>
           </Container>
           <Footer />

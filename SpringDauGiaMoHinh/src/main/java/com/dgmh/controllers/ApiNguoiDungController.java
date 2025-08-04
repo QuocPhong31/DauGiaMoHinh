@@ -31,9 +31,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ApiNguoiDungController {
+
     @Autowired
     private NguoiDungService nguoiDungService;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -48,7 +49,7 @@ public class ApiNguoiDungController {
     public ResponseEntity<?> login(@RequestBody NguoiDung u) {
         if (this.nguoiDungService.authenticate(u.getUsername(), u.getPassword())) {
             try {
-                
+
                 // Lấy người dùng từ service
                 NguoiDung user = nguoiDungService.getByUsername(u.getUsername());
                 // Kiểm tra trạng thái người dùng
@@ -56,7 +57,7 @@ public class ApiNguoiDungController {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN)
                             .body("Tài khoản chưa được duyệt.");
                 }
-                
+
                 String token = JwtUtils.generateToken(u.getUsername());
                 return ResponseEntity.ok(Collections.singletonMap("token", token));
             } catch (Exception e) {
@@ -65,10 +66,10 @@ public class ApiNguoiDungController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sai thông tin đăng nhập");
     }
-    
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestParam Map<String, String> params,
-                                          @RequestParam(name = "avatar", required = false) MultipartFile avatar) {
+            @RequestParam(name = "avatar", required = false) MultipartFile avatar) {
         // Đảm bảo username và password tồn tại
         if (!params.containsKey("username") || !params.containsKey("password")) {
             return ResponseEntity.badRequest().body("Thiếu thông tin đăng ký");
@@ -142,5 +143,28 @@ public class ApiNguoiDungController {
         nguoiDungService.mergeUser(user);
 
         return ResponseEntity.ok("Đổi mật khẩu thành công");
+    }
+
+    @PostMapping("/secure/chuyen-vai-tro-nguoi-ban")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<?> chuyenVaiTroNguoiBan(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bạn chưa đăng nhập.");
+        }
+
+        NguoiDung nguoiDung = nguoiDungService.getByUsername(principal.getName());
+
+        if (nguoiDung == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng.");
+        }
+
+        if ("ROLE_NGUOIBAN".equals(nguoiDung.getVaiTro())) {
+            return ResponseEntity.badRequest().body("Bạn đã là người bán.");
+        }
+
+        nguoiDung.setVaiTro("ROLE_NGUOIBAN");
+        nguoiDungService.mergeUser(nguoiDung);
+
+        return ResponseEntity.ok("Cập nhật vai trò sang người bán thành công.");
     }
 }

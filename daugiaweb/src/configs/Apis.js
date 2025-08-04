@@ -16,6 +16,8 @@ export const endpoints = {
     "add-product": "sanpham/dangsanpham",
     "loai-san-pham": "loaisanpham",
     "cuoc-dau-gia": "phiendaugia",
+    "chuyen-vai-tro": "secure/chuyen-vai-tro-nguoi-ban",
+
 };
 
 // Gọi API có kèm token (xác thực)
