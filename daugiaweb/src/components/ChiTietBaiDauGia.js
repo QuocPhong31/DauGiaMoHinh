@@ -36,6 +36,7 @@ const ChiTietBaiDauGia = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const gia = parseInt(giaDauGia);
+
         if (isNaN(gia) || gia < minBid || gia % sp.buocNhay !== 0) {
             if (gia < minBid) {
                 setInputError(`Giá hiện tại là ${currentHighestBid.toLocaleString()} đ. Vui lòng nhập giá cao hơn tối thiểu ${minBid.toLocaleString()} đ`);
@@ -45,14 +46,10 @@ const ChiTietBaiDauGia = () => {
             return;
         }
 
-        setInputError(""); // Xóa lỗi nếu hợp lệ
+        setInputError("");
 
         try {
-            const form = new FormData();
-            form.append("phienDauGiaId", id);
-            form.append("gia", giaDauGia);
-
-            const res = await authApis().post(endpoints["dat-gia"], {
+            await authApis().post(endpoints["dat-gia"], {
                 phienDauGiaId: id,
                 gia: giaDauGia
             }, {
@@ -63,11 +60,17 @@ const ChiTietBaiDauGia = () => {
             });
 
             setMessage({ type: "success", text: "Đấu giá thành công!" });
+            setGiaDauGia(""); // Xóa input sau khi đặt
+
+            // 🔁 Gọi lại API để cập nhật phiên
+            const res = await authApis().get(`${endpoints["cuoc-dau-gia"]}/${id}`);
+            setPhien(res.data);
         } catch (err) {
             console.error(err);
             setMessage({ type: "danger", text: "Lỗi khi đặt giá!" });
         }
     };
+
 
     if (!phien) return <p className="text-center mt-5">Đang tải...</p>;
 

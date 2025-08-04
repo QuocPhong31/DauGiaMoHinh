@@ -5,6 +5,8 @@
 package com.dgmh.controllers;
 
 import com.dgmh.pojo.PhienDauGia;
+import com.dgmh.pojo.PhienDauGiaNguoiDung;
+import com.dgmh.services.PhienDauGiaNguoiDungService;
 import com.dgmh.services.PhienDauGiaService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,9 @@ public class ApiPhienDauGiaController {
 
     @Autowired
     private PhienDauGiaService phienDauGiaService;
+    
+    @Autowired
+    private PhienDauGiaNguoiDungService phienDauGiaNguoiDungService;
 
     @GetMapping("/phiendaugia")
     public List<PhienDauGia> layTatCaPhienDangDienRa() {
@@ -41,8 +46,17 @@ public class ApiPhienDauGiaController {
     public ResponseEntity<?> layChiTietPhien(@PathVariable(name = "id") int id) {
         PhienDauGia phien = phienDauGiaService.getLayPhienTheoId(id);
         if (phien != null) {
+            PhienDauGiaNguoiDung max = phienDauGiaNguoiDungService.getGiaCaoNhat(id);
+            if (max != null) {
+                phien.setGiaHienTai(max.getGiaDau());
+            } else {
+                phien.setGiaHienTai(phien.getSanPham().getGiaKhoiDiem());
+            }
+
             return ResponseEntity.ok(phien);
         }
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy phiên đấu giá");
     }
+
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -23,7 +24,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "phiendaugia")
-public class PhienDauGia implements Serializable{
+public class PhienDauGia implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -45,6 +47,9 @@ public class PhienDauGia implements Serializable{
     @JoinColumn(name = "nguoiThangDauGia_id")
     private NguoiDung nguoiThangDauGia;
     
+    @Transient
+    private BigDecimal giaHienTai;
+
     public Integer getId() {
         return id;
     }
@@ -100,4 +105,13 @@ public class PhienDauGia implements Serializable{
     public void setNguoiThangDauGia(NguoiDung nguoiThangDauGia) {
         this.nguoiThangDauGia = nguoiThangDauGia;
     }
+
+    public BigDecimal getGiaHienTai() {
+        return giaHienTai;
+    }
+
+    public void setGiaHienTai(BigDecimal giaHienTai) {
+        this.giaHienTai = giaHienTai;
+    }
+
 }
