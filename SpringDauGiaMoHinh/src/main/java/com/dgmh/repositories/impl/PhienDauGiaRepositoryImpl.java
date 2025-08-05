@@ -5,7 +5,9 @@
 package com.dgmh.repositories.impl;
 
 import com.dgmh.pojo.PhienDauGia;
+import com.dgmh.pojo.PhienDauGiaNguoiDung;
 import com.dgmh.repositories.PhienDauGiaRepository;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -53,6 +55,39 @@ public class PhienDauGiaRepositoryImpl implements PhienDauGiaRepository{
             session.update(p);
             return true;
         }
+        return false;
+    }
+    
+    @Override
+    public boolean capNhatKetQuaPhien(int phienId) {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        // Lấy phiên đấu giá
+        PhienDauGia phien = session.get(PhienDauGia.class, phienId);
+        if (phien == null) return false;
+
+        // Kiểm tra nếu đã kết thúc và chưa có giá chốt
+        Date now = new Date();
+        if (phien.getThoiGianKetThuc().before(now) && phien.getGiaChot() == null) {
+            // Lấy người có giá cao nhất
+            String hql = "FROM PhienDauGiaNguoiDung WHERE phienDauGia.id = :phienId ORDER BY giaDau DESC";
+            Query<PhienDauGiaNguoiDung> q = session.createQuery(hql, PhienDauGiaNguoiDung.class);
+            q.setParameter("phienId", phienId);
+            q.setMaxResults(1);
+            List<PhienDauGiaNguoiDung> result = q.getResultList();
+
+            if (!result.isEmpty()) {
+                PhienDauGiaNguoiDung topBid = result.get(0);
+
+                phien.setGiaChot(topBid.getGiaDau());
+                phien.setNguoiThangDauGia(topBid.getNguoiDung());
+            }
+            // Cập nhật trạng thái kết thúc dù có người đặt hay không
+            phien.setTrangThai("da_ket_thuc"); 
+            session.update(phien);
+            return true;
+        }
+
         return false;
     }
 }

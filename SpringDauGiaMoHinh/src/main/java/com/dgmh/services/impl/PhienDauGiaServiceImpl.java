@@ -42,4 +42,9 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
     public boolean duyetPhien(int id) {
         return phienDauGiaRepository.capNhatTrangThai(id, "DUOC_DUYET");
     }
+    
+    @Override
+    public boolean capNhatKetQuaPhien(int phienId) {
+        return phienDauGiaRepository.capNhatKetQuaPhien(phienId);
+    }
 }

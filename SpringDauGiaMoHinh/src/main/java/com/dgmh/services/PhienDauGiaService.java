@@ -16,4 +16,5 @@ public interface PhienDauGiaService {
     List<PhienDauGia> getLayTatCaPhien();
     PhienDauGia getLayPhienTheoId(int id);
     boolean duyetPhien(int id); // admin duyệt
+    boolean capNhatKetQuaPhien(int phienId);
 }

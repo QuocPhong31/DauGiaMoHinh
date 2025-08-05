@@ -78,7 +78,9 @@ const ChiTietBaiDauGia = () => {
     const now = new Date();
     const endTime = new Date(phien.thoiGianKetThuc);
     const currentHighestBid = phien.giaHienTai || 0;  // Lấy từ backend trả về
-    const minBid = currentHighestBid > 0 ? currentHighestBid + sp.buocNhay : sp.giaKhoiDiem;
+    const winnerName = phien.nguoiThangDauGia?.hoTen;
+    const finalPrice = phien.giaChot;
+    const minBid = (phien.giaHienTai > sp.giaKhoiDiem) ? phien.giaHienTai + sp.buocNhay : sp.giaKhoiDiem;
 
     return (
         <Container className="mt-4">
@@ -92,9 +94,20 @@ const ChiTietBaiDauGia = () => {
                         <p><strong>Bước nhảy:</strong> {sp.buocNhay.toLocaleString()} đ</p>
                         {sp.giaBua && <p><strong>Giá búa:</strong> {sp.giaBua.toLocaleString()} đ</p>}
                         <p><strong>Thời gian kết thúc:</strong> {endTime.toLocaleString("vi-VN")}</p>
-                        <p><strong>Giá hiện tại:</strong> {currentHighestBid > 0 ? `${currentHighestBid.toLocaleString()} đ` : "Chưa có"} </p>
+                        <p><strong>Giá hiện tại:</strong> {
+                            (phien.giaHienTai > sp.giaKhoiDiem)
+                                ? `${phien.giaHienTai.toLocaleString()} đ`
+                                : "Chưa có"
+                        }</p>
                         {disabled ? (
-                            <Alert variant="secondary">Phiên đấu giá đã kết thúc!</Alert>
+                            <>
+                                <Alert variant="secondary">Phiên đấu giá đã kết thúc!</Alert>
+                                {winnerName && finalPrice && (
+                                    <Alert variant="success">
+                                        Người thắng cuộc: <strong>{winnerName}</strong> với giá <strong>{finalPrice.toLocaleString()} đ</strong>
+                                    </Alert>
+                                )}
+                            </>
                         ) : (
                             <>
                                 <Form onSubmit={handleSubmit}>

@@ -37,15 +37,21 @@ public class ApiPhienDauGiaController {
     @GetMapping("/phiendaugia")
     public List<PhienDauGia> layTatCaPhienDangDienRa() {
         List<PhienDauGia> all = phienDauGiaService.getLayTatCaPhien();
-        return all.stream()
-                .filter(p -> "dang_dien_ra".equals(p.getTrangThai()))
-                .collect(Collectors.toList());
+        return all;
+//        return all.stream()
+//                .filter(p -> "dang_dien_ra".equals(p.getTrangThai()))
+//                .collect(Collectors.toList());
     }
 
     @GetMapping("/phiendaugia/{id}")
     public ResponseEntity<?> layChiTietPhien(@PathVariable(name = "id") int id) {
+        // Gọi service để cập nhật trạng thái, người thắng nếu phiên đã kết thúc
+        phienDauGiaService.capNhatKetQuaPhien(id);
+        
+         // Lấy lại phiên đã cập nhật
         PhienDauGia phien = phienDauGiaService.getLayPhienTheoId(id);
         if (phien != null) {
+            // Cập nhật giá hiện tại
             PhienDauGiaNguoiDung max = phienDauGiaNguoiDungService.getGiaCaoNhat(id);
             if (max != null) {
                 phien.setGiaHienTai(max.getGiaDau());
