@@ -47,7 +47,7 @@ export default function ChatSidebar({ user, onSelectUser }) {
                     >
                         <img src={u.avatar || "/default-avatar.png"} alt="avatar" width={36} height={36} style={{ borderRadius: '50%' }} />
                         <div className="ms-2">
-                            <div style={{ fontWeight: 500 }}>{u.fullname}</div>
+                            <div style={{ fontWeight: 500 }}>{u.hoTen}</div>
                             <div style={{ fontSize: 12, color: "#888" }}>@{u.username}</div>
                             <div style={{ fontSize: 11, color: "#666" }}>{u.role}</div>
                         </div>

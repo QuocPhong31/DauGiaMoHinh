@@ -32,7 +32,7 @@ export default function ChatBox({ user, peer }) {
     await push(chatRef, {
       userId: user.id,
       avatar: user.avatar,
-      fullname: user.fullname,
+      fullname: user.hoTen,
       text: newMsg,
       time: new Date().toLocaleTimeString()
     });
@@ -45,7 +45,7 @@ export default function ChatBox({ user, peer }) {
     <div style={{ flex: 1, display: "flex", flexDirection: "column", height: "100%" }}>
       <div style={{ borderBottom: "1px solid #ddd", padding: 16, background: "#fafafa" }}>
         <img src={peer.avatar || "/default-avatar.png"} alt="Mô tả ảnh" width={40} height={40} style={{ borderRadius: 20, marginRight: 8 }} />
-        <span style={{ fontWeight: 600 }}>{peer.fullname}</span>
+        <span style={{ fontWeight: 600 }}>{peer.hoTen}</span>
       </div>
       <div style={{ flex: 1, overflowY: "auto", padding: 16, background: "#f9f9f9" }}>
         {messages.map((msg, i) => (
