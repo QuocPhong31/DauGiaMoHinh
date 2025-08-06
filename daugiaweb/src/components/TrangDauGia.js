@@ -57,15 +57,15 @@ const TrangDauGia = () => {
     const dsTruocHomNay = dsPhien.filter(p => laTruocHomNay(p.thoiGianBatDau) && p.trangThai !== "da_ket_thuc");
     const dsKetThuc = dsPhien.filter(p => p.trangThai === "da_ket_thuc");
 
-    const handleToggleTheoDoi = async (phienId) => {
+    const ChuyenDoiTrangThaiTheoDoi = async (phienId) => {
         try {
             if (dsDangTheoDoi.includes(phienId)) {
-                await authApis().delete(endpoints["bo-theo-doi"], {
-                    params: { phienId }
-                });
+                // Gọi API bỏ theo dõi (chỉ cần phienId)
+                await authApis().delete(`${endpoints["bo-theo-doi"]}?phienId=${phienId}`);
                 setDsDangTheoDoi(prev => prev.filter(id => id !== phienId));
             } else {
-                await authApis().post(endpoints["theo-doi"], { phienId });
+                // Gọi API theo dõi (chỉ cần phienId)
+                await authApis().post(`${endpoints["theo-doi"]}?phienId=${phienId}`);
                 setDsDangTheoDoi(prev => [...prev, phienId]);
             }
         } catch (err) {
@@ -98,7 +98,7 @@ const TrangDauGia = () => {
                                     variant={dsDangTheoDoi.includes(phien.id) ? "danger" : "outline-secondary"}
                                     size="sm"
                                     className="ms-2"
-                                    onClick={() => handleToggleTheoDoi(phien.id)}
+                                    onClick={() => ChuyenDoiTrangThaiTheoDoi(phien.id)}
                                 >
                                     {dsDangTheoDoi.includes(phien.id) ? "Bỏ theo dõi" : "Theo dõi"}
                                 </Button>

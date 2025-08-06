@@ -4,7 +4,9 @@
  */
 package com.dgmh.controllers;
 
+import com.dgmh.services.NguoiDungService;
 import com.dgmh.services.TheoDoiSanPhamService;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,23 +28,38 @@ public class ApiTheoDoiSanPhamController {
     @Autowired
     private TheoDoiSanPhamService service;
 
+    @Autowired
+    private NguoiDungService nguoiDungService;
+
     @PostMapping("/them")
-    public ResponseEntity<?> theoDoi(@RequestParam int nguoiDungId, @RequestParam int phienId) {
+    public ResponseEntity<?> theoDoi(@RequestParam int phienId, Principal principal) {
+        String username = principal.getName();
+        int nguoiDungId = nguoiDungService.getByUsername(username).getId();
+
         return ResponseEntity.ok(service.theoDoi(nguoiDungId, phienId));
     }
 
     @DeleteMapping("/xoa")
-    public ResponseEntity<?> boTheoDoi(@RequestParam int nguoiDungId, @RequestParam int phienId) {
+    public ResponseEntity<?> boTheoDoi(@RequestParam int phienId, Principal principal) {
+        String username = principal.getName();
+        int nguoiDungId = nguoiDungService.getByUsername(username).getId();
+
         return ResponseEntity.ok(service.boTheoDoi(nguoiDungId, phienId));
     }
 
     @GetMapping("/danhsach")
-    public ResponseEntity<?> layTheoDoi(@RequestParam int nguoiDungId) {
+    public ResponseEntity<?> layTheoDoi(Principal principal) {
+        String username = principal.getName();
+        int nguoiDungId = nguoiDungService.getByUsername(username).getId();
+
         return ResponseEntity.ok(service.getTheoDoiByNguoiDung(nguoiDungId));
     }
 
     @GetMapping("/kiemtra")
-    public ResponseEntity<?> isTheoDoi(@RequestParam int nguoiDungId, @RequestParam int phienId) {
+    public ResponseEntity<?> isTheoDoi(@RequestParam int phienId, Principal principal) {
+        String username = principal.getName();
+        int nguoiDungId = nguoiDungService.getByUsername(username).getId();
+
         return ResponseEntity.ok(service.isDangTheoDoi(nguoiDungId, phienId));
     }
 }
