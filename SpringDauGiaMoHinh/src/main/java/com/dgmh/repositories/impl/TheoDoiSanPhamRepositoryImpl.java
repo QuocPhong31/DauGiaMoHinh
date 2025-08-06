@@ -34,8 +34,9 @@ public class TheoDoiSanPhamRepositoryImpl implements TheoDoiSanPhamRepository{
         q.setParameter("uid", nguoiDungId);
         q.setParameter("pid", phienId);
 
-        if (q.uniqueResult() != null && q.uniqueResult() > 0)
-            return null; // Tránh theo dõi trùng
+        Long count = q.uniqueResult();
+        if (count != null && count > 0)
+            return null;
 
         TheoDoiSanPham t = new TheoDoiSanPham();
 
