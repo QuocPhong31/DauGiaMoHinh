@@ -7,6 +7,7 @@ const TrangDauGia = () => {
     const [dsPhien, setDsPhien] = useState([]);
     const [loading, setLoading] = useState(true);
     const [tab, setTab] = useState("homNay"); // Mặc định tab "hôm nay"
+    const [dsDangTheoDoi, setDsDangTheoDoi] = useState([]);
 
     useEffect(() => {
         const fetchPhien = async () => {
@@ -20,6 +21,18 @@ const TrangDauGia = () => {
             }
         };
         fetchPhien();
+
+        const fetchTheoDoi = async () => {
+            try {
+                const res = await authApis().get(endpoints["theo-doi"]);
+                const ids = res.data.map(item => item.phien.id); // assuming TheoDoiSanPham has phien field
+                setDsDangTheoDoi(ids);
+            } catch (err) {
+                console.error("Lỗi khi lấy danh sách bài đang theo dõi:", err);
+            }
+        };
+
+        fetchTheoDoi();
     }, []);
 
     if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
@@ -44,6 +57,22 @@ const TrangDauGia = () => {
     const dsTruocHomNay = dsPhien.filter(p => laTruocHomNay(p.thoiGianBatDau) && p.trangThai !== "da_ket_thuc");
     const dsKetThuc = dsPhien.filter(p => p.trangThai === "da_ket_thuc");
 
+    const handleToggleTheoDoi = async (phienId) => {
+        try {
+            if (dsDangTheoDoi.includes(phienId)) {
+                await authApis().delete(endpoints["bo-theo-doi"], {
+                    params: { phienId }
+                });
+                setDsDangTheoDoi(prev => prev.filter(id => id !== phienId));
+            } else {
+                await authApis().post(endpoints["theo-doi"], { phienId });
+                setDsDangTheoDoi(prev => [...prev, phienId]);
+            }
+        } catch (err) {
+            console.error("Lỗi khi xử lý theo dõi:", err);
+        }
+    };
+
     const renderPhienCards = (list) => (
         <Row>
             {list.map(phien => (
@@ -65,6 +94,14 @@ const TrangDauGia = () => {
                                 <Link to={`/cuoc-dau-gia/${phien.id}`}>
                                     <Button variant="primary" size="sm">Xem chi tiết</Button>
                                 </Link>
+                                <Button
+                                    variant={dsDangTheoDoi.includes(phien.id) ? "danger" : "outline-secondary"}
+                                    size="sm"
+                                    className="ms-2"
+                                    onClick={() => handleToggleTheoDoi(phien.id)}
+                                >
+                                    {dsDangTheoDoi.includes(phien.id) ? "Bỏ theo dõi" : "Theo dõi"}
+                                </Button>
                             </Col>
                         </Row>
                     </Card>

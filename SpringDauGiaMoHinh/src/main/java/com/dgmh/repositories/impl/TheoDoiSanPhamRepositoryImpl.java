@@ -25,25 +25,42 @@ public class TheoDoiSanPhamRepositoryImpl implements TheoDoiSanPhamRepository{
     private LocalSessionFactoryBean factory;
 
     @Override
-    public TheoDoiSanPham themTheoDoi(TheoDoiSanPham t) {
-        Session session = this.factory.getObject().getCurrentSession();
+    public TheoDoiSanPham theoDoi(int nguoiDungId, int phienId) {
+        Session session = factory.getObject().getCurrentSession();
+
+        // Kiểm tra đã theo dõi chưa
+        Query<Long> q = session.createQuery(
+            "SELECT COUNT(*) FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND phienDauGia.id = :pid", Long.class);
+        q.setParameter("uid", nguoiDungId);
+        q.setParameter("pid", phienId);
+
+        if (q.uniqueResult() != null && q.uniqueResult() > 0)
+            return null; // Tránh theo dõi trùng
+
+        TheoDoiSanPham t = new TheoDoiSanPham();
+
+        // Lấy các entity liên quan
+        t.setNguoiDung(session.get(com.dgmh.pojo.NguoiDung.class, nguoiDungId));
+        t.setPhienDauGia(session.get(com.dgmh.pojo.PhienDauGia.class, phienId));
+        t.setNgayTheoDoi(new java.util.Date());
+
         session.persist(t);
         return t;
     }
 
     @Override
-    public boolean xoaTheoDoi(int nguoiDungId, int sanPhamId) {
-        Session session = this.factory.getObject().getCurrentSession();
+    public boolean boTheoDoi(int nguoiDungId, int phienId) {
+        Session session = factory.getObject().getCurrentSession();
         Query<?> q = session.createQuery(
-            "DELETE FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND sanPham.id = :sid");
+            "DELETE FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND phienDauGia.id = :pid");
         q.setParameter("uid", nguoiDungId);
-        q.setParameter("sid", sanPhamId);
+        q.setParameter("pid", phienId);
         return q.executeUpdate() > 0;
     }
 
     @Override
-    public List<TheoDoiSanPham> layTheoDoiTheoNguoiDung(int nguoiDungId) {
-        Session session = this.factory.getObject().getCurrentSession();
+    public List<TheoDoiSanPham> getTheoDoiByNguoiDung(int nguoiDungId) {
+        Session session = factory.getObject().getCurrentSession();
         Query<TheoDoiSanPham> q = session.createQuery(
             "FROM TheoDoiSanPham WHERE nguoiDung.id = :uid ORDER BY ngayTheoDoi DESC", TheoDoiSanPham.class);
         q.setParameter("uid", nguoiDungId);
@@ -51,12 +68,12 @@ public class TheoDoiSanPhamRepositoryImpl implements TheoDoiSanPhamRepository{
     }
 
     @Override
-    public boolean kiemTraDangTheoDoi(int nguoiDungId, int sanPhamId) {
-        Session session = this.factory.getObject().getCurrentSession();
+    public boolean isDangTheoDoi(int nguoiDungId, int phienId) {
+        Session session = factory.getObject().getCurrentSession();
         Query<Long> q = session.createQuery(
-            "SELECT COUNT(*) FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND sanPham.id = :sid", Long.class);
+            "SELECT COUNT(*) FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND phienDauGia.id = :pid", Long.class);
         q.setParameter("uid", nguoiDungId);
-        q.setParameter("sid", sanPhamId);
+        q.setParameter("pid", phienId);
         Long count = q.uniqueResult();
         return count != null && count > 0;
     }

@@ -63,14 +63,14 @@ CREATE TABLE phiendaugia_nguoidung (
 );
 
 -- Bang danh sach theo doi san pham
-CREATE TABLE theodoisanpham (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE theodoisanphams (
+    id INT PRIMARY KEY AUTO_INCREMENT,
     nguoiDung_id INT,
-    sanPham_id INT,
+    phienDauGia_id INT,
     ngayTheoDoi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id) ON DELETE CASCADE,
-    FOREIGN KEY (sanPham_id) REFERENCES sanphams(id) ON DELETE CASCADE,
-    UNIQUE (nguoiDung_id, sanPham_id)
+    FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id),
+    FOREIGN KEY (phienDauGia_id) REFERENCES phiendaugia(id),
+    UNIQUE(nguoiDung_id, phienDauGia_id)
 );
 
 USE daugiadb;

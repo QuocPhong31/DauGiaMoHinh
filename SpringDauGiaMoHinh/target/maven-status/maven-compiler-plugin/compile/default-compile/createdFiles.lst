@@ -5,6 +5,7 @@ com\dgmh\services\impl\TheoDoiSanPhamServiceImpl.class
 com\dgmh\controllers\ApiPhienDauGiaController.class
 com\dgmh\configs\MailConfig.class
 com\dgmh\controllers\ApiPhienDauGiaNguoiDungController.class
+com\dgmh\controllers\ApiTheoDoiSanPhamController.class
 com\dgmh\springdaugiamohinh\JakartaRestConfiguration.class
 com\dgmh\springdaugiamohinh\resources\JakartaEE11Resource.class
 com\dgmh\filters\JwtFilter.class

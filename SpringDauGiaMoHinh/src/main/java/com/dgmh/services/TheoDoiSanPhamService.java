@@ -12,8 +12,8 @@ import java.util.List;
  * @author Tran Quoc Phong
  */
 public interface TheoDoiSanPhamService {
-    TheoDoiSanPham themTheoDoi(TheoDoiSanPham t);
-    boolean xoaTheoDoi(int nguoiDungId, int sanPhamId);
-    List<TheoDoiSanPham> layTheoDoiTheoNguoiDung(int nguoiDungId);
-    boolean kiemTraDangTheoDoi(int nguoiDungId, int sanPhamId);
+    TheoDoiSanPham theoDoi(int nguoiDungId, int phienId);
+    boolean boTheoDoi(int nguoiDungId, int phienId);
+    List<TheoDoiSanPham> getTheoDoiByNguoiDung(int nguoiDungId);
+    boolean isDangTheoDoi(int nguoiDungId, int phienId);
 }

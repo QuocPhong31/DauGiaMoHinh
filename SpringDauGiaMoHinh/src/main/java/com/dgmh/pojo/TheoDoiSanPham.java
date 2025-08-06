@@ -21,7 +21,7 @@ import java.util.Date;
  * @author Tran Quoc Phong
  */
 @Entity
-@Table(name = "theodoisanpham")
+@Table(name = "theodoisanphams")
 public class TheoDoiSanPham implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +32,8 @@ public class TheoDoiSanPham implements Serializable{
     private NguoiDung nguoiDung;
 
     @ManyToOne
-    @JoinColumn(name = "sanPham_id")
-    private SanPham sanPham;
+    @JoinColumn(name = "phienDauGia_id")
+    private PhienDauGia phienDauGia;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayTheoDoi;
@@ -54,12 +54,12 @@ public class TheoDoiSanPham implements Serializable{
         this.nguoiDung = nguoiDung;
     }
 
-    public SanPham getSanPham() {
-        return sanPham;
+    public PhienDauGia getPhienDauGia() {
+        return phienDauGia;
     }
 
-    public void setSanPham(SanPham sanPham) {
-        this.sanPham = sanPham;
+    public void setPhienDauGia(PhienDauGia phienDauGia) {
+        this.phienDauGia = phienDauGia;
     }
     
     public Date getNgayTheoDoi() {

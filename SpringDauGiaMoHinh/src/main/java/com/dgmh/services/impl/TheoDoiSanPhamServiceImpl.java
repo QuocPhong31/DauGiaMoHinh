@@ -21,22 +21,22 @@ public class TheoDoiSanPhamServiceImpl implements TheoDoiSanPhamService{
     private TheoDoiSanPhamRepository theoDoiSanPhamRepository;
 
     @Override
-    public TheoDoiSanPham themTheoDoi(TheoDoiSanPham t) {
-        return theoDoiSanPhamRepository.themTheoDoi(t);
+    public TheoDoiSanPham theoDoi(int nguoiDungId, int phienId) {
+        return theoDoiSanPhamRepository.theoDoi(nguoiDungId, phienId);
     }
 
     @Override
-    public boolean xoaTheoDoi(int nguoiDungId, int sanPhamId) {
-        return theoDoiSanPhamRepository.xoaTheoDoi(nguoiDungId, sanPhamId);
+    public boolean boTheoDoi(int nguoiDungId, int phienId) {
+        return theoDoiSanPhamRepository.boTheoDoi(nguoiDungId, phienId);
     }
 
     @Override
-    public List<TheoDoiSanPham> layTheoDoiTheoNguoiDung(int nguoiDungId) {
-        return theoDoiSanPhamRepository.layTheoDoiTheoNguoiDung(nguoiDungId);
+    public List<TheoDoiSanPham> getTheoDoiByNguoiDung(int nguoiDungId) {
+        return theoDoiSanPhamRepository.getTheoDoiByNguoiDung(nguoiDungId);
     }
 
     @Override
-    public boolean kiemTraDangTheoDoi(int nguoiDungId, int sanPhamId) {
-        return theoDoiSanPhamRepository.kiemTraDangTheoDoi(nguoiDungId, sanPhamId);
+    public boolean isDangTheoDoi(int nguoiDungId, int phienId) {
+        return theoDoiSanPhamRepository.isDangTheoDoi(nguoiDungId, phienId);
     }
 }
