@@ -18,7 +18,7 @@ export const endpoints = {
     "cuoc-dau-gia": "phiendaugia/phiendaugia",
     "dat-gia": "phiendaugianguoidung/dat-gia",
     "chuyen-vai-tro": "secure/chuyen-vai-tro-nguoi-ban",
-    "theo-doi": "theodoisanpham/them",
+    "them-theo-doi": "theodoisanpham/them",
     "bo-theo-doi": "theodoisanpham/xoa",
     "danh-sach-theo-doi": "theodoisanpham/danhsach", // GET
     "kiem-tra-theo-doi": "theodoisanpham/kiemtra",   

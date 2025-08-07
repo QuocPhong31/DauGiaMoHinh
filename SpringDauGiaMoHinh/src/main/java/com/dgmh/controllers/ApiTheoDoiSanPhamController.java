@@ -61,7 +61,7 @@ public class ApiTheoDoiSanPhamController {
     }
 
     @PostMapping("/them/{phienId}")
-    public ResponseEntity<?> theoDoi(@PathVariable int phienId, Principal principal) {
+    public ResponseEntity<?> theoDoi(@PathVariable("phienId") int phienId, Principal principal) {
         if (principal == null)
             return ResponseEntity.status(401).body("Bạn cần đăng nhập");
 
@@ -75,7 +75,7 @@ public class ApiTheoDoiSanPhamController {
     }
 
     @DeleteMapping("/xoa/{phienId}")
-    public ResponseEntity<?> boTheoDoi(@PathVariable int phienId, Principal principal) {
+    public ResponseEntity<?> boTheoDoi(@PathVariable("phienId") int phienId, Principal principal) {
         if (principal == null)
             return ResponseEntity.status(401).body("Bạn cần đăng nhập");
 
