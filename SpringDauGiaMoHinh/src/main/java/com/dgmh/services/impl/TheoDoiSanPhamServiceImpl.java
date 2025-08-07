@@ -20,25 +20,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TheoDoiSanPhamServiceImpl implements TheoDoiSanPhamService{
     @Autowired
-    private TheoDoiSanPhamRepository theoDoiSanPhamRepository;
+    private TheoDoiSanPhamRepository repo;
 
     @Override
-    public TheoDoiSanPham theoDoi(int nguoiDungId, int phienId) {
-        return theoDoiSanPhamRepository.theoDoi(nguoiDungId, phienId);
+    public boolean daTheoDoi(int nguoiDungId, int phienDauGiaId) {
+        return repo.kiemTraTheoDoi(nguoiDungId, phienDauGiaId);
     }
 
     @Override
-    public boolean boTheoDoi(int nguoiDungId, int phienId) {
-        return theoDoiSanPhamRepository.boTheoDoi(nguoiDungId, phienId);
+    public void theoDoi(int nguoiDungId, int phienDauGiaId) {
+        repo.themTheoDoi(nguoiDungId, phienDauGiaId);
     }
 
     @Override
-    public List<TheoDoiSanPham> getTheoDoiByNguoiDung(int nguoiDungId) {
-        return theoDoiSanPhamRepository.getTheoDoiByNguoiDung(nguoiDungId);
+    public void boTheoDoi(int nguoiDungId, int phienDauGiaId) {
+        repo.xoaTheoDoi(nguoiDungId, phienDauGiaId);
     }
 
     @Override
-    public boolean isDangTheoDoi(int nguoiDungId, int phienId) {
-        return theoDoiSanPhamRepository.isDangTheoDoi(nguoiDungId, phienId);
+    public List<TheoDoiSanPham> layDanhSachTheoDoi(int nguoiDungId) {
+        return repo.layTheoDoiTheoNguoiDung(nguoiDungId);
     }
 }

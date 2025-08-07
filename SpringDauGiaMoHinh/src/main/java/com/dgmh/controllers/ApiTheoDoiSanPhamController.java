@@ -4,17 +4,19 @@
  */
 package com.dgmh.controllers;
 
+import com.dgmh.pojo.NguoiDung;
 import com.dgmh.services.NguoiDungService;
 import com.dgmh.services.TheoDoiSanPhamService;
 import java.security.Principal;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,40 +28,63 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:3000")
 public class ApiTheoDoiSanPhamController {
     @Autowired
-    private TheoDoiSanPhamService service;
+    private TheoDoiSanPhamService theoDoiService;
 
     @Autowired
     private NguoiDungService nguoiDungService;
 
-    @PostMapping("/them")
-    public ResponseEntity<?> theoDoi(@RequestParam int phienId, Principal principal) {
+    @GetMapping("/{phienId}")
+    public ResponseEntity<?> checkTheoDoi(@PathVariable int phienId, Principal principal) {
+        if (principal == null)
+            return ResponseEntity.status(401).body("Bạn cần đăng nhập");
+
         String username = principal.getName();
-        int nguoiDungId = nguoiDungService.getByUsername(username).getId();
+        NguoiDung nguoiDung = nguoiDungService.getByUsername(username);
+        if (nguoiDung == null)
+            return ResponseEntity.status(404).body("Không tìm thấy người dùng");
 
-        return ResponseEntity.ok(service.theoDoi(nguoiDungId, phienId));
+        boolean daTheoDoi = theoDoiService.daTheoDoi(nguoiDung.getId(), phienId);
+        return ResponseEntity.ok(Collections.singletonMap("daTheoDoi", daTheoDoi));
     }
-
-    @DeleteMapping("/xoa")
-    public ResponseEntity<?> boTheoDoi(@RequestParam int phienId, Principal principal) {
-        String username = principal.getName();
-        int nguoiDungId = nguoiDungService.getByUsername(username).getId();
-
-        return ResponseEntity.ok(service.boTheoDoi(nguoiDungId, phienId));
-    }
-
+    
     @GetMapping("/danhsach")
-    public ResponseEntity<?> layTheoDoi(Principal principal) {
-        String username = principal.getName();
-        int nguoiDungId = nguoiDungService.getByUsername(username).getId();
+    public ResponseEntity<?> danhSachDangTheoDoi(Principal principal) {
+        if (principal == null)
+            return ResponseEntity.status(401).body("Bạn cần đăng nhập");
 
-        return ResponseEntity.ok(service.getTheoDoiByNguoiDung(nguoiDungId));
+        String username = principal.getName();
+        NguoiDung nguoiDung = nguoiDungService.getByUsername(username);
+        if (nguoiDung == null)
+            return ResponseEntity.status(404).body("Không tìm thấy người dùng");
+
+        return ResponseEntity.ok(theoDoiService.layDanhSachTheoDoi(nguoiDung.getId()));
     }
 
-    @GetMapping("/kiemtra")
-    public ResponseEntity<?> isTheoDoi(@RequestParam int phienId, Principal principal) {
-        String username = principal.getName();
-        int nguoiDungId = nguoiDungService.getByUsername(username).getId();
+    @PostMapping("/them/{phienId}")
+    public ResponseEntity<?> theoDoi(@PathVariable int phienId, Principal principal) {
+        if (principal == null)
+            return ResponseEntity.status(401).body("Bạn cần đăng nhập");
 
-        return ResponseEntity.ok(service.isDangTheoDoi(nguoiDungId, phienId));
+        String username = principal.getName();
+        NguoiDung nguoiDung = nguoiDungService.getByUsername(username);
+        if (nguoiDung == null)
+            return ResponseEntity.status(404).body("Không tìm thấy người dùng");
+
+        theoDoiService.theoDoi(nguoiDung.getId(), phienId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/xoa/{phienId}")
+    public ResponseEntity<?> boTheoDoi(@PathVariable int phienId, Principal principal) {
+        if (principal == null)
+            return ResponseEntity.status(401).body("Bạn cần đăng nhập");
+
+        String username = principal.getName();
+        NguoiDung nguoiDung = nguoiDungService.getByUsername(username);
+        if (nguoiDung == null)
+            return ResponseEntity.status(404).body("Không tìm thấy người dùng");
+
+        theoDoiService.boTheoDoi(nguoiDung.getId(), phienId);
+        return ResponseEntity.ok().build();
     }
 }

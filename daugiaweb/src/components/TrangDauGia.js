@@ -22,17 +22,16 @@ const TrangDauGia = () => {
         };
         fetchPhien();
 
-        const fetchTheoDoi = async () => {
+        const fetchDsDangTheoDoi = async () => {
             try {
-                const res = await authApis().get(endpoints["theo-doi"]);
-                const ids = res.data.map(item => item.phien.id); // assuming TheoDoiSanPham has phien field
+                const res = await authApis().get(endpoints["danh-sach-theo-doi"]);
+                const ids = res.data.map(item => item.phienDauGia.id); // Lấy ra danh sách phienDauGia_id
                 setDsDangTheoDoi(ids);
             } catch (err) {
-                console.error("Lỗi khi lấy danh sách bài đang theo dõi:", err);
+                console.error("Lỗi khi lấy danh sách đang theo dõi:", err);
             }
         };
-
-        fetchTheoDoi();
+        fetchDsDangTheoDoi();
     }, []);
 
     if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
@@ -57,19 +56,17 @@ const TrangDauGia = () => {
     const dsTruocHomNay = dsPhien.filter(p => laTruocHomNay(p.thoiGianBatDau) && p.trangThai !== "da_ket_thuc");
     const dsKetThuc = dsPhien.filter(p => p.trangThai === "da_ket_thuc");
 
-    const ChuyenDoiTrangThaiTheoDoi = async (phienId) => {
+    const ChuyenTrangThaiTheoDoi = async (phienId) => {
         try {
             if (dsDangTheoDoi.includes(phienId)) {
-                // Gọi API bỏ theo dõi (chỉ cần phienId)
-                await authApis().delete(`${endpoints["bo-theo-doi"]}?phienId=${phienId}`);
-                setDsDangTheoDoi(prev => prev.filter(id => id !== phienId));
+                await authApis().delete(`${endpoints["bo-theo-doi"]}/${phienId}`);
+                setDsDangTheoDoi(dsDangTheoDoi.filter(id => id !== phienId));
             } else {
-                // Gọi API theo dõi (chỉ cần phienId)
-                await authApis().post(`${endpoints["theo-doi"]}?phienId=${phienId}`);
-                setDsDangTheoDoi(prev => [...prev, phienId]);
+                await authApis().post(endpoints["them-theo-doi"] + "/" + phienId);
+                setDsDangTheoDoi([...dsDangTheoDoi, phienId]);
             }
         } catch (err) {
-            console.error("Lỗi khi xử lý theo dõi:", err);
+            console.error("Lỗi khi cập nhật theo dõi:", err);
         }
     };
 
@@ -94,11 +91,12 @@ const TrangDauGia = () => {
                                 <Link to={`/cuoc-dau-gia/${phien.id}`}>
                                     <Button variant="primary" size="sm">Xem chi tiết</Button>
                                 </Link>
+
                                 <Button
-                                    variant={dsDangTheoDoi.includes(phien.id) ? "danger" : "outline-secondary"}
+                                    variant={dsDangTheoDoi.includes(phien.id) ? "outline-danger" : "outline-success"}
                                     size="sm"
                                     className="ms-2"
-                                    onClick={() => ChuyenDoiTrangThaiTheoDoi(phien.id)}
+                                    onClick={() => ChuyenTrangThaiTheoDoi(phien.id)}
                                 >
                                     {dsDangTheoDoi.includes(phien.id) ? "Bỏ theo dõi" : "Theo dõi"}
                                 </Button>

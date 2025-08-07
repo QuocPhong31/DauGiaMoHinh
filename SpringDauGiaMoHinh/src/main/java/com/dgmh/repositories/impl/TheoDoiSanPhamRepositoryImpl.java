@@ -4,8 +4,11 @@
  */
 package com.dgmh.repositories.impl;
 
+import com.dgmh.pojo.NguoiDung;
+import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.pojo.TheoDoiSanPham;
 import com.dgmh.repositories.TheoDoiSanPhamRepository;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -25,57 +28,42 @@ public class TheoDoiSanPhamRepositoryImpl implements TheoDoiSanPhamRepository{
     private LocalSessionFactoryBean factory;
 
     @Override
-    public TheoDoiSanPham theoDoi(int nguoiDungId, int phienId) {
-        Session session = factory.getObject().getCurrentSession();
-
-        // Kiểm tra đã theo dõi chưa
-        Query<Long> q = session.createQuery(
-            "SELECT COUNT(*) FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND phienDauGia.id = :pid", Long.class);
+    public boolean kiemTraTheoDoi(int nguoiDungId, int phienDauGiaId) {
+        Session s = factory.getObject().getCurrentSession();
+        Query q = s.createQuery("SELECT COUNT(*) FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND phienDauGia.id = :pid");
         q.setParameter("uid", nguoiDungId);
-        q.setParameter("pid", phienId);
-
-        Long count = q.uniqueResult();
-        if (count != null && count > 0)
-            return null;
-
-        TheoDoiSanPham t = new TheoDoiSanPham();
-
-        // Lấy các entity liên quan
-        t.setNguoiDung(session.get(com.dgmh.pojo.NguoiDung.class, nguoiDungId));
-        t.setPhienDauGia(session.get(com.dgmh.pojo.PhienDauGia.class, phienId));
-        t.setNgayTheoDoi(new java.util.Date());
-
-        session.persist(t);
-        return t;
+        q.setParameter("pid", phienDauGiaId);
+        return ((Long) q.getSingleResult()) > 0;
     }
 
     @Override
-    public boolean boTheoDoi(int nguoiDungId, int phienId) {
-        Session session = factory.getObject().getCurrentSession();
-        Query<?> q = session.createQuery(
-            "DELETE FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND phienDauGia.id = :pid");
-        q.setParameter("uid", nguoiDungId);
-        q.setParameter("pid", phienId);
-        return q.executeUpdate() > 0;
+    public void themTheoDoi(int nguoiDungId, int phienDauGiaId) {
+        Session s = factory.getObject().getCurrentSession();
+        TheoDoiSanPham td = new TheoDoiSanPham();
+
+        NguoiDung nd = s.get(NguoiDung.class, nguoiDungId);
+        PhienDauGia pdg = s.get(PhienDauGia.class, phienDauGiaId);
+
+        td.setNguoiDung(nd);
+        td.setPhienDauGia(pdg);
+        td.setNgayTheoDoi(new Date());
+        s.save(td);
     }
 
     @Override
-    public List<TheoDoiSanPham> getTheoDoiByNguoiDung(int nguoiDungId) {
-        Session session = factory.getObject().getCurrentSession();
-        Query<TheoDoiSanPham> q = session.createQuery(
-            "FROM TheoDoiSanPham WHERE nguoiDung.id = :uid ORDER BY ngayTheoDoi DESC", TheoDoiSanPham.class);
+    public void xoaTheoDoi(int nguoiDungId, int phienDauGiaId) {
+        Session s = factory.getObject().getCurrentSession();
+        Query q = s.createQuery("DELETE FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND phienDauGia.id = :pid");
+        q.setParameter("uid", nguoiDungId);
+        q.setParameter("pid", phienDauGiaId);
+        q.executeUpdate();
+    }
+
+    @Override
+    public List<TheoDoiSanPham> layTheoDoiTheoNguoiDung(int nguoiDungId) {
+        Session s = factory.getObject().getCurrentSession();
+        Query q = s.createQuery("FROM TheoDoiSanPham WHERE nguoiDung.id = :uid");
         q.setParameter("uid", nguoiDungId);
         return q.getResultList();
-    }
-
-    @Override
-    public boolean isDangTheoDoi(int nguoiDungId, int phienId) {
-        Session session = factory.getObject().getCurrentSession();
-        Query<Long> q = session.createQuery(
-            "SELECT COUNT(*) FROM TheoDoiSanPham WHERE nguoiDung.id = :uid AND phienDauGia.id = :pid", Long.class);
-        q.setParameter("uid", nguoiDungId);
-        q.setParameter("pid", phienId);
-        Long count = q.uniqueResult();
-        return count != null && count > 0;
     }
 }
