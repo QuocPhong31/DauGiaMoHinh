@@ -51,7 +51,7 @@ CREATE TABLE phiendaugia (
     FOREIGN KEY (nguoiThangDauGia_id) REFERENCES nguoidungs(id)
 );
 
--- Bảng luot dau gia
+-- Bảng phien dau gia cua cac nguoi dung
 CREATE TABLE phiendaugia_nguoidung (
     id INT AUTO_INCREMENT PRIMARY KEY,
     phienDauGia_id INT,
