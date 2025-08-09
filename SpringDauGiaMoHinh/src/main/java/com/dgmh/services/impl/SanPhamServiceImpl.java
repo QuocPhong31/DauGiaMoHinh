@@ -27,8 +27,8 @@ public class SanPhamServiceImpl implements SanPhamService{
     private SanPhamRepository sanPhamRepository;
 
     @Override
-    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, BigDecimal giaBua, Date thoiGianKetThuc, int loaiSanPhamId, String username, MultipartFile avatar) {
-        return sanPhamRepository.addSanPham(tenSanPham, moTa, giaKhoiDiem, buocNhay, giaBua, thoiGianKetThuc, loaiSanPhamId, username, avatar);
+    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, Date thoiGianKetThuc, int loaiSanPhamId, String username, MultipartFile avatar) {
+        return sanPhamRepository.addSanPham(tenSanPham, moTa, giaKhoiDiem, buocNhay, thoiGianKetThuc, loaiSanPhamId, username, avatar);
     }
 
     @Override

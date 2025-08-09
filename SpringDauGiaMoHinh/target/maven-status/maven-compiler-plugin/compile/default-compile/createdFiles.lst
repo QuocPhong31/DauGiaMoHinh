@@ -44,7 +44,9 @@ com\dgmh\controllers\ApiSanPhamController.class
 com\dgmh\services\LoaiSanPhamService.class
 com\dgmh\services\TheoDoiSanPhamService.class
 com\dgmh\services\impl\PhienDauGiaNguoiDungServiceImpl.class
+com\dgmh\services\MailService.class
 com\dgmh\services\impl\SanPhamServiceImpl.class
+com\dgmh\services\impl\MailServiceImpl.class
 com\dgmh\repositories\impl\LoaiSanPhamRepositoryImpl.class
 com\dgmh\utils\JwtUtils.class
 com\dgmh\controllers\ApiLoaiSanPhamController.class

@@ -45,7 +45,6 @@ public class ApiSanPhamController {
                                            @RequestParam("moTa") String moTa,
                                            @RequestParam("giaKhoiDiem") BigDecimal giaKhoiDiem,
                                            @RequestParam("buocNhay") BigDecimal buocNhay,
-                                           @RequestParam("giaBua") BigDecimal giaBua,
                                            @RequestParam("thoiGianKetThuc") String thoiGianKetThucStr,
                                            @RequestParam("loaiSanPham_id") int loaiSanPhamId,
                                            @RequestParam(value = "avatar", required = false) MultipartFile avatar,
@@ -70,7 +69,7 @@ public class ApiSanPhamController {
             
             // Gọi service để thêm sản phẩm
             SanPham sanPham = sanPhamService.addSanPham(
-                tenSanPham, moTa, giaKhoiDiem, buocNhay, giaBua, thoiGianKetThuc, loaiSanPhamId, username, avatar
+                tenSanPham, moTa, giaKhoiDiem, buocNhay, thoiGianKetThuc, loaiSanPhamId, username, avatar
             );
             return new ResponseEntity<>(sanPham, HttpStatus.CREATED);
         } catch (Exception e) {

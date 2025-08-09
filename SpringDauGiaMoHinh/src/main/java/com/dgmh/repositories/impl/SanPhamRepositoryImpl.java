@@ -36,7 +36,7 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
     private Cloudinary cloudinary;
 
     @Override
-    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, BigDecimal giaBua, Date thoiGianKetThuc, int loaiSanPhamId, String username, MultipartFile avatar) {
+    public SanPham addSanPham(String tenSanPham, String moTa, BigDecimal giaKhoiDiem, BigDecimal buocNhay, Date thoiGianKetThuc, int loaiSanPhamId, String username, MultipartFile avatar) {
         Session session = this.factory.getObject().getCurrentSession();
         // Tạo đối tượng SanPham từ thông tin trong params
         SanPham sanPham = new SanPham();
@@ -44,7 +44,6 @@ public class SanPhamRepositoryImpl implements SanPhamRepository{
         sanPham.setMoTa(moTa);
         sanPham.setGiaKhoiDiem(giaKhoiDiem);
         sanPham.setBuocNhay(buocNhay);
-        sanPham.setGiaBua(giaBua);
         sanPham.setThoiGianKetThuc(thoiGianKetThuc);
         sanPham.setNgayDang(new java.util.Date());
         sanPham.setTrangThai("CHO_DUYET");

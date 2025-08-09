@@ -5,6 +5,7 @@
 package com.dgmh.controllers;
 
 import com.dgmh.pojo.NguoiDung;
+import com.dgmh.services.MailService;
 import com.dgmh.services.NguoiDungService;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private NguoiDungService nguoiDungService;
+    
+    @Autowired
+    private MailService mailService;
 
     @GetMapping("")
     public String adminView(Model model) {
@@ -47,7 +51,23 @@ public class AdminController {
     @PostMapping("/duyetNguoiDung")
     public String approveUser(@RequestParam("userId") int userId, RedirectAttributes redirectAttrs) {
         boolean result = nguoiDungService.duyetNguoiDung(userId);
-        redirectAttrs.addFlashAttribute("message", result ? "Duyệt người dùng thành công!" : "Duyệt người dùng thất bại!");
+
+        if (result) {
+            try {
+                NguoiDung user = nguoiDungService.getById(userId);
+                if (user != null && user.getEmail() != null && !user.getEmail().isBlank()) {
+                    mailService.sendApprovalEmail(user.getEmail(), user.getHoTen());
+                }
+                redirectAttrs.addFlashAttribute("message", "Duyệt người dùng thành công! Đã gửi email thông báo.");
+            } catch (Exception ex) {
+                // Không để việc gửi mail làm fail luồng duyệt — log + báo nhẹ
+                ex.printStackTrace();
+                redirectAttrs.addFlashAttribute("message", "Duyệt người dùng thành công! (Gửi email thất bại, vui lòng kiểm tra log)");
+            }
+        } else {
+            redirectAttrs.addFlashAttribute("message", "Duyệt người dùng thất bại!");
+        }
+
         return "redirect:/admin/duyetNguoiDung";
     }
 

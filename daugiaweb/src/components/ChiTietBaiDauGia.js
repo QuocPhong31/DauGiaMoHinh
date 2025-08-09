@@ -92,7 +92,6 @@ const ChiTietBaiDauGia = () => {
                         <p><strong>Mô tả:</strong> {sp.moTa}</p>
                         <p><strong>Giá khởi điểm:</strong> {sp.giaKhoiDiem.toLocaleString()} đ</p>
                         <p><strong>Bước nhảy:</strong> {sp.buocNhay.toLocaleString()} đ</p>
-                        {sp.giaBua && <p><strong>Giá búa:</strong> {sp.giaBua.toLocaleString()} đ</p>}
                         <p><strong>Thời gian kết thúc:</strong> {endTime.toLocaleString("vi-VN")}</p>
                         <p><strong>Giá hiện tại:</strong> {
                             (phien.giaHienTai > sp.giaKhoiDiem)
