@@ -114,6 +114,17 @@ const TrangDauGia = () => {
         </Row>
     );
 
+    // helper: lọc theo từ khóa + sắp xếp mới -> cũ
+    const applySearchAndSort = (list, sortBy = "approve") => {
+        const filtered = filterByTuKhoa(list);
+        const getTs = (p) => {
+            if (sortBy === "end") return new Date(p.thoiGianKetThuc).getTime();
+            // mặc định: thời điểm duyệt/tạo phiên
+            return new Date(p.thoiGianBatDau || p.sanPham?.ngayDang).getTime();
+        };
+        return [...filtered].sort((a, b) => getTs(b) - getTs(a));
+    };
+
     const renderNoData = (label) => <p className="text-center">Không có {label}.</p>;
 
     return (
@@ -152,8 +163,8 @@ const TrangDauGia = () => {
                     {tab === "homNay" && (
                         <>
                             <h2 className="text-center mb-4">Bài đấu giá diễn ra hôm nay</h2>
-                            {filterByTuKhoa(dsHomNay).length > 0
-                                ? renderPhienCards(filterByTuKhoa(dsHomNay))
+                            {applySearchAndSort(dsHomNay).length > 0
+                                ? renderPhienCards(applySearchAndSort(dsHomNay))
                                 : renderNoData("phiên nào hôm nay")}
                         </>
                     )}
@@ -161,8 +172,8 @@ const TrangDauGia = () => {
                     {tab === "truocDo" && (
                         <>
                             <h2 className="text-center mb-4">Bài đấu giá hôm qua hoặc trước đó</h2>
-                            {filterByTuKhoa(dsTruocHomNay).length > 0
-                                ? renderPhienCards(filterByTuKhoa(dsTruocHomNay))
+                            {applySearchAndSort(dsTruocHomNay).length > 0
+                                ? renderPhienCards(applySearchAndSort(dsTruocHomNay))
                                 : renderNoData("phiên nào hôm qua hoặc trước đó")}
                         </>
                     )}
@@ -170,8 +181,9 @@ const TrangDauGia = () => {
                     {tab === "ketThuc" && (
                         <>
                             <h2 className="text-center mb-4">Bài đấu giá đã kết thúc</h2>
-                            {filterByTuKhoa(dsKetThuc).length > 0
-                                ? renderPhienCards(filterByTuKhoa(dsKetThuc))
+                            {/* Nếu muốn tab này sắp theo thời điểm kết thúc thì dùng sortBy="end" */}
+                            {applySearchAndSort(dsKetThuc, "end").length > 0
+                                ? renderPhienCards(applySearchAndSort(dsKetThuc, "end"))
                                 : renderNoData("phiên đã kết thúc")}
                         </>
                     )}
@@ -179,8 +191,8 @@ const TrangDauGia = () => {
                     {tab === "dangTheoDoi" && (
                         <>
                             <h2 className="text-center mb-4">Bài đấu giá đang theo dõi</h2>
-                            {filterByTuKhoa(dsTheoDoi).length > 0
-                                ? renderPhienCards(filterByTuKhoa(dsTheoDoi))
+                            {applySearchAndSort(dsTheoDoi).length > 0
+                                ? renderPhienCards(applySearchAndSort(dsTheoDoi))
                                 : renderNoData("phiên đang theo dõi")}
                         </>
                     )}

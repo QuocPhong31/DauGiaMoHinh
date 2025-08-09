@@ -62,6 +62,14 @@ public class ApiPhienDauGiaNguoiDungController {
             if (phien == null) {
                 return ResponseEntity.badRequest().body("Không tìm thấy phiên đấu giá");
             }
+            
+            // Không cho người bán đấu giá bài của chính mình
+            if (phien.getSanPham() != null
+                    && phien.getSanPham().getNguoiDung() != null
+                    && phien.getSanPham().getNguoiDung().getId().equals(nguoiDung.getId())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("Bạn không thể đấu giá sản phẩm của chính mình");
+            }
 
             // Lấy giá hiện tại cao nhất
             PhienDauGiaNguoiDung giaCaoNhatRecord = this.phienDauGiaNguoiDungService.getGiaCaoNhat(phienId);
