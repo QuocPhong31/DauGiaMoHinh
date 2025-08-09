@@ -10,4 +10,5 @@ package com.dgmh.services;
  */
 public interface MailService {
     void sendApprovalEmail(String toEmail, String hoTen);
+    void sendWinnerEmail(String toEmail, String hoTen, String tenSanPham, Number giaThang);
 }

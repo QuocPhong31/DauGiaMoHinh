@@ -38,10 +38,10 @@ public class IndexController {
                     System.out.println("Redirecting to /admin");
                     return "redirect:/admin";
                 }
-                else if (role.equalsIgnoreCase("ROLE_NGUOIBAN"))
-                    return "redirect:/nguoiban";
-                else if (role.equalsIgnoreCase("ROLE_NGUOIMUA"))
-                    return "redirect:/nguoidung";
+                else {
+                    // đăng nhập đúng nhưng không có quyền → đá về login + thông báo
+                    return "redirect:/login?notAdmin=true";
+                }
             }
             System.out.println("Redirecting user with role: " + user.getVaiTro());
             System.out.println("Login user: " + authentication.getName());

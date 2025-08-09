@@ -47,6 +47,8 @@ public class PhienDauGia implements Serializable {
     @JoinColumn(name = "nguoiThangDauGia_id")
     private NguoiDung nguoiThangDauGia;
     
+    private Boolean daThongBaoKQ;
+    
     @Transient
     private BigDecimal giaHienTai;
 
@@ -104,6 +106,14 @@ public class PhienDauGia implements Serializable {
 
     public void setNguoiThangDauGia(NguoiDung nguoiThangDauGia) {
         this.nguoiThangDauGia = nguoiThangDauGia;
+    }
+    
+    public Boolean getDaThongBaoKQ() {
+        return daThongBaoKQ;
+    }
+
+    public void setDaThongBaoKQ(Boolean daThongBaoKQ) {
+        this.daThongBaoKQ = daThongBaoKQ;
     }
 
     public BigDecimal getGiaHienTai() {

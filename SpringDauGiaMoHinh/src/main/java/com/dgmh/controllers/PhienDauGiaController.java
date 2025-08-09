@@ -51,6 +51,7 @@ public class PhienDauGiaController {
                 phien.setTrangThai("dang_dien_ra");
                 phien.setThoiGianBatDau(sp.getNgayDang());
                 phien.setThoiGianKetThuc(sp.getThoiGianKetThuc());
+                phien.setDaThongBaoKQ(Boolean.FALSE);
                 phienDauGiaService.themPhienDauGia(phien);
 
             } else if ("khong_duyet".equals(action)) {

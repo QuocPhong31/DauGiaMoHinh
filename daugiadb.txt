@@ -46,6 +46,7 @@ CREATE TABLE phiendaugia (
     trangThai ENUM('dang_dien_ra', 'da_ket_thuc') DEFAULT 'dang_dien_ra',
     giaChot DECIMAL(10,2),
     nguoiThangDauGia_id INT,
+    daThongBaoKQ TINYINT NOT NULL DEFAULT 0,
     FOREIGN KEY (sanPham_id) REFERENCES sanphams(id),
     FOREIGN KEY (nguoiThangDauGia_id) REFERENCES nguoidungs(id)
 );

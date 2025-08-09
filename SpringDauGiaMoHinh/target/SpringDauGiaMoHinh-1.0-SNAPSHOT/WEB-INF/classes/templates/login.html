@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Đăng nhập hệ thống đấu giá</title>
+    <head>
+        <title>Đăng nhập hệ thống đấu giá</title>
     <th:block th:replace="base :: styles"></th:block>
 </head>
 <body>
@@ -20,6 +20,9 @@
             <button type="submit" class="btn btn-primary">Đăng nhập</button>
             <div class="alert alert-danger" th:if="${param.error}">
                 Sai tài khoản hoặc mật khẩu!
+            </div>
+            <div class="alert alert-warning mt-3" th:if="${param.notAdmin}">
+                Tài khoản của bạn không có quyền truy cập. Chỉ quản trị viên (ADMIN) được phép vào hệ thống.
             </div>
         </form>
     </main>

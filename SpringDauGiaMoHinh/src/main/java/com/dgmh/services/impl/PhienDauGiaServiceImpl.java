@@ -6,10 +6,12 @@ package com.dgmh.services.impl;
 
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.repositories.PhienDauGiaRepository;
+import com.dgmh.services.MailService;
 import com.dgmh.services.PhienDauGiaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -20,6 +22,9 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
 
     @Autowired
     private PhienDauGiaRepository phienDauGiaRepository;
+    
+    @Autowired
+    private MailService mailService;
 
     @Override
     public PhienDauGia themPhienDauGia(PhienDauGia p) {
@@ -44,7 +49,36 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
     }
     
     @Override
+    @Transactional
     public boolean capNhatKetQuaPhien(int phienId) {
-        return phienDauGiaRepository.capNhatKetQuaPhien(phienId);
+        phienDauGiaRepository.capNhatKetQuaPhien(phienId);
+
+        PhienDauGia phien = phienDauGiaRepository.getLayPhienTheoId(phienId);
+        if (phien == null) return false;
+
+        boolean ketThuc = "da_ket_thuc".equalsIgnoreCase(phien.getTrangThai());
+        boolean chuaThongBao = (phien.getDaThongBaoKQ() == null) || !phien.getDaThongBaoKQ();
+        boolean coWinner = phien.getNguoiThangDauGia() != null && phien.getGiaChot() != null;
+
+        if (ketThuc && coWinner && chuaThongBao) {
+            String email = phien.getNguoiThangDauGia().getEmail();
+            if (email != null && !email.isBlank()) {
+                try {
+                    mailService.sendWinnerEmail(
+                        email,
+                        phien.getNguoiThangDauGia().getHoTen(),
+                        phien.getSanPham().getTenSanPham(),
+                        phien.getGiaChot()
+                    );
+                    // đánh dấu đã thông báo để không gửi lặp
+                    phien.setDaThongBaoKQ(true);
+                    // vì đang @Transactional và entity managed, flush sẽ tự update
+                    // nếu bạn muốn rõ ràng, thêm repo.update(phien);
+                } catch (Exception ex) {
+                    ex.printStackTrace(); // log, không rollback giao dịch
+                }
+            }
+        }
+        return ketThuc;
     }
 }

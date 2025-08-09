@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 public class MailServiceImpl implements MailService{
     @Autowired
     private JavaMailSender mailSender;
-
-    // Đổi thành email "from" phù hợp (nên trùng với tài khoản app password)
     private static final String FROM = "asamikiri2004@gmail.com";
 
     @Override
@@ -40,5 +38,25 @@ public class MailServiceImpl implements MailService{
              + "Nếu bạn có gặp vấn đề, vui lòng liên hệ bộ phận hỗ trợ.\n\n"
              + "Trân trọng\n"
              + "Đội ngũ hỗ trợ DGMH";
+    }
+    
+     @Override
+    public void sendWinnerEmail(String toEmail, String hoTen, String tenSanPham, Number giaThang) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(FROM);
+        msg.setTo(toEmail);
+        msg.setSubject("Chúc mừng! Bạn đã thắng phiên đấu giá");
+        String ten = (hoTen != null && !hoTen.isBlank()) ? hoTen : "bạn";
+        String gia = String.format("%,d", giaThang.longValue());
+        msg.setText("""
+                Xin chào %s,
+
+                Bạn đã thắng phiên đấu giá cho sản phẩm: %s
+                Giá thắng cuộc: %s đ
+                    
+                Trân trọng
+
+                """.formatted(ten, tenSanPham, gia));
+        mailSender.send(msg);
     }
 }
