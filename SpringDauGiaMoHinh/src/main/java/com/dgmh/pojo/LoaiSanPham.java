@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 
@@ -21,6 +23,10 @@ public class LoaiSanPham implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    @ManyToOne
+    @JoinColumn(name = "nguoiDung_id")
+    private NguoiDung nguoiDung;
     private String tenLoai;
     
     public Integer getId() {
@@ -29,6 +35,14 @@ public class LoaiSanPham implements Serializable{
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public NguoiDung getNguoiDung() {
+    return nguoiDung;
+    }
+
+    public void setNguoiDung(NguoiDung nguoiDung) {
+        this.nguoiDung = nguoiDung;
     }
 
     public String getTenLoai() {

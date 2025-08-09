@@ -9,11 +9,6 @@ const TrangChu = () => {
 
     return (
         <Container className="mt-4">
-            {user && (
-                <h4 className="text-center text-success">
-                    Xin chào, {user.lastName} {user.firstName}!
-                </h4>
-            )}
             <Row className="justify-content-center mb-5">
                 <Col md={8} className="text-center">
                     <h1 className="fw-bold mb-3 text-uppercase">Chào mừng đến với hệ thống đấu giá trực tuyến</h1>

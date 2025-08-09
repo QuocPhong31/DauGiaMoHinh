@@ -42,14 +42,19 @@ const ChiTietBaiDauGia = () => {
     const _end = new Date(phien.thoiGianKetThuc);
     const _ended = new Date() > _end || phien.giaChot !== null;
     const _isOwner = !!(user && _sp?.nguoiDung?.id === user.id);
-    const highest = phien.giaHienTai || 0;
-    const min = phien.giaHienTai > _sp.giaKhoiDiem ? phien.giaHienTai + _sp.buocNhay : _sp.giaKhoiDiem;
+    const highest = phien.giaHienTai ?? null;        // null nếu chưa có ai đặt
+    const hasBid = highest !== null;
+
+    const min = hasBid
+      ? Number(highest) + Number(_sp.buocNhay)
+      : Number(_sp.giaKhoiDiem);
+
     return {
       sp: _sp,
       endTime: _end,
       ended: _ended,
       isOwner: _isOwner,
-      currentHighestBid: highest,
+      currentHighestBid: hasBid ? Number(highest) : 0,
       minBid: min,
     };
   }, [phien, user]);

@@ -72,7 +72,7 @@ const DangSanPham = () => {
       setGiaKhoiDiem("");
       setBuocNhay("");
       setThoiGianKetThuc("");
-      setAvatar(null);
+      setAvatar("");
       setLoaiSanPhamId("");
     } catch (err) {
       console.error(err);
@@ -133,7 +133,7 @@ const DangSanPham = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Hình ảnh sản phẩm</Form.Label>
-            <Form.Control type="file" onChange={(e) => setAvatar(e.target.files[0])} accept="image/*" />
+            <Form.Control type="file" onChange={(e) => setAvatar(e.target.files[0])} accept="image/*" required />
           </Form.Group>
 
           <Button variant="primary" type="submit">

@@ -56,7 +56,8 @@ public class ApiPhienDauGiaController {
             if (max != null) {
                 phien.setGiaHienTai(max.getGiaDau());
             } else {
-                phien.setGiaHienTai(phien.getSanPham().getGiaKhoiDiem());
+                //phien.setGiaHienTai(phien.getSanPham().getGiaKhoiDiem());
+                phien.setGiaHienTai(null);
             }
 
             return ResponseEntity.ok(phien);

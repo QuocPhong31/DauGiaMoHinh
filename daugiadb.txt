@@ -17,7 +17,9 @@ CREATE TABLE nguoidungs (
 -- Bang loai san pham
 CREATE TABLE loaisanpham (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tenLoai VARCHAR(50) NOT NULL
+    nguoiDung_id INT,
+    tenLoai VARCHAR(50) NOT NULL,
+    FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id)
 );
 
 -- Bang san pham
