@@ -138,7 +138,9 @@ const ChiTietBaiDauGia = () => {
             </p>
             <p>
               <strong>Giá hiện tại:</strong>{" "}
-              {phien.giaHienTai > sp.giaKhoiDiem ? `${phien.giaHienTai.toLocaleString()} đ` : "Chưa có"}
+              {phien.giaHienTai != null
+                ? `${phien.giaHienTai.toLocaleString()} đ`
+                : "Chưa có"}
             </p>
 
             {!showForm && (

@@ -22,7 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class PhienDauGiaRepositoryImpl implements PhienDauGiaRepository{
+public class PhienDauGiaRepositoryImpl implements PhienDauGiaRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -57,14 +58,23 @@ public class PhienDauGiaRepositoryImpl implements PhienDauGiaRepository{
         }
         return false;
     }
-    
+
+    @Override
+    public PhienDauGia capNhatPhien(PhienDauGia p) {
+        Session session = this.factory.getObject().getCurrentSession();
+        session.update(p); // hoặc session.merge(p);
+        return p;
+    }
+
     @Override
     public boolean capNhatKetQuaPhien(int phienId) {
         Session session = this.factory.getObject().getCurrentSession();
 
         // Lấy phiên đấu giá
         PhienDauGia phien = session.get(PhienDauGia.class, phienId);
-        if (phien == null) return false;
+        if (phien == null) {
+            return false;
+        }
 
         // Kiểm tra nếu đã kết thúc và chưa có giá chốt
         Date now = new Date();
@@ -83,7 +93,7 @@ public class PhienDauGiaRepositoryImpl implements PhienDauGiaRepository{
                 phien.setNguoiThangDauGia(topBid.getNguoiDung());
             }
             // Cập nhật trạng thái kết thúc dù có người đặt hay không
-            phien.setTrangThai("da_ket_thuc"); 
+            phien.setTrangThai("da_ket_thuc");
             session.update(phien);
             return true;
         }

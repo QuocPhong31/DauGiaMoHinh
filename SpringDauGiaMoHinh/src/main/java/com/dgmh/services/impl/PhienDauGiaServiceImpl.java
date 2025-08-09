@@ -22,7 +22,7 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
 
     @Autowired
     private PhienDauGiaRepository phienDauGiaRepository;
-    
+
     @Autowired
     private MailService mailService;
 
@@ -47,14 +47,21 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
     public boolean duyetPhien(int id) {
         return phienDauGiaRepository.capNhatTrangThai(id, "DUOC_DUYET");
     }
-    
+
+    @Override
+    public PhienDauGia capNhatPhien(PhienDauGia p) {
+        return phienDauGiaRepository.capNhatPhien(p);
+    }
+
     @Override
     @Transactional
     public boolean capNhatKetQuaPhien(int phienId) {
         phienDauGiaRepository.capNhatKetQuaPhien(phienId);
 
         PhienDauGia phien = phienDauGiaRepository.getLayPhienTheoId(phienId);
-        if (phien == null) return false;
+        if (phien == null) {
+            return false;
+        }
 
         boolean ketThuc = "da_ket_thuc".equalsIgnoreCase(phien.getTrangThai());
         boolean chuaThongBao = (phien.getDaThongBaoKQ() == null) || !phien.getDaThongBaoKQ();
@@ -65,10 +72,10 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
             if (email != null && !email.isBlank()) {
                 try {
                     mailService.sendWinnerEmail(
-                        email,
-                        phien.getNguoiThangDauGia().getHoTen(),
-                        phien.getSanPham().getTenSanPham(),
-                        phien.getGiaChot()
+                            email,
+                            phien.getNguoiThangDauGia().getHoTen(),
+                            phien.getSanPham().getTenSanPham(),
+                            phien.getGiaChot()
                     );
                     // đánh dấu đã thông báo để không gửi lặp
                     phien.setDaThongBaoKQ(true);
