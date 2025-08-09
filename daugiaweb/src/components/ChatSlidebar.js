@@ -15,13 +15,9 @@ export default function ChatSidebar({ user, onSelectUser }) {
     }, [user]);
 
     // Không phân quyền, hiển thị toàn bộ user (trừ chính mình)
-    const filteredUsers = users;
-
-    // Search
-    const filtered = filteredUsers.filter(u =>
-    (u.fullname && u.fullname.toLowerCase().includes(search.toLowerCase())) ||
-    (u.username && u.username.toLowerCase().includes(search.toLowerCase()))
-    );
+    // Chỉ lọc theo hoTen (không lọc theo username)
+    const kw = (search || "").toLowerCase().trim();
+    const filtered = users.filter(u => (u.hoTen || "").toLowerCase().includes(kw));
 
     return (
         <div style={{ width: 280, borderRight: "1px solid #ddd", height: "100%" }}>
@@ -47,9 +43,14 @@ export default function ChatSidebar({ user, onSelectUser }) {
                     >
                         <img src={u.avatar || "/default-avatar.png"} alt="avatar" width={36} height={36} style={{ borderRadius: '50%' }} />
                         <div className="ms-2">
-                            <div style={{ fontWeight: 500 }}>{u.hoTen}</div>
-                            <div style={{ fontSize: 12, color: "#888" }}>@{u.username}</div>
-                            <div style={{ fontSize: 11, color: "#666" }}>{u.role}</div>
+                            <div style={{ fontWeight: 500 }}>{u.hoTen || "(Chưa có tên)"}</div>
+                            {/* ẨN username: bỏ hẳn dòng @username */}
+                            {/* <div style={{ fontSize: 12, color: "#888" }}>@{u.username}</div> */}
+                            {u.role && (
+                                <div style={{ fontSize: 11, color: "#666" }}>
+                                    {u.role}
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
