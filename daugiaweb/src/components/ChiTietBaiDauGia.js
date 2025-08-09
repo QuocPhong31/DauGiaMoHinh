@@ -11,6 +11,7 @@ const ChiTietBaiDauGia = () => {
 
   const [phien, setPhien] = useState(null);
   const [giaDauGia, setGiaDauGia] = useState("");
+  const [bids, setBids] = useState([]);
   const [message, setMessage] = useState({ type: "", text: "" });
   const [inputError, setInputError] = useState("");
 
@@ -25,6 +26,16 @@ const ChiTietBaiDauGia = () => {
       }
     };
     fetchPhien();
+
+    const fetchBids = async () => {
+      try {
+        const res = await authApis().get(`${endpoints["lich-su-dat-gia"]}${id}`);
+        setBids(res.data || []);
+      } catch (e) {
+        console.error("Lỗi tải lịch sử đặt giá:", e);
+      }
+    };
+    fetchBids();
   }, [id]);
 
   const { sp, endTime, ended, isOwner, currentHighestBid, minBid } = useMemo(() => {
@@ -107,8 +118,11 @@ const ChiTietBaiDauGia = () => {
       setGiaDauGia("");
 
       // reload phiên
-      const res = await authApis().get(`${endpoints["cuoc-dau-gia"]}/${id}`);
-      setPhien(res.data);
+      const res1 = await authApis().get(`${endpoints["cuoc-dau-gia"]}/${id}`);
+      setPhien(res1.data);
+      //reload lịch sử
+      const res2 = await authApis().get(`${endpoints["lich-su-dat-gia"]}${id}`);
+      setBids(res2.data);
     } catch (err) {
       console.error(err);
       const serverMsg = err?.response?.data || "Lỗi khi đặt giá!";
@@ -184,6 +198,36 @@ const ChiTietBaiDauGia = () => {
                 </Form>
                 {message.text && <Alert variant={message.type} className="mt-3">{message.text}</Alert>}
               </>
+            )}
+          </Card>
+
+          <Card body className="mt-3">
+            <h6 className="mb-3">Lịch sử đặt giá</h6>
+            {bids.length === 0 ? (
+              <div className="text-muted">Chưa có ai đặt giá.</div>
+            ) : (
+              <div className="list-group">
+                {bids.map((b, i) => (
+                  <div key={i} className="list-group-item d-flex align-items-center">
+                    <img
+                      src={b.avatar || "/default-avatar.png"}
+                      alt="avatar"
+                      width={36}
+                      height={36}
+                      style={{ borderRadius: 18, marginRight: 10 }}
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600 }}>
+                        {b.hoTen} {b.caoNhat && <span className="badge bg-success ms-2">Cao nhất</span>}
+                      </div>
+                      <div style={{ fontSize: 12, color: "#666" }}>
+                        {new Date(b.thoiGian).toLocaleString("vi-VN")}
+                      </div>
+                    </div>
+                    <div style={{ fontWeight: 700 }}>{Number(b.giaDau).toLocaleString()} đ</div>
+                  </div>
+                ))}
+              </div>
             )}
           </Card>
         </Col>

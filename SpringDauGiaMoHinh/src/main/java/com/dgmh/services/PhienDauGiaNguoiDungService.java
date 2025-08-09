@@ -16,4 +16,5 @@ public interface PhienDauGiaNguoiDungService {
     List<PhienDauGiaNguoiDung> getLichSuByPhien(int phienId);
     List<PhienDauGiaNguoiDung> getLichSuByNguoiDung(int nguoiDungId);
     PhienDauGiaNguoiDung getGiaCaoNhat(int phienId);
+    List<PhienDauGiaNguoiDung> getByPhien(int phienId);
 }

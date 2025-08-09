@@ -39,4 +39,9 @@ public class PhienDauGiaNguoiDungServiceImpl implements PhienDauGiaNguoiDungServ
     public PhienDauGiaNguoiDung getGiaCaoNhat(int phienId) {
         return phienDauGiaNguoiDungRepository.getGiaCaoNhat(phienId);
     }
+    
+    @Override
+    public List<PhienDauGiaNguoiDung> getByPhien(int phienId) {
+        return phienDauGiaNguoiDungRepository.getByPhien(phienId);
+    }
 }

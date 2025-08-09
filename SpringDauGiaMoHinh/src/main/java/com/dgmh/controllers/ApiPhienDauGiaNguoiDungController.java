@@ -1,5 +1,6 @@
 package com.dgmh.controllers;
 
+import com.dgmh.dto.BidDTO;
 import com.dgmh.pojo.NguoiDung;
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.pojo.PhienDauGiaNguoiDung;
@@ -9,11 +10,14 @@ import com.dgmh.services.PhienDauGiaService;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,5 +110,26 @@ public class ApiPhienDauGiaNguoiDungController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Lỗi xử lý đặt giá: " + e.getMessage());
         }
+    }
+    
+    @GetMapping("/lich-su/{phienId}")
+    public ResponseEntity<?> lichSu(@PathVariable int phienId) {
+        var list = phienDauGiaNguoiDungService.getByPhien(phienId);
+        if (list == null) return ResponseEntity.ok(List.of());
+
+        // tìm giá cao nhất để đánh dấu
+        var max = list.stream().map(PhienDauGiaNguoiDung::getGiaDau)
+                      .max(BigDecimal::compareTo).orElse(null);
+
+        var dto = list.stream().map(b -> new BidDTO(
+                b.getNguoiDung().getHoTen(),
+                b.getNguoiDung().getUsername(),
+                b.getNguoiDung().getAvatar(),
+                b.getGiaDau(),
+                b.getThoiGianDauGia(),
+                max != null && b.getGiaDau().compareTo(max) == 0
+        )).toList();
+
+        return ResponseEntity.ok(dto);
     }
 }

@@ -27,6 +27,7 @@ com\dgmh\repositories\TheoDoiSanPhamRepository.class
 com\dgmh\repositories\PhienDauGiaNguoiDungRepository.class
 com\dgmh\repositories\SanPhamRepository.class
 com\dgmh\pojo\PhienDauGia.class
+com\dgmh\dto\BidDTO.class
 com\dgmh\repositories\LoaiSanPhamRepository.class
 com\dgmh\pojo\NguoiDung.class
 com\dgmh\configs\SecurityWebApplicationInitializer.class

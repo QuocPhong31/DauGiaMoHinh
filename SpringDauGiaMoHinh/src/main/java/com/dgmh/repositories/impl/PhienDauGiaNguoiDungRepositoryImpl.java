@@ -61,4 +61,17 @@ public class PhienDauGiaNguoiDungRepositoryImpl implements PhienDauGiaNguoiDungR
         q.setMaxResults(1);
         return q.uniqueResult();
     }
+    
+    @Override
+    public List<PhienDauGiaNguoiDung> getByPhien(int phienId) {
+        Session s = factory.getObject().getCurrentSession();
+        String hql = """
+            FROM PhienDauGiaNguoiDung pd
+            WHERE pd.phienDauGia.id = :pid
+            ORDER BY pd.giaDau DESC, pd.thoiGianDauGia ASC
+        """;
+        return s.createQuery(hql, PhienDauGiaNguoiDung.class)
+                .setParameter("pid", phienId)
+                .getResultList();
+    }
 }

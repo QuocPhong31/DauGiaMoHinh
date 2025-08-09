@@ -22,6 +22,7 @@ export const endpoints = {
     "bo-theo-doi": "theodoisanpham/xoa",
     "danh-sach-theo-doi": "theodoisanpham/danhsach", // GET
     "kiem-tra-theo-doi": "theodoisanpham/kiemtra",   
+    "lich-su-dat-gia": "phiendaugianguoidung/lich-su/",
 
 };
 

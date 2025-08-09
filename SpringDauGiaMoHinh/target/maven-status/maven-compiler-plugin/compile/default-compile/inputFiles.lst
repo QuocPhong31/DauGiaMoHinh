@@ -16,6 +16,7 @@ D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\IndexContr
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\LoaiSanPhamController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\NguoiDungController.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\controllers\PhienDauGiaController.java
+D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\dto\BidDTO.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\filters\JwtFilter.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\pojo\LoaiSanPham.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\pojo\NguoiDung.java
