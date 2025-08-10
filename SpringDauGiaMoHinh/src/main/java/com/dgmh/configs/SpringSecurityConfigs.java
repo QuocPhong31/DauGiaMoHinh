@@ -87,6 +87,7 @@ public class SpringSecurityConfigs {
                 .requestMatchers("/api/sanpham/**").authenticated()
                 .requestMatchers("/api/phiendaugianguoidung/**").authenticated()
                 .requestMatchers("/api/theodoisanpham/**").permitAll()
+                .requestMatchers("/api/thanhtoan/**").authenticated()
                 // Các đường dẫn khác được phép truy cập công khai
                 .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
