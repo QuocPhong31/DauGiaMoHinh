@@ -14,7 +14,18 @@ const TrangDauGia = () => {
         const fetchPhien = async () => {
             try {
                 const res = await authApis().get(endpoints["cuoc-dau-gia"]);
-                setDsPhien(res.data);
+
+                const now = Date.now();
+                // Chuẩn hoá trạng thái ở client: quá hạn => coi như đã kết thúc
+                const normalized = (res.data || []).map(p => {
+                    const ended =
+                        new Date(p.thoiGianKetThuc).getTime() <= now ||
+                        p.trangThai === "da_ket_thuc" ||
+                        p.giaChot != null;
+                    return ended ? { ...p, trangThai: "da_ket_thuc" } : p;
+                });
+
+                setDsPhien(normalized);
             } catch (err) {
                 console.error("Lỗi khi lấy danh sách phiên:", err);
             } finally {
@@ -33,6 +44,21 @@ const TrangDauGia = () => {
             }
         };
         fetchDsDangTheoDoi();
+
+        // Cập nhật trạng thái mỗi 60s (phòng trường hợp user ở trang lâu)
+        const t = setInterval(() => {
+            setDsPhien(prev => {
+                const now = Date.now();
+                return prev.map(p => {
+                    const ended =
+                        new Date(p.thoiGianKetThuc).getTime() <= now ||
+                        p.trangThai === "da_ket_thuc" ||
+                        p.giaChot != null;
+                    return ended ? { ...p, trangThai: "da_ket_thuc" } : p;
+                });
+            });
+        }, 60000);
+        return () => clearInterval(t);
     }, []);
 
     if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
