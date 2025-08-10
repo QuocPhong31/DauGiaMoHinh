@@ -112,8 +112,9 @@ public class ApiPhienDauGiaNguoiDungController {
         }
     }
     
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     @GetMapping("/lich-su/{phienId}")
-    public ResponseEntity<?> lichSu(@PathVariable int phienId) {
+    public ResponseEntity<?> lichSu(@PathVariable("phienId") int phienId) {
         var list = phienDauGiaNguoiDungService.getByPhien(phienId);
         if (list == null) return ResponseEntity.ok(List.of());
 

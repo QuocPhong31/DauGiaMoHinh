@@ -41,9 +41,10 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 })
 
 public class SpringSecurityConfigs {
+
     @Autowired
     private org.springframework.security.core.userdetails.UserDetailsService userDetailsService;
-    
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -53,61 +54,73 @@ public class SpringSecurityConfigs {
     public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
         return new HandlerMappingIntrospector();
     }
-    
+
     @Bean
     public Cloudinary cloudinary() {
         return new Cloudinary(ObjectUtils.asMap(
-            "cloud_name", "dp4fipzce",
-            "api_key", "228386996632957",
-            "api_secret", "k8HDLZbie2T8UWvC70S7f-SukGY",
-            "secure", true));
+                "cloud_name", "dp4fipzce",
+                "api_key", "228386996632957",
+                "api_secret", "k8HDLZbie2T8UWvC70S7f-SukGY",
+                "secure", true));
     }
-    
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of("http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowCredentials(true);
+
+        // QUAN TRỌNG: thêm allowedHeaders
         config.setAllowedHeaders(List.of("*"));
+        // (hoặc liệt kê cụ thể: "Authorization","Content-Type","Accept","Origin","X-Requested-With","Accept-Language","Referer")
+
+        config.setExposedHeaders(List.of("Authorization"));
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-    
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                // Chỉ bảo vệ đường dẫn bắt đầu bằng /api/secure/**
-                .requestMatchers("/api/secure/**").authenticated()
-                .requestMatchers("/api/sanpham/**").authenticated()
-                .requestMatchers("/api/phiendaugianguoidung/**").authenticated()
-                .requestMatchers("/api/theodoisanpham/**").permitAll()
-                .requestMatchers("/api/thanhtoan/**").authenticated()
-                // Các đường dẫn khác được phép truy cập công khai
-                .requestMatchers("/api/**").permitAll()
+                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(
+                org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                // 1) CHO PHÉP preflight
+                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                // 2) PUBLIC
+                .requestMatchers(org.springframework.http.HttpMethod.GET,
+                        "/api/phiendaugianguoidung/lich-su/**").permitAll() // ⬅ mở public cho lịch sử
+                .requestMatchers("/api/login/**", "/api/public/**").permitAll()
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                // Quyền cho admin, giáo vụ, giảng viên 
+                // 3) CẦN ĐĂNG NHẬP
+                .requestMatchers("/api/phiendaugianguoidung/**").authenticated() // ⬅ giữ yêu cầu auth cho phần còn lại
+                .requestMatchers("/api/sanpham/**").authenticated()
+                .requestMatchers("/api/secure/**").authenticated()
+                // 4) Còn lại trong /api cho phép (nếu bạn muốn GET công khai)
+                .requestMatchers("/api/**").permitAll()
+                // 5) Vai trò
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/user/**").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
+                )
+                .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/", true)
                 .failureUrl("/login?error=true")
                 .permitAll()
-            )
-            .logout(logout -> logout
+                )
+                .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
-            );
+                );
 
         // Đăng ký filter JWT trước UsernamePasswordAuthenticationFilter
         http.addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
