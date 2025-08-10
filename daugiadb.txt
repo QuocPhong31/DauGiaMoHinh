@@ -75,6 +75,24 @@ CREATE TABLE theodoisanphams (
     UNIQUE(nguoiDung_id, phienDauGia_id)
 );
 
+CREATE TABLE donthanhtoan_daugia (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  phienDauGia_id INT NOT NULL,
+  nguoiMua_id INT NOT NULL,            -- người thắng phiên
+  soTien DECIMAL(10,2) NOT NULL,       -- = giaChot
+  trangThai ENUM('PENDING','PAID','CANCELLED') DEFAULT 'PENDING',
+  phuongThuc ENUM('COD','BANK') DEFAULT 'COD',
+  hoTenNhan VARCHAR(100),
+  soDienThoai VARCHAR(20),
+  diaChiNhan TEXT,
+  ghiChu TEXT,
+  ngayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  ngayThanhToan TIMESTAMP NULL,
+  UNIQUE(phienDauGia_id),
+  FOREIGN KEY (phienDauGia_id) REFERENCES phiendaugia(id),
+  FOREIGN KEY (nguoiMua_id) REFERENCES nguoidungs(id)
+);
+
 USE daugiadb;
 UPDATE nguoidungs SET vaiTro = 'ROLE_ADMIN' WHERE username = 'admin';
 INSERT INTO nguoidungs (username, password, email, hoTen, soDienThoai, diaChi, vaiTro, trangThai)
