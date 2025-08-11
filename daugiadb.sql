@@ -16,6 +16,44 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `donthanhtoan_daugia`
+--
+
+DROP TABLE IF EXISTS `donthanhtoan_daugia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `donthanhtoan_daugia` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `phienDauGia_id` int NOT NULL,
+  `nguoiMua_id` int NOT NULL,
+  `soTien` decimal(10,2) NOT NULL,
+  `trangThai` enum('PENDING','PAID','CANCELLED') DEFAULT 'PENDING',
+  `phuongThuc` enum('COD','BANK') DEFAULT 'COD',
+  `hoTenNhan` varchar(100) DEFAULT NULL,
+  `soDienThoai` varchar(20) DEFAULT NULL,
+  `diaChiNhan` text,
+  `ghiChu` text,
+  `ngayTao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `ngayThanhToan` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `phienDauGia_id` (`phienDauGia_id`),
+  KEY `nguoiMua_id` (`nguoiMua_id`),
+  CONSTRAINT `donthanhtoan_daugia_ibfk_1` FOREIGN KEY (`phienDauGia_id`) REFERENCES `phiendaugia` (`id`),
+  CONSTRAINT `donthanhtoan_daugia_ibfk_2` FOREIGN KEY (`nguoiMua_id`) REFERENCES `nguoidungs` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `donthanhtoan_daugia`
+--
+
+LOCK TABLES `donthanhtoan_daugia` WRITE;
+/*!40000 ALTER TABLE `donthanhtoan_daugia` DISABLE KEYS */;
+INSERT INTO `donthanhtoan_daugia` VALUES (1,2,4,220000.00,'PENDING','COD',NULL,NULL,NULL,NULL,'2025-08-11 02:18:04',NULL),(2,1,4,650000.00,'PENDING','COD',NULL,NULL,NULL,NULL,'2025-08-11 02:18:09',NULL),(3,3,2,110000.00,'PENDING','COD',NULL,NULL,NULL,NULL,'2025-08-11 02:22:14',NULL);
+/*!40000 ALTER TABLE `donthanhtoan_daugia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `loaisanpham`
 --
 
@@ -98,7 +136,7 @@ CREATE TABLE `phiendaugia` (
   KEY `nguoiThangDauGia_id` (`nguoiThangDauGia_id`),
   CONSTRAINT `phiendaugia_ibfk_1` FOREIGN KEY (`sanPham_id`) REFERENCES `sanphams` (`id`),
   CONSTRAINT `phiendaugia_ibfk_2` FOREIGN KEY (`nguoiThangDauGia_id`) REFERENCES `nguoidungs` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +145,7 @@ CREATE TABLE `phiendaugia` (
 
 LOCK TABLES `phiendaugia` WRITE;
 /*!40000 ALTER TABLE `phiendaugia` DISABLE KEYS */;
-INSERT INTO `phiendaugia` VALUES (1,1,'2025-08-09 19:06:41','2025-08-09 22:30:00','dang_dien_ra',NULL,NULL,0),(2,2,'2025-08-09 19:15:22','2025-08-09 22:30:00','dang_dien_ra',NULL,NULL,0);
+INSERT INTO `phiendaugia` VALUES (1,1,'2025-08-09 19:06:41','2025-08-09 22:30:00','da_ket_thuc',650000.00,4,1),(2,2,'2025-08-09 19:15:22','2025-08-09 22:30:00','da_ket_thuc',220000.00,4,1),(3,4,'2025-08-11 09:20:12','2025-08-11 09:22:00','da_ket_thuc',110000.00,2,1);
 /*!40000 ALTER TABLE `phiendaugia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,7 +167,7 @@ CREATE TABLE `phiendaugia_nguoidung` (
   KEY `nguoiDung_id` (`nguoiDung_id`),
   CONSTRAINT `phiendaugia_nguoidung_ibfk_1` FOREIGN KEY (`phienDauGia_id`) REFERENCES `phiendaugia` (`id`),
   CONSTRAINT `phiendaugia_nguoidung_ibfk_2` FOREIGN KEY (`nguoiDung_id`) REFERENCES `nguoidungs` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +176,7 @@ CREATE TABLE `phiendaugia_nguoidung` (
 
 LOCK TABLES `phiendaugia_nguoidung` WRITE;
 /*!40000 ALTER TABLE `phiendaugia_nguoidung` DISABLE KEYS */;
-INSERT INTO `phiendaugia_nguoidung` VALUES (1,1,3,500000.00,'2025-08-09 12:27:34'),(2,1,4,550000.00,'2025-08-09 12:30:11'),(3,2,4,220000.00,'2025-08-09 12:30:41'),(4,1,3,600000.00,'2025-08-09 13:31:02'),(5,1,4,650000.00,'2025-08-09 13:32:15');
+INSERT INTO `phiendaugia_nguoidung` VALUES (1,1,3,500000.00,'2025-08-09 12:27:34'),(2,1,4,550000.00,'2025-08-09 12:30:11'),(3,2,4,220000.00,'2025-08-09 12:30:41'),(4,1,3,600000.00,'2025-08-09 13:31:02'),(5,1,4,650000.00,'2025-08-09 13:32:15'),(6,3,2,100000.00,'2025-08-11 02:20:40'),(7,3,2,110000.00,'2025-08-11 02:20:46');
 /*!40000 ALTER TABLE `phiendaugia_nguoidung` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,7 +204,7 @@ CREATE TABLE `sanphams` (
   KEY `loaiSanPham_id` (`loaiSanPham_id`),
   CONSTRAINT `sanphams_ibfk_1` FOREIGN KEY (`nguoiDung_id`) REFERENCES `nguoidungs` (`id`),
   CONSTRAINT `sanphams_ibfk_2` FOREIGN KEY (`loaiSanPham_id`) REFERENCES `loaisanpham` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +213,7 @@ CREATE TABLE `sanphams` (
 
 LOCK TABLES `sanphams` WRITE;
 /*!40000 ALTER TABLE `sanphams` DISABLE KEYS */;
-INSERT INTO `sanphams` VALUES (1,2,1,'APEX Azur Lane Prinz Rupprecht Gate Dragon\'s Advent Scale 1/7','newseal to đẹp có face, tay bonus ','https://res.cloudinary.com/dp4fipzce/image/upload/v1754741205/cetgfefv00firzsa6m6d.jpg',500000.00,50000.00,'2025-08-09 12:06:41','2025-08-09 22:30:00','DUYET'),(2,2,3,'Marin','real, new seal, box đẹp','https://res.cloudinary.com/dp4fipzce/image/upload/v1754741730/efdtmoyfiuoxczr67ycc.jpg',200000.00,20000.00,'2025-08-09 12:15:22','2025-08-09 22:30:00','DUYET');
+INSERT INTO `sanphams` VALUES (1,2,1,'APEX Azur Lane Prinz Rupprecht Gate Dragon\'s Advent Scale 1/7','newseal to đẹp có face, tay bonus ','https://res.cloudinary.com/dp4fipzce/image/upload/v1754741205/cetgfefv00firzsa6m6d.jpg',500000.00,50000.00,'2025-08-09 12:06:41','2025-08-09 22:30:00','DUYET'),(2,2,3,'Marin','real, new seal, box đẹp','https://res.cloudinary.com/dp4fipzce/image/upload/v1754741730/efdtmoyfiuoxczr67ycc.jpg',200000.00,20000.00,'2025-08-09 12:15:22','2025-08-09 22:30:00','DUYET'),(3,3,3,'rem','real','https://res.cloudinary.com/dp4fipzce/image/upload/v1754877468/cztjxwrlrru60xu1kapa.jpg',150000.00,9999.00,'2025-08-11 01:57:33','2025-08-11 09:00:00','KHONG_DUYET'),(4,3,2,'Sakura','1asdasf','https://res.cloudinary.com/dp4fipzce/image/upload/v1754878825/kjppfvzymlha5zjaxdgl.jpg',100000.00,10000.00,'2025-08-11 02:20:12','2025-08-11 09:22:00','DUYET');
 /*!40000 ALTER TABLE `sanphams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,4 +255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-09 20:32:43
+-- Dump completed on 2025-08-11 10:01:30
