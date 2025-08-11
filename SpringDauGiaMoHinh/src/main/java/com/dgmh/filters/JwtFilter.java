@@ -45,9 +45,10 @@ public class JwtFilter implements Filter {
                 || uri.contains("/api/phiendaugia/bai-dau-gia")) {
 
             String header = httpRequest.getHeader("Authorization");
-            System.out.println("URI: " + uri + " | HEADER nhận từ FE: " + header);
+            System.out.println("[JWT] URI=" + uri + " | Header=" + header);
 
             if (header == null || !header.startsWith("Bearer ")) {
+                System.out.println("[JWT] -> NO BEARER -> 401");
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing or invalid Authorization header.");
                 return;
             }
@@ -56,24 +57,18 @@ public class JwtFilter implements Filter {
             try {
                 String username = JwtUtils.validateTokenAndGetUsername(token);
                 if (username != null) {
-                    System.out.println("Token hợp lệ, user: " + username);
-                    httpRequest.setAttribute("username", username);
-
-                    // QUAN TRỌNG: không để authorities = null
+                    System.out.println("[JWT] -> OK user=" + username + " | " + uri);
                     UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-
+                        new UsernamePasswordAuthenticationToken(username, null, java.util.Collections.emptyList());
+                    org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(authentication);
                     chain.doFilter(request, response);
                     return;
                 } else {
-                    System.out.println("Token hết hạn hoặc không hợp lệ");
+                    System.out.println("[JWT] -> INVALID/EXPIRED -> 401");
                 }
             } catch (Exception e) {
-                System.out.println("Lỗi JWT: " + e.getMessage());
-                e.printStackTrace();
+                System.out.println("[JWT] -> EXCEPTION " + e.getMessage());
             }
-
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token không hợp lệ hoặc hết hạn");
             return;
         }

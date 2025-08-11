@@ -73,7 +73,7 @@ const TrangDonThanhToan = () => {
     };
 
     try {
-      await authApis().put(
+      await authApis().post(
         endpoints["thanh-toan-don"](don.id),
         payload,
       );

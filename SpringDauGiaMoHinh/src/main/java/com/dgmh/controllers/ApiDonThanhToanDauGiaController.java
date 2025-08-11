@@ -41,22 +41,22 @@ public class ApiDonThanhToanDauGiaController {
     private NguoiDungService userService;
 
     // Tạo đơn cho phiên đã kết thúc (gọi sau khi xác định winner)
-    @PostMapping("/tao-don/{phienId}")
-    public ResponseEntity<?> taoDon(@PathVariable int phienId) {
-        PhienDauGia p = phienService.getLayPhienTheoId(phienId);
-        if (p == null || p.getGiaChot() == null || p.getNguoiThangDauGia() == null)
-            return ResponseEntity.badRequest().body("Phiên chưa có kết quả");
-
-        if (donService.findByPhien(p) != null)
-            return ResponseEntity.ok("Đơn đã tồn tại");
-
-        DonThanhToanDauGia d = new DonThanhToanDauGia();
-        d.setPhienDauGia(p);
-        d.setNguoiMua(p.getNguoiThangDauGia());
-        d.setSoTien(p.getGiaChot());
-        d.setTrangThai(DonThanhToanDauGia.TrangThai.PENDING);
-        return ResponseEntity.ok(donService.add(d));
-    }
+//    @PostMapping("/tao-don/{phienId}")
+//    public ResponseEntity<?> taoDon(@PathVariable int phienId) {
+//        PhienDauGia p = phienService.getLayPhienTheoId(phienId);
+//        if (p == null || p.getGiaChot() == null || p.getNguoiThangDauGia() == null)
+//            return ResponseEntity.badRequest().body("Phiên chưa có kết quả");
+//
+//        if (donService.findByPhien(p) != null)
+//            return ResponseEntity.ok("Đơn đã tồn tại");
+//
+//        DonThanhToanDauGia d = new DonThanhToanDauGia();
+//        d.setPhienDauGia(p);
+//        d.setNguoiMua(p.getNguoiThangDauGia());
+//        d.setSoTien(p.getGiaChot());
+//        d.setTrangThai(DonThanhToanDauGia.TrangThai.PENDING);
+//        return ResponseEntity.ok(donService.add(d));
+//    }
 
     // Danh sách đơn của tôi (người thắng xem trên Header)
     @GetMapping("/cua-toi")
@@ -67,8 +67,8 @@ public class ApiDonThanhToanDauGiaController {
     }
 
     // Cập nhật thanh toán (COD/BANK + địa chỉ…)
-    @PutMapping("/{donId}/thanh-toan")
-    public ResponseEntity<?> thanhToan(@PathVariable int donId,
+    @PostMapping("/{donId}/thanh-toan")
+    public ResponseEntity<?> thanhToan(@PathVariable("donId") int donId,
                                        @RequestBody Map<String, String> body,
                                        Principal principal) {
         if (principal == null) return ResponseEntity.status(401).build();
