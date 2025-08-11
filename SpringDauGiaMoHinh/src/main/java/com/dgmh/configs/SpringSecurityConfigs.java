@@ -89,7 +89,7 @@ public class SpringSecurityConfigs {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(
-                org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
+                org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
                 // 1) CHO PHÉP preflight
                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
@@ -99,9 +99,10 @@ public class SpringSecurityConfigs {
                 .requestMatchers("/api/login/**", "/api/public/**").permitAll()
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                 // 3) CẦN ĐĂNG NHẬP
-                .requestMatchers("/api/phiendaugianguoidung/**").authenticated() // ⬅ giữ yêu cầu auth cho phần còn lại
-                .requestMatchers("/api/sanpham/**").authenticated()
                 .requestMatchers("/api/secure/**").authenticated()
+                .requestMatchers("/api/sanpham/**").authenticated()
+                .requestMatchers("/api/phiendaugianguoidung/**").authenticated()
+                .requestMatchers("/api/thanhtoan/**").authenticated()
                 // 4) Còn lại trong /api cho phép (nếu bạn muốn GET công khai)
                 .requestMatchers("/api/**").permitAll()
                 // 5) Vai trò

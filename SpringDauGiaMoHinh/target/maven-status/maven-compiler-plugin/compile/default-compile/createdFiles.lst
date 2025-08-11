@@ -42,6 +42,7 @@ com\dgmh\controllers\PhienDauGiaController.class
 com\dgmh\repositories\DonThanhToanDauGiaRepository.class
 com\dgmh\repositories\impl\NguoiDungRepositoryImpl.class
 com\dgmh\services\NguoiDungService.class
+com\dgmh\controllers\ApiDonThanhToanDauGiaController.class
 com\dgmh\services\impl\NguoiDungServiceImpl.class
 com\dgmh\controllers\NguoiDungController.class
 com\dgmh\controllers\IndexController.class

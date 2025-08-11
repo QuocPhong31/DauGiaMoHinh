@@ -40,7 +40,8 @@ public class JwtFilter implements Filter {
         if (uri.contains("/api/secure")
                 || uri.contains("/api/sanpham")
                 || uri.contains("/api/phiendaugianguoidung")
-                || uri.contains("/api/theodoisanpham")) {
+                || uri.contains("/api/theodoisanpham")
+                || uri.contains("/api/thanhtoan")) {
 
             String header = httpRequest.getHeader("Authorization");
             System.out.println("URI: " + uri + " | HEADER nhận từ FE: " + header);

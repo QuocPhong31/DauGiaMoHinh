@@ -6,6 +6,7 @@ package com.dgmh.controllers;
 
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.pojo.PhienDauGiaNguoiDung;
+import com.dgmh.services.DonThanhToanDauGiaService;
 import com.dgmh.services.PhienDauGiaNguoiDungService;
 import com.dgmh.services.PhienDauGiaService;
 import java.util.List;
@@ -33,6 +34,9 @@ public class ApiPhienDauGiaController {
     
     @Autowired
     private PhienDauGiaNguoiDungService phienDauGiaNguoiDungService;
+    
+     @Autowired
+    private DonThanhToanDauGiaService donThanhToanDauGiaService;
 
     @GetMapping("/phiendaugia")
     public List<PhienDauGia> layTatCaPhienDangDienRa() {
@@ -58,6 +62,11 @@ public class ApiPhienDauGiaController {
             } else {
                 //phien.setGiaHienTai(phien.getSanPham().getGiaKhoiDiem());
                 phien.setGiaHienTai(null);
+            }
+            
+            // Nếu có WINNER + giá chốt thì tạo đơn
+            if (phien.getGiaChot() != null && phien.getNguoiThangDauGia() != null) {
+                donThanhToanDauGiaService.taoDon(phien);
             }
 
             return ResponseEntity.ok(phien);

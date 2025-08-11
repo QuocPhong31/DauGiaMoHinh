@@ -43,4 +43,14 @@ public class DonThanhToanDauGiaServiceImpl implements DonThanhToanDauGiaService{
     public DonThanhToanDauGia update(DonThanhToanDauGia d) {
         return repo.update(d);
     }
+    
+    @Override 
+    public DonThanhToanDauGia getById(Integer id){ 
+        return repo.getById(id); 
+    }
+    
+    @Override
+    public DonThanhToanDauGia taoDon(PhienDauGia p) { 
+        return repo.taoDon(p); 
+    }
 }

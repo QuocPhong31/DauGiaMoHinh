@@ -18,4 +18,6 @@ public interface DonThanhToanDauGiaService {
     List<DonThanhToanDauGia> findByNguoiMua(NguoiDung u);
     DonThanhToanDauGia add(DonThanhToanDauGia d);
     DonThanhToanDauGia update(DonThanhToanDauGia d);
+    DonThanhToanDauGia getById(Integer id);
+    DonThanhToanDauGia taoDon(PhienDauGia p);
 }

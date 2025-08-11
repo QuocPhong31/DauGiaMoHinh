@@ -54,4 +54,28 @@ public class DonThanhToanDauGiaRepositoryImpl implements DonThanhToanDauGiaRepos
         s().merge(d);
         return d;
     }
+    
+    @Override
+    public DonThanhToanDauGia getById(Integer id) {
+        return s().get(DonThanhToanDauGia.class, id);
+    }
+    
+    @Override
+    public DonThanhToanDauGia taoDon(PhienDauGia p) {
+        if (p == null || p.getGiaChot() == null || p.getNguoiThangDauGia() == null)
+            return null;
+
+        DonThanhToanDauGia existed = findByPhien(p);
+        if (existed != null) return existed;
+
+        DonThanhToanDauGia d = new DonThanhToanDauGia();
+        d.setPhienDauGia(p);
+        d.setNguoiMua(p.getNguoiThangDauGia());
+        d.setSoTien(p.getGiaChot());
+        d.setTrangThai(DonThanhToanDauGia.TrangThai.PENDING);
+        d.setPhuongThuc(DonThanhToanDauGia.PhuongThuc.COD);
+
+        s().persist(d);
+        return d;
+    }
 }
