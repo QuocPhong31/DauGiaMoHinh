@@ -16,6 +16,8 @@ const Header = () => {
     navigate("/");
   };
 
+  const laNguoiBan = user && (user.vaiTro === "ROLE_NGUOIBAN");
+
   return (
     <Navbar bg="light" expand="lg" className="shadow-sm">
       <Container>
@@ -31,6 +33,12 @@ const Header = () => {
             <Nav.Link as={Link} to="/tintuc">Luật đấu giá</Nav.Link>
             <Nav.Link as={Link} to="/lienhe">Liên hệ với mọi người</Nav.Link>
             <Nav.Link as={Link} to="/thanhtoan">Thanh toán</Nav.Link>
+
+            {laNguoiBan && (
+              <Nav.Link as={Link} to="/quanlybaidau" className="fw-semibold text-success">
+                Quản lý bài đấu
+              </Nav.Link>
+            )}
           </Nav>
 
           <Nav className="d-flex align-items-center gap-3">

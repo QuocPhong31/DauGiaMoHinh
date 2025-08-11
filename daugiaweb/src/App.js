@@ -14,7 +14,7 @@ import DangSanPham from "./components/DangSanPham";
 import TrangDauGia from "./components/TrangDauGia";
 import TrangDonThanhToan from "./components/TrangDonThanhToan";
 import ChiTietBaiDauGia from "./components/ChiTietBaiDauGia";
-import LienHeGopY from "./components/LienHeGopY"
+import QuanLyBaiDauGia from "./components/QuanLyBaiDauGia";
 import LienHe from "./components/LienHe";
 
 import { MyUserContext, MyDispatchContext } from "./configs/Contexts";
@@ -57,8 +57,8 @@ const App = () => {
               <Route path="/taodaugia" element={<DangSanPham />} />
               <Route path="/cuocdaugia" element={<TrangDauGia />} />
               <Route path="/thanhtoan" element={<TrangDonThanhToan />} />
+              <Route path="/quanlybaidau" element={<QuanLyBaiDauGia />} />
               <Route path="/cuoc-dau-gia/:id" element={<ChiTietBaiDauGia />} />
-              <Route path="/lienhegopy" element={<LienHeGopY />} />
               <Route path="/lienhe" element={<LienHe />} />
             </Routes>
           </Container>

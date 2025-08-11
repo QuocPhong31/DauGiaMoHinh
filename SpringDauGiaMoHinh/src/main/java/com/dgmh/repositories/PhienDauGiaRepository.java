@@ -4,6 +4,7 @@
  */
 package com.dgmh.repositories;
 
+import com.dgmh.dto.QuanLyBaiDauDTO;
 import com.dgmh.pojo.PhienDauGia;
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface PhienDauGiaRepository {
     boolean capNhatTrangThai(int id, String trangThai);
     boolean capNhatKetQuaPhien(int phienId);
     PhienDauGia capNhatPhien(PhienDauGia p);
+    List<QuanLyBaiDauDTO> getBaiDauCuaNguoiBan(int sellerId);
 }
