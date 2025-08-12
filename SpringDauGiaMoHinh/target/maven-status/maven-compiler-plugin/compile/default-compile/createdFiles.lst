@@ -13,7 +13,6 @@ com\dgmh\filters\JwtFilter.class
 com\dgmh\services\PhienDauGiaService.class
 com\dgmh\configs\HibernateConfigs.class
 com\dgmh\configs\WebAppContextConfigs.class
-com\dgmh\dto\QuanLyBaiDauDTO.class
 com\dgmh\pojo\SanPham.class
 com\dgmh\configs\DispatcherServletInit.class
 com\dgmh\repositories\impl\PhienDauGiaRepositoryImpl.class

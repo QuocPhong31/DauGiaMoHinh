@@ -89,7 +89,7 @@ public class SpringSecurityConfigs {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(
-                org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
+                org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
                 // 1) CHO PHÉP preflight
                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()

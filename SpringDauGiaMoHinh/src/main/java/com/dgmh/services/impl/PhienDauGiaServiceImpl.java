@@ -4,7 +4,6 @@
  */
 package com.dgmh.services.impl;
 
-import com.dgmh.dto.QuanLyBaiDauDTO;
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.repositories.PhienDauGiaRepository;
 import com.dgmh.services.MailService;
@@ -88,10 +87,5 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
             }
         }
         return ketThuc;
-    }
-    
-    @Override
-    public List<QuanLyBaiDauDTO> getBaiDauCuaNguoiBan(int sellerId) {
-        return this.phienDauGiaRepository.getBaiDauCuaNguoiBan(sellerId);
     }
 }

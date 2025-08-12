@@ -101,44 +101,4 @@ public class PhienDauGiaRepositoryImpl implements PhienDauGiaRepository {
         return false;
     }
 
-    @Override
-    public List<com.dgmh.dto.QuanLyBaiDauDTO> getBaiDauCuaNguoiBan(int sellerId) {
-        Session s = this.factory.getObject().getCurrentSession();
-
-        String hql = """
-        select new com.dgmh.dto.QuanLyBaiDauDTO(
-            p.id,
-            sp.id,
-            sp.tenSanPham,
-            sp.hinhAnh,
-            sp.giaKhoiDiem,
-            coalesce(
-                (case
-                    when p.trangThai = 'da_ket_thuc' and p.giaChot is not null then p.giaChot
-                    else (select max(x.giaDau) from PhienDauGiaNguoiDung x where x.phienDauGia = p)
-                 end),
-                sp.giaKhoiDiem
-            ),
-            p.thoiGianBatDau,
-            p.thoiGianKetThuc,
-            sp.trangThai,
-            p.trangThai,
-            p.giaChot,
-            win.username,
-            pay.trangThai
-        )
-        from PhienDauGia p
-            join p.sanPham sp
-            left join p.nguoiThangDauGia win
-            left join DonThanhToanDauGia pay on pay.phienDauGia = p
-        where sp.nguoiDung.id = :sellerId
-        order by p.thoiGianBatDau desc
-    """;
-
-        Query<com.dgmh.dto.QuanLyBaiDauDTO> q
-                = s.createQuery(hql, com.dgmh.dto.QuanLyBaiDauDTO.class);
-        q.setParameter("sellerId", sellerId);
-        return q.getResultList();
-    }
-
 }

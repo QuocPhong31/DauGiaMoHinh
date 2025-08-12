@@ -4,7 +4,6 @@
  */
 package com.dgmh.controllers;
 
-import com.dgmh.dto.QuanLyBaiDauDTO;
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.pojo.PhienDauGiaNguoiDung;
 import com.dgmh.services.DonThanhToanDauGiaService;
@@ -79,17 +78,6 @@ public class ApiPhienDauGiaController {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy phiên đấu giá");
-    }
-    
-    @GetMapping("/bai-dau-gia")
-    public ResponseEntity<List<QuanLyBaiDauDTO>> getBaiDauGiaCuaNguoiBan(Principal principal) {
-        try {
-            var me = nguoiDungService.getByUsername(principal.getName());
-            return ResponseEntity.ok(phienDauGiaService.getBaiDauCuaNguoiBan(me.getId()));
-        } catch (Exception ex) {
-            ex.printStackTrace(); // xem lỗi chính xác trong console
-        }
-        return null;
     }
 
 }
