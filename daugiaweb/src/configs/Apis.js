@@ -16,6 +16,7 @@ export const endpoints = {
     "add-product": "sanpham/dangsanpham",
     "loai-san-pham": "loaisanpham",
     "cuoc-dau-gia": "phiendaugia/phiendaugia",
+    "quan-ly-bai-dau": "phiendaugia/baidau",
     "dat-gia": "phiendaugianguoidung/dat-gia",
     "chuyen-vai-tro": "secure/chuyen-vai-tro-nguoi-ban",
     "them-theo-doi": "theodoisanpham/them",

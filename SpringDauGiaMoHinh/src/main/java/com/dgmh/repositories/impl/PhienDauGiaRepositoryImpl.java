@@ -100,5 +100,13 @@ public class PhienDauGiaRepositoryImpl implements PhienDauGiaRepository {
 
         return false;
     }
+    
+    public List<PhienDauGia> getPhienDauByNguoiBan(String username) {
+        Session session = this.factory.getObject().getCurrentSession();
+        String hql = "FROM PhienDauGia p WHERE p.sanPham.nguoiDung.username = :username";
+        Query<PhienDauGia> query = session.createQuery(hql, PhienDauGia.class);
+        query.setParameter("username", username);
+        return query.getResultList();
+    }
 
 }

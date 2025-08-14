@@ -4,6 +4,7 @@
  */
 package com.dgmh.controllers;
 
+import com.dgmh.pojo.DonThanhToanDauGia;
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.pojo.PhienDauGiaNguoiDung;
 import com.dgmh.services.DonThanhToanDauGiaService;
@@ -78,6 +79,28 @@ public class ApiPhienDauGiaController {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy phiên đấu giá");
+    }
+    
+    @GetMapping("/baidau")
+    public ResponseEntity<?> layDanhSachBaiDauCuaNguoiBan(Principal principal) {
+        String username = principal.getName();
+        List<PhienDauGia> phienDauGias = phienDauGiaService.getPhienDauByNguoiBan(username);
+
+        if (phienDauGias.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không có bài đấu giá nào.");
+        }
+
+        for (PhienDauGia phien : phienDauGias) {
+            // Lấy giá cao nhất từ các người tham gia đấu giá
+            PhienDauGiaNguoiDung maxBid = phienDauGiaNguoiDungService.getGiaCaoNhat(phien.getId());
+            if (maxBid != null) {
+                phien.setGiaHienTai(maxBid.getGiaDau());  // Cập nhật giá hiện tại
+            } else {
+                phien.setGiaHienTai(null);  // Nếu chưa có ai đấu giá
+            }
+        }
+
+        return ResponseEntity.ok(phienDauGias);
     }
 
 }

@@ -12,6 +12,7 @@ import DangKy from "./components/DangKy";
 import ThongTinCaNhan from "./components/ThongTinCaNhan";
 import DangSanPham from "./components/DangSanPham";
 import TrangDauGia from "./components/TrangDauGia";
+import QuanLyBaiDau from "./components/QuanLyBaiDau";
 import TrangDonThanhToan from "./components/TrangDonThanhToan";
 import ChiTietBaiDauGia from "./components/ChiTietBaiDauGia";
 import LienHe from "./components/LienHe";
@@ -55,6 +56,7 @@ const App = () => {
               <Route path="/thongtincanhan" element={<ThongTinCaNhan />} />
               <Route path="/taodaugia" element={<DangSanPham />} />
               <Route path="/cuocdaugia" element={<TrangDauGia />} />
+              <Route path="/quanlybaidau" element={<QuanLyBaiDau />} />
               <Route path="/thanhtoan" element={<TrangDonThanhToan />} />
               <Route path="/cuoc-dau-gia/:id" element={<ChiTietBaiDauGia />} />
               <Route path="/lienhe" element={<LienHe />} />

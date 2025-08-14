@@ -18,4 +18,5 @@ public interface PhienDauGiaService {
     boolean duyetPhien(int id); // admin duyệt
     boolean capNhatKetQuaPhien(int phienId);
     PhienDauGia capNhatPhien(PhienDauGia p);
+    List<PhienDauGia> getPhienDauByNguoiBan(String username);
 }

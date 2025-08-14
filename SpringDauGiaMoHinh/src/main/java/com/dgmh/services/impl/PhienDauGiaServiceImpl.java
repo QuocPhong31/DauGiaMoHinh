@@ -88,4 +88,9 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
         }
         return ketThuc;
     }
+    
+    @Override
+    public List<PhienDauGia> getPhienDauByNguoiBan(String username) {
+        return phienDauGiaRepository.getPhienDauByNguoiBan(username);
+    }
 }
