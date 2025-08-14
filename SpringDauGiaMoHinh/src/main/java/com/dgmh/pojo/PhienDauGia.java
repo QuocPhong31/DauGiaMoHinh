@@ -29,6 +29,10 @@ public class PhienDauGia implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    @ManyToOne
+    @JoinColumn(name = "nguoiDang_id")
+    private NguoiDung nguoiDang;
 
     @ManyToOne
     @JoinColumn(name = "sanPham_id")
@@ -58,6 +62,14 @@ public class PhienDauGia implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public NguoiDung getNguoiDang() {
+        return nguoiDang;
+    }
+
+    public void setNguoiDang(NguoiDung nguoiDang) {
+        this.nguoiDang = nguoiDang;
     }
 
     public SanPham getSanPham() {
