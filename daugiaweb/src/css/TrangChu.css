@@ -1,0 +1,52 @@
+/* Giao diện banner */
+.banner {
+    background-color: #ff7b7b;
+    padding: 50px 0;
+    border-radius: 10px;
+}
+
+/* Thêm hiệu ứng hover cho các nút */
+.btn-hover {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-hover:hover {
+    background-color: #ff6347;
+    transform: scale(1.05);
+}
+
+/* Hiệu ứng cho các thẻ */
+.effect-card {
+    transition: box-shadow 0.3s ease;
+}
+
+.effect-card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Điều chỉnh kiểu chữ cho tiêu đề và phần mô tả */
+h1, h3 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+.fs-5 {
+    font-size: 18px;
+    color: #333;
+}
+
+.text-white {
+    color: white !important;
+}
+
+.text-dark {
+    color: #333 !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-secondary {
+    color: #6c757d !important;
+}

@@ -22,7 +22,7 @@ const Header = () => {
     <Navbar bg="light" expand="lg" className="shadow-sm">
       <Container>
         <Navbar.Brand as={Link} to="/" className="fw-bold text-danger">
-          <span style={{ fontWeight: "bold", fontSize: "24px" }}>🪙 Auction</span>
+          <span style={{ fontWeight: "bold", fontSize: "24px" }}>🪙 Đấu Giá Mô Hình</span>
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

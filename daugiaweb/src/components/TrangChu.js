@@ -6,7 +6,6 @@ import { MyUserContext } from "../configs/Contexts";
 const TrangChu = () => {
     const user = useContext(MyUserContext);
 
-
     return (
         <Container className="mt-4">
             <Row className="justify-content-center mb-5">
@@ -33,8 +32,10 @@ const TrangChu = () => {
                 <Col md={4}>
                     <Card className="mb-4 shadow">
                         <Card.Body>
-                            <Card.Title>🔨 Tham gia đấu giá</Card.Title>
-                            <Card.Text>Theo dõi và tham gia các phiên đấu giá trực tiếp với nhiều sản phẩm đặc sắc.</Card.Text>
+                            <Link to="/cuocdaugia" className="text-decoration-none text-dark">
+                                <Card.Title>🔨 Tham gia đấu giá</Card.Title>
+                                <Card.Text>Theo dõi và tham gia các phiên đấu giá trực tiếp với nhiều sản phẩm đặc sắc.</Card.Text>
+                            </Link>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -53,9 +54,10 @@ const TrangChu = () => {
                 <Col md={4}>
                     <Card className="mb-4 shadow">
                         <Card.Body>
-                            <Link to="/taodaugia" className="text-decoration-none text-dark"></Link>
-                            <Card.Title>👤 Hồ sơ cá nhân</Card.Title>
-                            <Card.Text>Quản lý thông tin tài khoản, xem lịch sử giao dịch và cập nhật ảnh đại diện.</Card.Text>
+                            <Link to="/thongtincanhan" className="text-decoration-none text-dark">
+                                <Card.Title>👤 Hồ sơ cá nhân</Card.Title>
+                                <Card.Text>Quản lý thông tin tài khoản, xem lịch sử giao dịch và cập nhật ảnh đại diện.</Card.Text>
+                            </Link>
                         </Card.Body>
                     </Card>
                 </Col>

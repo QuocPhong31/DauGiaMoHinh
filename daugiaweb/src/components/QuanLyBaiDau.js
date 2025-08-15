@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Badge } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { authApis, endpoints } from "../configs/Apis";
-import cookie from "react-cookies";
+import { Link } from "react-router-dom";
 
 const QuanLyBaiDau = () => {
   const [baiDau, setBaiDau] = useState([]);
@@ -13,8 +13,8 @@ const QuanLyBaiDau = () => {
         console.log(res); // Kiểm tra kết quả từ API
         setBaiDau(res.data || []);
       } catch (error) {
-        console.error("Request failed with status code:", error.response?.status);
-        console.error("Error details:", error.response?.data);
+        console.error("Yêu cầu thất bại với mã lỗi:", error.response?.status);
+        console.error("Chi tiết lỗi:", error.response?.data);
       }
     };
     fetchBaiDau();
@@ -28,22 +28,40 @@ const QuanLyBaiDau = () => {
           <Col md={4} key={phien.id}>
             <Card className="mb-4">
               <Card.Body>
-                <Card.Title>{phien.sanPham.tenSanPham}</Card.Title>
-                <Card.Text>
-                  <strong>Giá chốt: </strong>
-                  {phien.giaHienTai ? phien.giaHienTai.toLocaleString() : "Chưa có giá chốt"}
-                </Card.Text>
-                {phien.nguoiThangDauGia && (
-                  <Card.Text>
-                    <strong>Người thắng: </strong>
-                    {phien.nguoiThangDauGia.hoTen}
-                  </Card.Text>
-                )}
-                {phien.thanhToan !== undefined && (
-                  <Badge bg={phien.thanhToan ? "success" : "warning"}>
-                    {phien.thanhToan ? "Đã thanh toán" : "Chưa thanh toán"}
-                  </Badge>
-                )}
+                <Row>
+                  <Col md={4}>
+                    <Card.Img
+                      variant="top"
+                      src={phien.sanPham?.hinhAnh || "https://via.placeholder.com/150"}
+                      alt="Hình sản phẩm"
+                      style={{ width: "100%", height: "auto" }}
+                    />
+                  </Col>
+                  <Col md={8}>
+                    <Card.Title>{phien.sanPham.tenSanPham}</Card.Title>
+                    <Card.Text>
+                      <strong>Giá hiện tại: </strong>
+                      {phien.giaHienTai
+                        ? phien.giaHienTai.toLocaleString() + " đ"
+                        : "Chưa có giá chốt"}
+                    </Card.Text>
+                    {phien.nguoiThangDauGia && (
+                      <Card.Text>
+                        <strong>Người thắng: </strong>
+                        {phien.nguoiThangDauGia.hoTen}
+                      </Card.Text>
+                    )}
+                    {phien.thanhToan !== undefined && (
+                      <Card.Text>
+                        <strong>Trạng thái thanh toán: </strong>
+                        {phien.thanhToan ? "Đã thanh toán" : "Chưa thanh toán"}
+                      </Card.Text>
+                    )}
+                    <Link to={`/cuoc-dau-gia/${phien.id}`}>
+                      <Button variant="primary">Xem chi tiết</Button>
+                    </Link>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
           </Col>
