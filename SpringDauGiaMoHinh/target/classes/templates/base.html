@@ -44,6 +44,10 @@
                     <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                         <a class="nav-link" th:href="@{/admin/loaiSanPham}">Thêm loại sản phẩm</a>
                     </li>
+                    
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="nav-link" th:href="@{/admin/thongKeDauGia}">Thống kê đấu giá</a>
+                    </li>
 
 
                     <!-- Cá nhân -->

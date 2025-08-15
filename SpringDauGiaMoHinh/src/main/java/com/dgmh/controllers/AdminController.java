@@ -4,13 +4,17 @@
  */
 package com.dgmh.controllers;
 
+import com.dgmh.dto.ThongKeDTO;
 import com.dgmh.pojo.NguoiDung;
 import com.dgmh.services.MailService;
 import com.dgmh.services.NguoiDungService;
+import com.dgmh.services.ThongKeService;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +34,12 @@ public class AdminController {
 
     @Autowired
     private NguoiDungService nguoiDungService;
-    
+
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private ThongKeService thongKeService;
 
     @GetMapping("")
     public String adminView(Model model) {
@@ -111,5 +118,42 @@ public class AdminController {
         boolean result = nguoiDungService.deleteUser(id);
         redirectAttrs.addFlashAttribute("message", result ? "Xóa người dùng thành công!" : "Xóa người dùng thất bại!");
         return "redirect:/admin";
+    }
+
+    @GetMapping("/thongKeDauGia")
+    public String thongKeDauGia(
+            Model model,
+            @RequestParam(value = "startDate", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        if (endDate == null) {
+            endDate = LocalDate.now();
+        }
+        if (startDate == null) {
+            startDate = endDate.minusDays(30);
+        }
+        if (endDate.isBefore(startDate)) {
+            var t = startDate;
+            startDate = endDate;
+            endDate = t;
+        }
+
+        List<ThongKeDTO> ds = thongKeService.thongKeTheoNgay(startDate, endDate);
+
+        model.addAttribute("auctionStats", ds);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
+        var tongDoanhThu = ds.stream()
+                .map(ThongKeDTO::getTongTien)
+                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+        var tongDon = ds.stream().mapToLong(ThongKeDTO::getSoDonThanhToan).sum();
+
+        model.addAttribute("totalRevenue", tongDoanhThu);
+        model.addAttribute("totalOrders", tongDon);
+
+        return "thongKeDauGia"; // trùng tên file .html
     }
 }

@@ -1,5 +1,7 @@
 com\dgmh\repositories\impl\SanPhamRepositoryImpl.class
 com\dgmh\services\impl\PhienDauGiaServiceImpl.class
+com\dgmh\dto\ThongKeDTO.class
+com\dgmh\repositories\ThongKeRepository.class
 com\dgmh\services\impl\DonThanhToanDauGiaServiceImpl.class
 com\dgmh\pojo\LoaiSanPham.class
 com\dgmh\services\impl\TheoDoiSanPhamServiceImpl.class
@@ -21,6 +23,7 @@ com\dgmh\services\impl\LoaiSanPhamServiceImpl.class
 com\dgmh\services\PhienDauGiaNguoiDungService.class
 com\dgmh\pojo\DonThanhToanDauGia$TrangThai.class
 com\dgmh\repositories\impl\PhienDauGiaNguoiDungRepositoryImpl.class
+com\dgmh\repositories\impl\ThongKeRepositoryImpl.class
 com\dgmh\repositories\PhienDauGiaRepository.class
 com\dgmh\services\DonThanhToanDauGiaService.class
 com\dgmh\repositories\impl\TheoDoiSanPhamRepositoryImpl.class
@@ -29,6 +32,7 @@ com\dgmh\controllers\ApiNguoiDungController.class
 com\dgmh\repositories\TheoDoiSanPhamRepository.class
 com\dgmh\repositories\PhienDauGiaNguoiDungRepository.class
 com\dgmh\repositories\SanPhamRepository.class
+com\dgmh\services\ThongKeService.class
 com\dgmh\pojo\DonThanhToanDauGia.class
 com\dgmh\pojo\PhienDauGia.class
 com\dgmh\dto\BidDTO.class
@@ -61,3 +65,4 @@ com\dgmh\controllers\ApiLoaiSanPhamController.class
 com\dgmh\repositories\NguoiDungRepository.class
 com\dgmh\controllers\LoaiSanPhamController.class
 com\dgmh\pojo\DonThanhToanDauGia$PhuongThuc.class
+com\dgmh\services\impl\ThongKeServiceImpl.class

@@ -108,6 +108,7 @@ public class SpringSecurityConfigs {
                 // 4) Còn lại trong /api cho phép (nếu bạn muốn GET công khai)
                 .requestMatchers("/api/**").permitAll()
                 // 5) Vai trò
+                .requestMatchers("/admin/thongKeDauGia").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/user/**").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()

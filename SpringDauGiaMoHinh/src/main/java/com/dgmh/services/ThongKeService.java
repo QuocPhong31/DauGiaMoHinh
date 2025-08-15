@@ -8,6 +8,11 @@ package com.dgmh.services;
  *
  * @author Tran Quoc Phong
  */
+import com.dgmh.dto.ThongKeDTO;
+import java.time.LocalDate;
+import java.util.List;
+
 public interface ThongKeService {
-    
+    List<ThongKeDTO> thongKeTheoNgay(LocalDate tuNgay, LocalDate denNgay);
 }
+
