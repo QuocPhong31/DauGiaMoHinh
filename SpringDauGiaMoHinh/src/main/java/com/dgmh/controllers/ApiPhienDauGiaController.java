@@ -5,6 +5,7 @@
 package com.dgmh.controllers;
 
 import com.dgmh.pojo.DonThanhToanDauGia;
+import com.dgmh.pojo.NguoiDung;
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.pojo.PhienDauGiaNguoiDung;
 import com.dgmh.services.DonThanhToanDauGiaService;
@@ -84,7 +85,16 @@ public class ApiPhienDauGiaController {
     @GetMapping("/baidau")
     public ResponseEntity<?> layDanhSachBaiDauCuaNguoiBan(Principal principal) {
         String username = principal.getName();
-        List<PhienDauGia> phienDauGias = phienDauGiaService.getPhienDauByNguoiBan(username);
+
+        // Lấy người dùng từ service hoặc cơ sở dữ liệu
+        NguoiDung nguoiDung = nguoiDungService.getByUsername(username);
+
+        if (nguoiDung == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng.");
+        }
+
+        // Lấy các phiên đấu giá theo nguoiDang_id của người dùng hiện tại
+        List<PhienDauGia> phienDauGias = phienDauGiaService.getPhienDauByNguoiDangId(nguoiDung.getId());
 
         if (phienDauGias.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không có bài đấu giá nào.");

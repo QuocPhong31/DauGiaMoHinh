@@ -18,5 +18,5 @@ public interface PhienDauGiaRepository {
     boolean capNhatTrangThai(int id, String trangThai);
     boolean capNhatKetQuaPhien(int phienId);
     PhienDauGia capNhatPhien(PhienDauGia p);
-    List<PhienDauGia> getPhienDauByNguoiBan(String username);
+    List<PhienDauGia> getPhienDauByNguoiDangId(int nguoiDangId);
 }

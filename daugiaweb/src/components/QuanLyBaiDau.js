@@ -8,8 +8,14 @@ const QuanLyBaiDau = () => {
 
   useEffect(() => {
     const fetchBaiDau = async () => {
-      const res = await authApis().get(endpoints["quan-ly-bai-dau"]);
-      setBaiDau(res.data || []);
+      try {
+        const res = await authApis().get(endpoints["quan-ly-bai-dau"]);
+        console.log(res); // Kiểm tra kết quả từ API
+        setBaiDau(res.data || []);
+      } catch (error) {
+        console.error("Request failed with status code:", error.response?.status);
+        console.error("Error details:", error.response?.data);
+      }
     };
     fetchBaiDau();
   }, []);

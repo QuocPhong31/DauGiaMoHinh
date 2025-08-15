@@ -42,6 +42,7 @@ public class JwtFilter implements Filter {
                 || uri.contains("/api/phiendaugianguoidung")
                 || uri.contains("/api/theodoisanpham")
                 || uri.contains("/api/thanhtoan")
+                || uri.contains("/api/phiendaugia/baidau")
                 || uri.contains("/api/phiendaugia/bai-dau-gia")) {
 
             String header = httpRequest.getHeader("Authorization");

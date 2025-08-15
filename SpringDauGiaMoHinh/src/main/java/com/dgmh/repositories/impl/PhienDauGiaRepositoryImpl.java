@@ -101,11 +101,11 @@ public class PhienDauGiaRepositoryImpl implements PhienDauGiaRepository {
         return false;
     }
     
-    public List<PhienDauGia> getPhienDauByNguoiBan(String username) {
+    public List<PhienDauGia> getPhienDauByNguoiDangId(int nguoiDangId) {
         Session session = this.factory.getObject().getCurrentSession();
-        String hql = "FROM PhienDauGia p WHERE p.sanPham.nguoiDung.username = :username";
+        String hql = "FROM PhienDauGia p WHERE p.nguoiDang.id = :nguoiDangId";
         Query<PhienDauGia> query = session.createQuery(hql, PhienDauGia.class);
-        query.setParameter("username", username);
+        query.setParameter("nguoiDangId", nguoiDangId);
         return query.getResultList();
     }
 

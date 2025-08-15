@@ -90,7 +90,7 @@ public class PhienDauGiaServiceImpl implements PhienDauGiaService {
     }
     
     @Override
-    public List<PhienDauGia> getPhienDauByNguoiBan(String username) {
-        return phienDauGiaRepository.getPhienDauByNguoiBan(username);
+    public List<PhienDauGia> getPhienDauByNguoiDangId(int nguoiDangId) {
+        return phienDauGiaRepository.getPhienDauByNguoiDangId(nguoiDangId);
     }
 }
