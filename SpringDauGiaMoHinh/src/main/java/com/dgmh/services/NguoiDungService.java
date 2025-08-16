@@ -18,6 +18,8 @@ public interface NguoiDungService extends UserDetailsService {
     NguoiDung getByUsername(String username); 
     NguoiDung getById(int id);
     NguoiDung addUser(NguoiDung user);
+    boolean khoaUser(int id);
+    boolean moKhoaUser(int id);
     NguoiDung mergeUser(NguoiDung user);
     NguoiDung addUser(Map<String, String> params, MultipartFile avatar); 
     boolean authenticate(String username, String rawPassword);

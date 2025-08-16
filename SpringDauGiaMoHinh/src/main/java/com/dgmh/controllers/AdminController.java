@@ -112,11 +112,36 @@ public class AdminController {
         redirectAttrs.addFlashAttribute("message", "Thêm người dùng thành công!");
         return "redirect:/admin";
     }
+    
+    @PostMapping("/khoa-user")
+    public String khoaUser(@RequestParam("userId") int id, RedirectAttributes redirectAttrs) {
+        boolean result = nguoiDungService.khoaUser(id);
+        redirectAttrs.addFlashAttribute("message", result ? "Đã khóa tài khoản thành công!" : "Khóa tài khoản thất bại!");
+        return "redirect:/admin";
+    }
 
     @PostMapping("/delete-user")
     public String deleteUser(@RequestParam("userId") int id, RedirectAttributes redirectAttrs) {
-        boolean result = nguoiDungService.deleteUser(id);
-        redirectAttrs.addFlashAttribute("message", result ? "Xóa người dùng thành công!" : "Xóa người dùng thất bại!");
+        try {
+            boolean result = nguoiDungService.deleteUser(id);
+
+            if (result) {
+                redirectAttrs.addFlashAttribute("message", "Xóa người dùng thành công!");
+            } else {
+                redirectAttrs.addFlashAttribute("message", "Không thể xóa người dùng này được, chỉ có thể khóa.");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(); // hoặc log.error
+            redirectAttrs.addFlashAttribute("message", "Không thể xóa người dùng này được, chỉ có thể khóa.");
+        }
+
+        return "redirect:/admin";
+    }
+    
+    @PostMapping("/mo-khoa-user")
+    public String moKhoaUser(@RequestParam("userId") int id, RedirectAttributes redirectAttrs) {
+        boolean result = nguoiDungService.moKhoaUser(id);
+        redirectAttrs.addFlashAttribute("message", result ? "Tài khoản đã được mở khóa!" : "Mở khóa thất bại!");
         return "redirect:/admin";
     }
 

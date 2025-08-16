@@ -86,6 +86,16 @@ public class NguoiDungServiceImpl implements NguoiDungService, UserDetailsServic
     }
 
     @Override
+    public boolean khoaUser(int id) {
+        return nguoiDungRepo.khoaUser(id);
+    }
+    
+    @Override
+    public boolean moKhoaUser(int id) {
+        return nguoiDungRepo.moKhoaUser(id);
+    }
+
+    @Override
     public NguoiDung mergeUser(NguoiDung user) {
         // Nếu đã có user (tức là đã có ID), gọi merge để cập nhật
         return nguoiDungRepo.merge(user);  // Dùng merge để cập nhật thay vì persist

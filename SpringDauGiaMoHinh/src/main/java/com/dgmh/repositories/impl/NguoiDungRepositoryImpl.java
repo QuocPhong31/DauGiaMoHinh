@@ -54,6 +54,30 @@ public class NguoiDungRepositoryImpl implements NguoiDungRepository{
         s.persist(u);
         return u;
     }
+    
+    @Override
+    public boolean khoaUser(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        NguoiDung user = session.get(NguoiDung.class, id);
+        if (user != null) {
+            user.setTrangThai("BI_KHOA");
+            session.update(user);
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean moKhoaUser(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        NguoiDung user = session.get(NguoiDung.class, id);
+        if (user != null && "BI_KHOA".equals(user.getTrangThai())) {
+            user.setTrangThai("DUOC_DUYET");
+            session.update(user);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public NguoiDung merge(NguoiDung u) {
