@@ -24,9 +24,24 @@ public class LoaiSanPhamServiceImpl implements LoaiSanPhamService{
     public LoaiSanPham addLoaiSanPham(LoaiSanPham loaiSanPham) {
         return loaiSanPhamRepository.add(loaiSanPham);
     }
+    
+    @Override
+    public List<LoaiSanPham> getLoaiSanPhamHoatDong() {
+        return loaiSanPhamRepository.getLoaiSanPhamHoatDong();
+    }
+    
+    @Override
+    public boolean deleteLoaiSanPham(int id) {
+        return loaiSanPhamRepository.deleteLoaiSanPham(id);
+    }
 
     @Override
-    public List<LoaiSanPham> getAllLoaiSanPham() {
-        return loaiSanPhamRepository.getAll();
+    public boolean khoaLoaiSanPham(int id) {
+        return loaiSanPhamRepository.khoaLoaiSanPham(id);
+    }
+
+    @Override
+    public boolean moKhoaLoaiSanPham(int id) {
+        return loaiSanPhamRepository.moKhoaLoaiSanPham(id);
     }
 }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <meta charset="UTF-8">
-    <title>Thêm loại sản phẩm</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>Thêm loại sản phẩm</title>
     <th:block th:replace="base :: styles"></th:block>
 </head>
 <body>
@@ -28,12 +28,36 @@
             <tr>
                 <th>ID</th>
                 <th>Tên loại</th>
+                <th>Trạng thái</th>
+                <th>Xóa loại sản phẩm</th>
+                <th>Khóa/Mở khóa</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="l : ${dsLoai}">
                 <td th:text="${l.id}"></td>
                 <td th:text="${l.tenLoai}"></td>
+                <td th:text="${l.trangThai}"></td>
+                <!-- Cột: Xóa loại sản phẩm -->
+                <td>
+                    <form th:action="@{/admin/xoa-loai}" method="post">
+                        <input type="hidden" name="id" th:value="${l.id}" />
+                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    </form>
+                </td>
+
+                <!-- Cột: Khóa / Mở khóa -->
+                <td>
+                    <form th:action="@{/admin/khoa-loai}" method="post" th:if="${l.trangThai != 'BI_KHOA'}">
+                        <input type="hidden" name="id" th:value="${l.id}" />
+                        <button type="submit" class="btn btn-warning btn-sm">Khóa</button>
+                    </form>
+
+                    <form th:action="@{/admin/mo-khoa-loai}" method="post" th:if="${l.trangThai == 'BI_KHOA'}">
+                        <input type="hidden" name="id" th:value="${l.id}" />
+                        <button type="submit" class="btn btn-success btn-sm">Mở khóa</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>

@@ -25,6 +25,6 @@ public class ApiLoaiSanPhamController {
 
     @GetMapping("/loaisanpham")
     public ResponseEntity<?> getAllLoaiSanPham() {
-        return ResponseEntity.ok(loaiSanPhamService.getAllLoaiSanPham());
+        return ResponseEntity.ok(loaiSanPhamService.getLoaiSanPhamHoatDong());
     }
 }

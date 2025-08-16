@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -50,6 +51,42 @@ public class LoaiSanPhamController {
             loaiSanPhamService.addLoaiSanPham(loaiSanPham);
             model.addAttribute("successMessage", "Thêm loại sản phẩm thành công!");
         }
+        model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
+        return "loaiSanPham";
+    }
+    
+    @PostMapping("/admin/xoa-loai")
+    public String xoaLoai(@RequestParam("id") int id, Model model) {
+        try {
+            boolean result = loaiSanPhamService.deleteLoaiSanPham(id);
+            if (result) {
+                model.addAttribute("successMessage", "Xóa loại sản phẩm thành công!");
+            } else {
+                model.addAttribute("successMessage", "Không thể xóa và bạn phải khóa loại sản phẩm!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("successMessage", "Không thể xóa và bạn phải khóa loại sản phẩm!");
+        }
+
+        model.addAttribute("loaiSanPham", new LoaiSanPham());
+        model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
+        return "loaiSanPham";
+    }
+
+    @PostMapping("/admin/khoa-loai")
+    public String khoaLoai(@RequestParam("id") int id, Model model) {
+        loaiSanPhamService.khoaLoaiSanPham(id);
+        model.addAttribute("successMessage", "Đã khóa loại sản phẩm!");
+        model.addAttribute("loaiSanPham", new LoaiSanPham());
+        model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
+        return "loaiSanPham";
+    }
+
+    @PostMapping("/admin/mo-khoa-loai")
+    public String moKhoaLoai(@RequestParam("id") int id, Model model) {
+        loaiSanPhamService.moKhoaLoaiSanPham(id);
+        model.addAttribute("successMessage", "Đã mở khóa loại sản phẩm!");
+        model.addAttribute("loaiSanPham", new LoaiSanPham());
         model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
         return "loaiSanPham";
     }

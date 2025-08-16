@@ -19,6 +19,7 @@ CREATE TABLE loaisanpham (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nguoiDung_id INT,
     tenLoai VARCHAR(50) NOT NULL,
+    trangThai VARCHAR(20) DEFAULT 'HOAT_DONG',
     FOREIGN KEY (nguoiDung_id) REFERENCES nguoidungs(id)
 );
 

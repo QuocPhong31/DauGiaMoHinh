@@ -4,6 +4,7 @@
  */
 package com.dgmh.pojo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +30,9 @@ public class LoaiSanPham implements Serializable{
     private NguoiDung nguoiDung;
     private String tenLoai;
     
+    @Column(name = "trangThai")
+    private String trangThai;
+    
     public Integer getId() {
         return id;
     }
@@ -51,5 +55,13 @@ public class LoaiSanPham implements Serializable{
 
     public void setTenLoai(String tenLoai) {
         this.tenLoai = tenLoai;
+    }
+    
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 }

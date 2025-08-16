@@ -13,5 +13,8 @@ import java.util.List;
  */
 public interface LoaiSanPhamService {
     LoaiSanPham addLoaiSanPham(LoaiSanPham loaiSanPham);
-    List<LoaiSanPham> getAllLoaiSanPham();
+    List<LoaiSanPham> getLoaiSanPhamHoatDong();
+    boolean deleteLoaiSanPham(int id);
+    boolean khoaLoaiSanPham(int id);
+    boolean moKhoaLoaiSanPham(int id);
 }

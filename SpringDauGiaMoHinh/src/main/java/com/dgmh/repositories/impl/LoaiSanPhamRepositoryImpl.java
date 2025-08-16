@@ -30,11 +30,52 @@ public class LoaiSanPhamRepositoryImpl implements LoaiSanPhamRepository{
         session.persist(loaiSanPham);
         return loaiSanPham;
     }
+    
+    @Override
+    public List<LoaiSanPham> getLoaiSanPhamHoatDong() {
+        Session session = this.factory.getObject().getCurrentSession();
+        String hql = "FROM LoaiSanPham WHERE trangThai = :status";
+        Query<LoaiSanPham> query = session.createQuery(hql, LoaiSanPham.class);
+        query.setParameter("status", "HOAT_DONG");
+        return query.getResultList();
+    }
+    
+    @Override
+    public boolean deleteLoaiSanPham(int id) {
+        try {
+            Session session = this.factory.getObject().getCurrentSession();
+            LoaiSanPham loai = session.get(LoaiSanPham.class, id);
+            if (loai != null) {
+                session.delete(loai);
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
 
     @Override
-    public List<LoaiSanPham> getAll() {
+    public boolean khoaLoaiSanPham(int id) {
         Session session = this.factory.getObject().getCurrentSession();
-        Query<LoaiSanPham> query = session.createQuery("FROM LoaiSanPham", LoaiSanPham.class);
-        return query.getResultList();
+        LoaiSanPham loai = session.get(LoaiSanPham.class, id);
+        if (loai != null) {
+            loai.setTrangThai("BI_KHOA");
+            session.update(loai);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean moKhoaLoaiSanPham(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        LoaiSanPham loai = session.get(LoaiSanPham.class, id);
+        if (loai != null) {
+            loai.setTrangThai("HOAT_DONG");
+            session.update(loai);
+            return true;
+        }
+        return false;
     }
 }
