@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class LoaiSanPhamRepositoryImpl implements LoaiSanPhamRepository{
+public class LoaiSanPhamRepositoryImpl implements LoaiSanPhamRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -30,16 +31,15 @@ public class LoaiSanPhamRepositoryImpl implements LoaiSanPhamRepository{
         session.persist(loaiSanPham);
         return loaiSanPham;
     }
-    
+
     @Override
     public List<LoaiSanPham> getLoaiSanPhamHoatDong() {
         Session session = this.factory.getObject().getCurrentSession();
-        String hql = "FROM LoaiSanPham WHERE trangThai = :status";
+        String hql = "FROM LoaiSanPham WHERE trangThai IN ('HOAT_DONG', 'BI_KHOA')";
         Query<LoaiSanPham> query = session.createQuery(hql, LoaiSanPham.class);
-        query.setParameter("status", "HOAT_DONG");
         return query.getResultList();
     }
-    
+
     @Override
     public boolean deleteLoaiSanPham(int id) {
         try {

@@ -1,10 +1,11 @@
 import { useState, useContext } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
+import { Form, Button, Alert, Container } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import cookie from "react-cookies";
 import Apis, { authApis, endpoints } from "../configs/Apis";
 import { MyDispatchContext } from "../configs/Contexts";
 import MySpinner from "./layout/MySpinner";
+import '../css/DangNhap.css';
 
 const DangNhap = () => {
     const [user, setUser] = useState({});
@@ -36,11 +37,11 @@ const DangNhap = () => {
     };
 
     return (
-        <>
-            <h2 className="text-center mt-3">Đăng nhập</h2>
+        <Container className="login-container">
+            <h2 className="text-center mb-4">Đăng nhập</h2>
             {msg && <Alert variant="danger">{msg}</Alert>}
 
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className="form-style">
                 <Form.Group className="mb-3">
                     <Form.Control
                         type="text"
@@ -48,6 +49,7 @@ const DangNhap = () => {
                         value={user.username || ""}
                         onChange={e => setUser({ ...user, username: e.target.value })}
                         required
+                        className="form-input"
                     />
                 </Form.Group>
 
@@ -58,14 +60,15 @@ const DangNhap = () => {
                         value={user.password || ""}
                         onChange={e => setUser({ ...user, password: e.target.value })}
                         required
+                        className="form-input"
                     />
                 </Form.Group>
 
                 <div className="text-center">
-                    {loading ? <MySpinner /> : <Button type="submit" variant="success">Đăng nhập</Button>}
+                    {loading ? <MySpinner /> : <Button type="submit" variant="success" className="submit-button">Đăng nhập</Button>}
                 </div>
             </Form>
-        </>
+        </Container>
     );
 };
 

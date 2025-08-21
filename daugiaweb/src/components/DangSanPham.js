@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Alert, Container, Card } from "react-bootstrap";
 import { endpoints, authApis } from "../configs/Apis";
 import cookie from "react-cookies";
+import "../css/DangSanPham.css";  // Thêm file CSS cho giao diện
 
 const DangSanPham = () => {
   const [dsLoai, setDsLoai] = useState([]);
@@ -16,12 +17,12 @@ const DangSanPham = () => {
 
   useEffect(() => {
     const fetchLoaiSP = async () => {
-        try {
+      try {
         const res = await authApis().get(endpoints["loai-san-pham"]);
         setDsLoai(res.data);
-        } catch (err) {
+      } catch (err) {
         console.error("Lỗi khi load loại sản phẩm:", err);
-        }
+      }
     };
     fetchLoaiSP();
   }, []);
@@ -85,8 +86,8 @@ const DangSanPham = () => {
 
   return (
     <Container className="mt-5">
-      <Card className="p-4 shadow">
-        <h4 className="mb-4">📄 Tạo Sản Phẩm Đấu Giá</h4>
+      <Card className="p-4 shadow rounded-3">
+        <h4 className="mb-4 text-center">📄 Tạo Sản Phẩm Đấu Giá</h4>
         {message && <Alert variant={message.type}>{message.text}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
@@ -113,12 +114,24 @@ const DangSanPham = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Giá khởi điểm</Form.Label>
-            <Form.Control type="number" value={giaKhoiDiem} onChange={(e) => setGiaKhoiDiem(e.target.value)} required />
+            <Form.Control
+              type="number"
+              value={giaKhoiDiem}
+              onChange={(e) => setGiaKhoiDiem(e.target.value)}
+              required
+              className="custom-input-number"
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Bước nhảy</Form.Label>
-            <Form.Control type="number" value={buocNhay} onChange={(e) => setBuocNhay(e.target.value)} required />
+            <Form.Control
+              type="number"
+              value={buocNhay}
+              onChange={(e) => setBuocNhay(e.target.value)}
+              required
+              className="custom-input-number"
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -136,7 +149,7 @@ const DangSanPham = () => {
             <Form.Control type="file" onChange={(e) => setAvatar(e.target.files[0])} accept="image/*" required />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className="w-100">
             Đăng sản phẩm
           </Button>
         </Form>

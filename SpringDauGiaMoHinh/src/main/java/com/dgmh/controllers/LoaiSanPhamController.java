@@ -34,7 +34,7 @@ public class LoaiSanPhamController {
     @GetMapping("/admin/loaiSanPham")
     public String loaiSanPhamForm(Model model) {
         model.addAttribute("loaiSanPham", new LoaiSanPham());
-        model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
         return "loaiSanPham";
     }
 
@@ -47,11 +47,12 @@ public class LoaiSanPhamController {
         if (!result.hasErrors()) {
             String username = principal.getName();
             loaiSanPham.setNguoiDung(nguoiDungService.getByUsername(username));
+            loaiSanPham.setTrangThai("HOAT_DONG");
             
             loaiSanPhamService.addLoaiSanPham(loaiSanPham);
             model.addAttribute("successMessage", "Thêm loại sản phẩm thành công!");
         }
-        model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
         return "loaiSanPham";
     }
     
@@ -69,7 +70,7 @@ public class LoaiSanPhamController {
         }
 
         model.addAttribute("loaiSanPham", new LoaiSanPham());
-        model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
         return "loaiSanPham";
     }
 
@@ -78,7 +79,7 @@ public class LoaiSanPhamController {
         loaiSanPhamService.khoaLoaiSanPham(id);
         model.addAttribute("successMessage", "Đã khóa loại sản phẩm!");
         model.addAttribute("loaiSanPham", new LoaiSanPham());
-        model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
         return "loaiSanPham";
     }
 
@@ -87,7 +88,7 @@ public class LoaiSanPhamController {
         loaiSanPhamService.moKhoaLoaiSanPham(id);
         model.addAttribute("successMessage", "Đã mở khóa loại sản phẩm!");
         model.addAttribute("loaiSanPham", new LoaiSanPham());
-        model.addAttribute("dsLoai", loaiSanPhamService.getAllLoaiSanPham());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
         return "loaiSanPham";
     }
 }

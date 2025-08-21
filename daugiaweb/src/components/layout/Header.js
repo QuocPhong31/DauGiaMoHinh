@@ -30,7 +30,13 @@ const Header = () => {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Trang chủ</Nav.Link>
             <Nav.Link as={Link} to="/cuocdaugia">Cuộc đấu giá</Nav.Link>
-            <Nav.Link as={Link} to="/tintuc">Luật đấu giá</Nav.Link>
+
+            {laNguoiBan && (
+              <Nav.Link as={Link} to="/taodaugia" >
+                Tạo đấu giá
+              </Nav.Link>
+            )}
+
             <Nav.Link as={Link} to="/lienhe">Liên hệ với mọi người</Nav.Link>
             <Nav.Link as={Link} to="/thanhtoan">Thanh toán</Nav.Link>
 

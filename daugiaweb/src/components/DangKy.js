@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { authApis, endpoints } from '../configs/Apis'; // Nhập cấu hình API
+import { authApis, endpoints } from '../configs/Apis';
 import cookie from 'react-cookies';
+import '../css/DangKy.css';
 
 const DangKy = () => {
   const [formData, setFormData] = useState({
@@ -48,9 +49,7 @@ const DangKy = () => {
       if (key !== 'confirmPassword') {
         data.append(key, formData[key]);
       }
-    })
-
-    data.append('vaiTro', 'ROLE_NGUOIMUA');
+    });
 
     try {
       const res = await authApis().post(endpoints['add-user'], data, {
@@ -65,15 +64,21 @@ const DangKy = () => {
     }
   };
 
+  // Hàm tự động điều chỉnh chiều cao của textarea khi người dùng nhập
+  const handleAutoResize = (e) => {
+    e.target.style.height = 'auto';  // Đặt chiều cao về 'auto' để đo chiều cao mới
+    e.target.style.height = `${e.target.scrollHeight}px`;  // Cập nhật chiều cao theo chiều dài nội dung
+  };
+
 
   return (
-    <Container className="mt-5">
+    <Container className="signup-container">
       <Row className="justify-content-center">
         <Col md={6}>
           <h2 className="text-center mb-4">Đăng ký tài khoản</h2>
           {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
           {successMessage && <Alert variant="success">{successMessage}</Alert>}
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} className="form-style">
             <Form.Group controlId="username" className="mb-3">
               <Form.Label>Tài khoản</Form.Label>
               <Form.Control
@@ -82,6 +87,7 @@ const DangKy = () => {
                 value={formData.username}
                 onChange={handleChange}
                 required
+                className="form-input"
               />
             </Form.Group>
 
@@ -93,6 +99,7 @@ const DangKy = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                className="form-input"
               />
             </Form.Group>
 
@@ -104,6 +111,7 @@ const DangKy = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
+                className="form-input"
               />
             </Form.Group>
 
@@ -115,6 +123,7 @@ const DangKy = () => {
                 value={formData.hoTen}
                 onChange={handleChange}
                 required
+                className="form-input"
               />
             </Form.Group>
 
@@ -126,6 +135,7 @@ const DangKy = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                className="form-input"
               />
             </Form.Group>
 
@@ -137,19 +147,24 @@ const DangKy = () => {
                 value={formData.soDienThoai}
                 onChange={handleChange}
                 required
+                className="form-input"
               />
             </Form.Group>
 
             <Form.Group controlId="diaChi" className="mb-3">
               <Form.Label>Địa chỉ</Form.Label>
               <Form.Control
-                type="text"
+                as="textarea"
+                rows={3}
                 name="diaChi"
                 value={formData.diaChi}
                 onChange={handleChange}
+                onInput={handleAutoResize}  /* Tự động điều chỉnh chiều cao khi nhập */
                 required
+                className="form-input"
               />
             </Form.Group>
+
 
             <Form.Group controlId="vaiTro" className="mb-3">
               <Form.Label>Vai trò</Form.Label>
@@ -181,10 +196,11 @@ const DangKy = () => {
                 type="file"
                 name="avatar"
                 onChange={handleFileChange}
+                className="form-input"
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" block>
+            <Button variant="primary" type="submit" className="submit-button" block>
               Đăng ký
             </Button>
           </Form>

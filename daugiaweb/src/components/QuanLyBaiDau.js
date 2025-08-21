@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { authApis, endpoints } from "../configs/Apis";
 import { Link } from "react-router-dom";
+import '../css/QuanLyBaiDau.css'; // Thêm file CSS để cải tiến giao diện
 
 const QuanLyBaiDau = () => {
   const [baiDau, setBaiDau] = useState([]);
@@ -21,12 +22,12 @@ const QuanLyBaiDau = () => {
   }, []);
 
   return (
-    <Container>
-      <h3 className="mt-4">Quản lý bài đấu</h3>
-      <Row>
+    <Container className="mt-4">
+      <h3>Quản lý bài đấu</h3>
+      <Row className="g-4">
         {baiDau.map((phien) => (
           <Col md={4} key={phien.id}>
-            <Card className="mb-4">
+            <Card className="custom-card">
               <Card.Body>
                 <Row>
                   <Col md={4}>
@@ -34,7 +35,7 @@ const QuanLyBaiDau = () => {
                       variant="top"
                       src={phien.sanPham?.hinhAnh || "https://via.placeholder.com/150"}
                       alt="Hình sản phẩm"
-                      style={{ width: "100%", height: "auto" }}
+                      className="product-img"
                     />
                   </Col>
                   <Col md={8}>
@@ -58,7 +59,7 @@ const QuanLyBaiDau = () => {
                       </Card.Text>
                     )}
                     <Link to={`/cuoc-dau-gia/${phien.id}`}>
-                      <Button variant="primary">Xem chi tiết</Button>
+                      <Button variant="primary" className="w-100">Xem chi tiết</Button>
                     </Link>
                   </Col>
                 </Row>
