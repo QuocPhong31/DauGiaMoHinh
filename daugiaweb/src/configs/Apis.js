@@ -28,6 +28,7 @@ export const endpoints = {
     "thanh-toan-don": (id) => `thanhtoan/${id}/thanh-toan`,
     "them-tk-nganhang": "taikhoannganhang/them",
     "tk-nganhang-cua-toi": "taikhoannganhang/cua-toi",
+    "tk-nguoi-ban": (phienId) => `taikhoannganhang/nguoiban/${phienId}`,
 
 };
 

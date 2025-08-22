@@ -96,6 +96,8 @@ public class SpringSecurityConfigs {
                 // 2) PUBLIC
                 .requestMatchers(org.springframework.http.HttpMethod.GET,
                         "/api/phiendaugianguoidung/lich-su/**").permitAll() // ⬅ mở public cho lịch sử
+                .requestMatchers(org.springframework.http.HttpMethod.GET,
+                        "/api/taikhoannganhang/nguoiban/**").permitAll()
                 .requestMatchers("/api/login/**", "/api/public/**").permitAll()
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                 // 3) CẦN ĐĂNG NHẬP

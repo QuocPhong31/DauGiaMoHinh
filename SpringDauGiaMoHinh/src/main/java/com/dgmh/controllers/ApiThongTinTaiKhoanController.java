@@ -5,14 +5,18 @@
 package com.dgmh.controllers;
 
 import com.dgmh.pojo.NguoiDung;
+import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.pojo.ThongTinTaiKhoan;
 import com.dgmh.services.NguoiDungService;
+import com.dgmh.services.PhienDauGiaService;
 import com.dgmh.services.ThongTinTaiKhoanService;
 import java.security.Principal;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +36,9 @@ public class ApiThongTinTaiKhoanController {
 
     @Autowired
     private NguoiDungService userService;
+    
+    @Autowired
+    private PhienDauGiaService phienService;
 
     // Lấy tất cả TK của người bán đang đăng nhập
     @GetMapping("/cua-toi")
@@ -64,5 +71,23 @@ public class ApiThongTinTaiKhoanController {
 
 
     return ResponseEntity.ok(tk);
+    }
+    
+    @GetMapping("/nguoiban/{phienId}")
+    public ResponseEntity<?> layTaiKhoanNguoiBan(@PathVariable("phienId") int phienId) {   
+        try {
+            PhienDauGia phien = phienService.getLayPhienTheoId(phienId);
+            if (phien == null || phien.getNguoiDang() == null)
+                return ResponseEntity.notFound().build();
+
+            List<ThongTinTaiKhoan> ds = tkService.findByNguoiBan(phien.getNguoiDang());
+
+            if (ds.isEmpty()) return ResponseEntity.ok().body(null);
+            return ResponseEntity.ok(ds.get(0));
+
+        } catch (Exception e) {
+            e.printStackTrace(); // log lỗi
+            return ResponseEntity.status(500).body("Lỗi khi lấy tài khoản người bán.");
+        }
     }
 }

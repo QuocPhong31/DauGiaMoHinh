@@ -6,11 +6,12 @@ import cookie from "react-cookies";
 
 const TrangDonThanhToan = () => {
   const [orders, setOrders] = useState([]);
+  const [taiKhoanMap, setTaiKhoanMap] = useState({});
   const [message, setMessage] = useState(null);
   const [submittingId, setSubmittingId] = useState(null);
 
   const STATUS_LABELS = { PENDING: "Chưa trả", PAID: "Đã trả", CANCELLED: "Đã hủy" };
-  const STATUS_BADGE  = { PENDING: "warning", PAID: "success", CANCELLED: "secondary" };
+  const STATUS_BADGE = { PENDING: "warning", PAID: "success", CANCELLED: "secondary" };
 
   const fetchOrders = async () => {
     try {
@@ -31,10 +32,26 @@ const TrangDonThanhToan = () => {
     }
   };
 
+  const fetchTaiKhoanNguoiBan = async (phienId) => {
+    try {
+      const res = await authApis().get(endpoints["tk-nguoi-ban"](phienId));
+      setTaiKhoanMap(prev => ({ ...prev, [phienId]: res.data }));
+    } catch (err) {
+      console.error("Lỗi lấy tài khoản người bán:", err);
+    }
+  };
+
   useEffect(() => { fetchOrders(); }, []);
 
-  const setField = (id, field, value) => {
+  const setField = (id, field, value, don) => {
     setOrders(prev => prev.map(d => (d.id === id ? { ...d, [field]: value } : d)));
+
+    if (field === "_phuongThuc" && value === "BANK") {
+      const phienId = don?.phienDauGia?.id;
+      if (phienId && !taiKhoanMap[phienId]) {
+        fetchTaiKhoanNguoiBan(phienId);
+      }
+    }
   };
 
   const validate = (d) => {
@@ -170,7 +187,7 @@ const TrangDonThanhToan = () => {
                                 <Form.Label>Phương thức</Form.Label>
                                 <Form.Select
                                   value={d._phuongThuc}
-                                  onChange={(e) => setField(d.id, "_phuongThuc", e.target.value)}
+                                  onChange={(e) => setField(d.id, "_phuongThuc", e.target.value, d)}
                                 >
                                   <option value="COD">COD (Thanh toán khi nhận)</option>
                                   <option value="BANK">Chuyển khoản</option>
@@ -187,6 +204,19 @@ const TrangDonThanhToan = () => {
                               </Form.Group>
                             </Col>
                           </Row>
+                          {d._phuongThuc === "BANK" && taiKhoanMap[d?.phienDauGia?.id] && (
+                            <div className="border rounded p-3 bg-light mt-3">
+                              <h6 className="mb-2">💳 Thông tin chuyển khoản</h6>
+                              <div><strong>Ngân hàng:</strong> {taiKhoanMap[d.phienDauGia.id].nganHang}</div>
+                              <div><strong>Số tài khoản:</strong> {taiKhoanMap[d.phienDauGia.id].soTaiKhoan}</div>
+                              <div><strong>Chủ tài khoản:</strong> {taiKhoanMap[d.phienDauGia.id].tenNguoiNhan}</div>
+                              {taiKhoanMap[d.phienDauGia.id].qrUrl && (
+                                <div className="mt-2">
+                                  <img src={taiKhoanMap[d.phienDauGia.id].qrUrl} alt="QR chuyển khoản" style={{ maxWidth: 200 }} />
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </Form>
 
                         <div className="d-flex justify-content-end mt-3">

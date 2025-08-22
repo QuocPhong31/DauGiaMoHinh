@@ -31,7 +31,8 @@ public class JwtFilter implements Filter {
         String uri = httpRequest.getRequestURI();            // ví dụ: /SpringDauGiaMoHinh/api/phiendaugianguoidung/lich-su/5
 
         // 1) CHO PHÉP PUBLIC: /api/phiendaugianguoidung/lich-su/**
-        if (uri.startsWith(contextPath + "/api/phiendaugianguoidung/lich-su/")) {
+        if (uri.startsWith(contextPath + "/api/phiendaugianguoidung/lich-su/")
+            || uri.startsWith(contextPath + "/api/taikhoannganhang/nguoiban/")) {
             chain.doFilter(request, response);
             return;
         }
