@@ -27,7 +27,7 @@ CREATE TABLE `donthanhtoan_daugia` (
   `phienDauGia_id` int NOT NULL,
   `nguoiMua_id` int NOT NULL,
   `soTien` decimal(10,2) NOT NULL,
-  `trangThai` enum('PENDING','PAID','CANCELLED') DEFAULT 'PENDING',
+  `trangThai` enum('PENDING','SELLER_REVIEW','PAID','CANCELLED') DEFAULT 'PENDING',
   `phuongThuc` enum('COD','BANK') DEFAULT 'COD',
   `hoTenNhan` varchar(100) DEFAULT NULL,
   `soDienThoai` varchar(20) DEFAULT NULL,
@@ -35,12 +35,13 @@ CREATE TABLE `donthanhtoan_daugia` (
   `ghiChu` text,
   `ngayTao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ngayThanhToan` timestamp NULL DEFAULT NULL,
+  `ngaySellerDuyet` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phienDauGia_id` (`phienDauGia_id`),
   KEY `nguoiMua_id` (`nguoiMua_id`),
   CONSTRAINT `donthanhtoan_daugia_ibfk_1` FOREIGN KEY (`phienDauGia_id`) REFERENCES `phiendaugia` (`id`),
   CONSTRAINT `donthanhtoan_daugia_ibfk_2` FOREIGN KEY (`nguoiMua_id`) REFERENCES `nguoidungs` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,7 +50,7 @@ CREATE TABLE `donthanhtoan_daugia` (
 
 LOCK TABLES `donthanhtoan_daugia` WRITE;
 /*!40000 ALTER TABLE `donthanhtoan_daugia` DISABLE KEYS */;
-INSERT INTO `donthanhtoan_daugia` VALUES (1,2,4,220000.00,'PENDING','COD',NULL,NULL,NULL,NULL,'2025-08-11 02:18:04',NULL),(2,1,4,650000.00,'PENDING','COD',NULL,NULL,NULL,NULL,'2025-08-11 02:18:09',NULL),(3,3,2,110000.00,'PENDING','COD',NULL,NULL,NULL,NULL,'2025-08-11 02:22:14',NULL);
+INSERT INTO `donthanhtoan_daugia` VALUES (1,4,3,100000.00,'PENDING','COD',NULL,NULL,NULL,NULL,'2025-08-22 14:04:39',NULL,NULL);
 /*!40000 ALTER TABLE `donthanhtoan_daugia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,6 +65,7 @@ CREATE TABLE `loaisanpham` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nguoiDung_id` int DEFAULT NULL,
   `tenLoai` varchar(50) NOT NULL,
+  `trangThai` varchar(20) DEFAULT 'HOAT_DONG',
   PRIMARY KEY (`id`),
   KEY `nguoiDung_id` (`nguoiDung_id`),
   CONSTRAINT `loaisanpham_ibfk_1` FOREIGN KEY (`nguoiDung_id`) REFERENCES `nguoidungs` (`id`)
@@ -76,7 +78,7 @@ CREATE TABLE `loaisanpham` (
 
 LOCK TABLES `loaisanpham` WRITE;
 /*!40000 ALTER TABLE `loaisanpham` DISABLE KEYS */;
-INSERT INTO `loaisanpham` VALUES (1,1,'Scale Figure'),(2,1,'Nendoroid'),(3,1,'gameprize');
+INSERT INTO `loaisanpham` VALUES (1,1,'Scale Figure','HOAT_DONG'),(2,1,'gameprize','HOAT_DONG'),(3,1,'Nendoroid','HOAT_DONG');
 /*!40000 ALTER TABLE `loaisanpham` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,7 +104,7 @@ CREATE TABLE `nguoidungs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +113,7 @@ CREATE TABLE `nguoidungs` (
 
 LOCK TABLES `nguoidungs` WRITE;
 /*!40000 ALTER TABLE `nguoidungs` DISABLE KEYS */;
-INSERT INTO `nguoidungs` VALUES (1,'admin','$2a$10$Af7DHT4moV4hfhQk.Y7DFu6ACjD5mgzXPMgs3Bjf0qKUqtx41yOhO','admin@gmail.com','Quản Trị Viên','0123456789','TP.HCM','ROLE_ADMIN',NULL,'2025-08-09 11:59:04','DUOC_DUYET'),(2,'phong','$2a$10$iaZhijaLC23NNu/VbR6lROtD4pKA2MKqFe2OKkqzERgcZoXXhxGka','tqphong2004@gmail.com','Trần Quốc Phong','0785643424','23 Phan Văn Trị, Phường Bình Lợi Trung, TP.HCM','ROLE_NGUOIBAN','https://res.cloudinary.com/dp4fipzce/image/upload/v1754740916/inbibzpw4mqbfrr01oww.jpg','2025-08-09 12:01:49','DUOC_DUYET'),(3,'khoi','$2a$10$kog/4qhwTsiEQhTa5Nq.AuY4sXHJ3Sx3f.XnhkIg1RA8LxloljmTu','nxk02032004@gmail.com','Nguyễn Đăng Khôi','0785643476','23 Trần Hưng Đạo, Phường Bến Thành, TP.HCM','ROLE_NGUOIBAN','https://res.cloudinary.com/dp4fipzce/image/upload/v1754740943/cqmak60q24g86rk2b8bg.jpg','2025-08-09 12:02:19','DUOC_DUYET'),(4,'sang','$2a$10$.93ZVLi66CQhEBBI6jg/l.x3VHPLfkkQnr6GuavHXTdd3hCRjr3aC','nxk3333333@gmail.com','Trần Huỳnh Sang','0797654222','24/23/1 Lê Văn Lương, Huyện Nhà Bè, TP.HCM','ROLE_NGUOIMUA','https://res.cloudinary.com/dp4fipzce/image/upload/v1754742569/tk3nfwvxwrt2vvujqzsb.jpg','2025-08-09 12:29:08','DUOC_DUYET');
+INSERT INTO `nguoidungs` VALUES (1,'admin','$2a$10$Af7DHT4moV4hfhQk.Y7DFu6ACjD5mgzXPMgs3Bjf0qKUqtx41yOhO','admin@gmail.com','Quản Trị Viên','0123456789','TP.HCM','ROLE_ADMIN',NULL,'2025-08-22 13:23:29','DUOC_DUYET'),(2,'phong','$2a$10$zGMbEcE0PM7UGbv7VwxCL.m.lDelZxeF0dBuB9zyEGY2hG4UCZJg.','tqphong2004@gmail.com','Trần Quốc Phong','0785643476','23 Phan Văn Trị, phường Bình Lợi Trung, TP.HCM','ROLE_NGUOIBAN','https://res.cloudinary.com/dp4fipzce/image/upload/v1755869131/vhxctqjo34qef7xhf8vz.jpg','2025-08-22 13:25:23','DUOC_DUYET'),(3,'khoi','$2a$10$O4pAKHfPYF1nmiY5iviSbO/4rndw88zr7FtDimUKKeiimQZmIv1ea','nxk02032004@gmail.com','Nguyễn Đăng Khôi','0785643424','34 Trần hưng Đạo, phường Bến Thành, TP.HCM','ROLE_NGUOIBAN','https://res.cloudinary.com/dp4fipzce/image/upload/v1755869173/kbmefhmlyddkrut2ywa4.jpg','2025-08-22 13:26:06','DUOC_DUYET');
 /*!40000 ALTER TABLE `nguoidungs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,6 +126,7 @@ DROP TABLE IF EXISTS `phiendaugia`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `phiendaugia` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `nguoiDang_id` int DEFAULT NULL,
   `sanPham_id` int DEFAULT NULL,
   `thoiGianBatDau` datetime DEFAULT NULL,
   `thoiGianKetThuc` datetime DEFAULT NULL,
@@ -132,11 +135,13 @@ CREATE TABLE `phiendaugia` (
   `nguoiThangDauGia_id` int DEFAULT NULL,
   `daThongBaoKQ` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
+  KEY `nguoiDang_id` (`nguoiDang_id`),
   KEY `sanPham_id` (`sanPham_id`),
   KEY `nguoiThangDauGia_id` (`nguoiThangDauGia_id`),
-  CONSTRAINT `phiendaugia_ibfk_1` FOREIGN KEY (`sanPham_id`) REFERENCES `sanphams` (`id`),
-  CONSTRAINT `phiendaugia_ibfk_2` FOREIGN KEY (`nguoiThangDauGia_id`) REFERENCES `nguoidungs` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `phiendaugia_ibfk_1` FOREIGN KEY (`nguoiDang_id`) REFERENCES `nguoidungs` (`id`),
+  CONSTRAINT `phiendaugia_ibfk_2` FOREIGN KEY (`sanPham_id`) REFERENCES `sanphams` (`id`),
+  CONSTRAINT `phiendaugia_ibfk_3` FOREIGN KEY (`nguoiThangDauGia_id`) REFERENCES `nguoidungs` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +150,7 @@ CREATE TABLE `phiendaugia` (
 
 LOCK TABLES `phiendaugia` WRITE;
 /*!40000 ALTER TABLE `phiendaugia` DISABLE KEYS */;
-INSERT INTO `phiendaugia` VALUES (1,1,'2025-08-09 19:06:41','2025-08-09 22:30:00','da_ket_thuc',650000.00,4,1),(2,2,'2025-08-09 19:15:22','2025-08-09 22:30:00','da_ket_thuc',220000.00,4,1),(3,4,'2025-08-11 09:20:12','2025-08-11 09:22:00','da_ket_thuc',110000.00,2,1);
+INSERT INTO `phiendaugia` VALUES (1,2,1,'2025-08-22 20:33:43','2025-08-22 20:35:00','da_ket_thuc',550000.00,3,1),(2,2,2,'2025-08-22 20:50:31','2025-08-22 20:52:00','da_ket_thuc',240000.00,3,1),(3,2,3,'2025-08-22 20:58:04','2025-08-22 20:59:00','da_ket_thuc',100000.00,3,1),(4,2,4,'2025-08-22 21:02:25','2025-08-22 21:04:00','da_ket_thuc',100000.00,3,1);
 /*!40000 ALTER TABLE `phiendaugia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +172,7 @@ CREATE TABLE `phiendaugia_nguoidung` (
   KEY `nguoiDung_id` (`nguoiDung_id`),
   CONSTRAINT `phiendaugia_nguoidung_ibfk_1` FOREIGN KEY (`phienDauGia_id`) REFERENCES `phiendaugia` (`id`),
   CONSTRAINT `phiendaugia_nguoidung_ibfk_2` FOREIGN KEY (`nguoiDung_id`) REFERENCES `nguoidungs` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +181,7 @@ CREATE TABLE `phiendaugia_nguoidung` (
 
 LOCK TABLES `phiendaugia_nguoidung` WRITE;
 /*!40000 ALTER TABLE `phiendaugia_nguoidung` DISABLE KEYS */;
-INSERT INTO `phiendaugia_nguoidung` VALUES (1,1,3,500000.00,'2025-08-09 12:27:34'),(2,1,4,550000.00,'2025-08-09 12:30:11'),(3,2,4,220000.00,'2025-08-09 12:30:41'),(4,1,3,600000.00,'2025-08-09 13:31:02'),(5,1,4,650000.00,'2025-08-09 13:32:15'),(6,3,2,100000.00,'2025-08-11 02:20:40'),(7,3,2,110000.00,'2025-08-11 02:20:46');
+INSERT INTO `phiendaugia_nguoidung` VALUES (1,1,3,550000.00,'2025-08-22 13:34:15'),(2,2,3,240000.00,'2025-08-22 13:50:56'),(3,3,3,100000.00,'2025-08-22 13:58:38'),(4,4,3,100000.00,'2025-08-22 14:03:00');
 /*!40000 ALTER TABLE `phiendaugia_nguoidung` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,7 +218,7 @@ CREATE TABLE `sanphams` (
 
 LOCK TABLES `sanphams` WRITE;
 /*!40000 ALTER TABLE `sanphams` DISABLE KEYS */;
-INSERT INTO `sanphams` VALUES (1,2,1,'APEX Azur Lane Prinz Rupprecht Gate Dragon\'s Advent Scale 1/7','newseal to đẹp có face, tay bonus ','https://res.cloudinary.com/dp4fipzce/image/upload/v1754741205/cetgfefv00firzsa6m6d.jpg',500000.00,50000.00,'2025-08-09 12:06:41','2025-08-09 22:30:00','DUYET'),(2,2,3,'Marin','real, new seal, box đẹp','https://res.cloudinary.com/dp4fipzce/image/upload/v1754741730/efdtmoyfiuoxczr67ycc.jpg',200000.00,20000.00,'2025-08-09 12:15:22','2025-08-09 22:30:00','DUYET'),(3,3,3,'rem','real','https://res.cloudinary.com/dp4fipzce/image/upload/v1754877468/cztjxwrlrru60xu1kapa.jpg',150000.00,9999.00,'2025-08-11 01:57:33','2025-08-11 09:00:00','KHONG_DUYET'),(4,3,2,'Sakura','1asdasf','https://res.cloudinary.com/dp4fipzce/image/upload/v1754878825/kjppfvzymlha5zjaxdgl.jpg',100000.00,10000.00,'2025-08-11 02:20:12','2025-08-11 09:22:00','DUYET');
+INSERT INTO `sanphams` VALUES (1,2,1,'APEX Azur Lane Prinz Rupprecht Gate Dragon\'s Advent Scale 1/7','real, box đẹp, đủ phụ kiện','https://res.cloudinary.com/dp4fipzce/image/upload/v1755869629/rdplu1q0yizn17nenshm.jpg',500000.00,50000.00,'2025-08-22 13:33:43','2025-08-22 20:35:00','DUYET'),(2,2,2,'marin','dsgdg','https://res.cloudinary.com/dp4fipzce/image/upload/v1755870639/zijebdkorgjp6aomzrnm.jpg',200000.00,20000.00,'2025-08-22 13:50:31','2025-08-22 20:52:00','DUYET'),(3,2,2,'rem','cscsc','https://res.cloudinary.com/dp4fipzce/image/upload/v1755871091/goxwigjc7hb7vmq87vyl.jpg',100000.00,20000.00,'2025-08-22 13:58:04','2025-08-22 20:59:00','DUYET'),(4,2,2,'marin','đẹp','https://res.cloudinary.com/dp4fipzce/image/upload/v1755871354/ckci7ufxwl18nacieur6.jpg',100000.00,20000.00,'2025-08-22 14:02:25','2025-08-22 21:04:00','DUYET');
 /*!40000 ALTER TABLE `sanphams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,6 +250,38 @@ LOCK TABLES `theodoisanphams` WRITE;
 /*!40000 ALTER TABLE `theodoisanphams` DISABLE KEYS */;
 /*!40000 ALTER TABLE `theodoisanphams` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `thongtintaikhoan`
+--
+
+DROP TABLE IF EXISTS `thongtintaikhoan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `thongtintaikhoan` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nguoiBan_id` int NOT NULL,
+  `tenNguoiNhan` varchar(100) NOT NULL,
+  `nganHang` varchar(100) NOT NULL,
+  `soTaiKhoan` varchar(40) NOT NULL,
+  `qrUrl` varchar(255) NOT NULL,
+  `macDinh` tinyint DEFAULT '1',
+  `ngayTao` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `nguoiBan_id` (`nguoiBan_id`),
+  CONSTRAINT `thongtintaikhoan_ibfk_1` FOREIGN KEY (`nguoiBan_id`) REFERENCES `nguoidungs` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `thongtintaikhoan`
+--
+
+LOCK TABLES `thongtintaikhoan` WRITE;
+/*!40000 ALTER TABLE `thongtintaikhoan` DISABLE KEYS */;
+INSERT INTO `thongtintaikhoan` VALUES (1,2,'Trần Quốc Phong','VCB - Vietcombank','1051749090','https://res.cloudinary.com/dp4fipzce/image/upload/v1755869583/vhlfadcavwnf0jcuna2l.jpg',1,'2025-08-22 13:32:55');
+/*!40000 ALTER TABLE `thongtintaikhoan` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -255,4 +292,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-11 10:01:30
+-- Dump completed on 2025-08-22 21:07:41
