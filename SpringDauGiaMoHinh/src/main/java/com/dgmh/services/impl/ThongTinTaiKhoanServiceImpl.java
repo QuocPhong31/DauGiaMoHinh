@@ -31,4 +31,9 @@ public class ThongTinTaiKhoanServiceImpl implements ThongTinTaiKhoanService {
     public ThongTinTaiKhoan addTaiKhoan(NguoiDung u, String tenNguoiNhan, String nganHang, String soTaiKhoan, MultipartFile qrFile) {
         return repo.addTaiKhoan(u, tenNguoiNhan, nganHang, soTaiKhoan, qrFile);
     }
+    
+    @Override
+    public boolean taiKhoanNguoiBan(NguoiDung nd) {
+        return !repo.findByNguoiBan(nd).isEmpty();
+    }
 }

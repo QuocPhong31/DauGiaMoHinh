@@ -16,4 +16,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ThongTinTaiKhoanService {
     List<ThongTinTaiKhoan> findByNguoiBan(NguoiDung nd);
     ThongTinTaiKhoan addTaiKhoan(NguoiDung u, String tenNguoiNhan, String nganHang, String soTaiKhoan, MultipartFile qrFile);
+    boolean taiKhoanNguoiBan(NguoiDung nd);
 }

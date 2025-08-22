@@ -4,9 +4,11 @@
  */
 package com.dgmh.controllers;
 
+import com.dgmh.pojo.NguoiDung;
 import com.dgmh.pojo.SanPham;
 import com.dgmh.services.NguoiDungService;
 import com.dgmh.services.SanPhamService;
+import com.dgmh.services.ThongTinTaiKhoanService;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
@@ -38,6 +40,9 @@ public class ApiSanPhamController {
 
     @Autowired
     private NguoiDungService nguoiDungService;
+    
+    @Autowired
+    private ThongTinTaiKhoanService thongTinTaiKhoanService;
 
     // API để đăng sản phẩm mới
     @PostMapping("/dangsanpham")
@@ -60,6 +65,13 @@ public class ApiSanPhamController {
         if (!nguoiDungService.vaiTro(username, "ROLE_NGUOIBAN")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Chỉ người bán mới có quyền đăng sản phẩm.");
+        }
+        
+        // Kiểm tra nếu người bán chưa có thông tin tài khoản ngân hàng
+        NguoiDung nguoiBan = nguoiDungService.getByUsername(username);
+        if (!thongTinTaiKhoanService.taiKhoanNguoiBan(nguoiBan)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Bạn chưa thêm thông tin tài khoản ngân hàng. Vui lòng vào mục -Thêm tk ngân hàng- phía trên để điền thông tin.");
         }
 
         try {
