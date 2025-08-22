@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -30,8 +31,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     "com.dgmh.services",      // cần tạo nếu có Service
     "com.dgmh.services.impl",
     "com.dgmh.pojo",
+    "com.dgmh.schedulers",
     "com.dgmh.configs" 
 })
+@EnableScheduling
 public class WebAppContextConfigs implements WebMvcConfigurer{
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

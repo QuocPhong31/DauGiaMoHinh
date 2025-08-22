@@ -47,6 +47,7 @@ D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\repositories\SanPhamRe
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\repositories\TheoDoiSanPhamRepository.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\repositories\ThongKeRepository.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\repositories\ThongTinTaiKhoanRepository.java
+D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\schedulers\ChayPhienDauGia.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\services\DonThanhToanDauGiaService.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\services\impl\DonThanhToanDauGiaServiceImpl.java
 D:\DauGiaMoHinh\SpringDauGiaMoHinh\src\main\java\com\dgmh\services\impl\LoaiSanPhamServiceImpl.java

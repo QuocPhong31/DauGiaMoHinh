@@ -5,6 +5,7 @@ com\dgmh\dto\ThongKeDTO.class
 com\dgmh\repositories\ThongKeRepository.class
 com\dgmh\services\impl\DonThanhToanDauGiaServiceImpl.class
 com\dgmh\pojo\LoaiSanPham.class
+com\dgmh\schedulers\ChayPhienDauGia.class
 com\dgmh\services\impl\TheoDoiSanPhamServiceImpl.class
 com\dgmh\controllers\ApiPhienDauGiaController.class
 com\dgmh\configs\MailConfig.class
