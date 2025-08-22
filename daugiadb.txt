@@ -78,12 +78,26 @@ CREATE TABLE theodoisanphams (
     UNIQUE(nguoiDung_id, phienDauGia_id)
 );
 
+CREATE TABLE thongtintaikhoan (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nguoiBan_id INT NOT NULL,
+  tenNguoiNhan VARCHAR(100) NOT NULL,
+  nganHang VARCHAR(100) NOT NULL,
+  soTaiKhoan VARCHAR(40) NOT NULL,
+  qrUrl VARCHAR(255) NOT NULL,                 -- link ảnh QR (đã upload)
+  macDinh TINYINT DEFAULT 1,          -- 1: dùng mặc định khi có nhiều TK
+  ngayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (nguoiBan_id) REFERENCES nguoidungs(id)
+);
+
 CREATE TABLE donthanhtoan_daugia (
   id INT AUTO_INCREMENT PRIMARY KEY,
   phienDauGia_id INT NOT NULL,
   nguoiMua_id INT NOT NULL,            -- người thắng phiên
   soTien DECIMAL(10,2) NOT NULL,       -- = giaChot
-  trangThai ENUM('PENDING','PAID','CANCELLED') DEFAULT 'PENDING',
+  thongTinTaiKhoan_id INT NULL,
+  minhChungUrl VARCHAR(255) NULL,
+  trangThai ENUM('PENDING','SELLER_REVIEW','PAID','CANCELLED') DEFAULT 'PENDING',
   phuongThuc ENUM('COD','BANK') DEFAULT 'COD',
   hoTenNhan VARCHAR(100),
   soDienThoai VARCHAR(20),
@@ -91,9 +105,11 @@ CREATE TABLE donthanhtoan_daugia (
   ghiChu TEXT,
   ngayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   ngayThanhToan TIMESTAMP NULL,
+  ngaySellerDuyet TIMESTAMP NULL,
   UNIQUE(phienDauGia_id),
   FOREIGN KEY (phienDauGia_id) REFERENCES phiendaugia(id),
-  FOREIGN KEY (nguoiMua_id) REFERENCES nguoidungs(id)
+  FOREIGN KEY (nguoiMua_id) REFERENCES nguoidungs(id),
+  FOREIGN KEY (thongTinTaiKhoan_id) REFERENCES thongtintaikhoan(id)
 );
 
 USE daugiadb;

@@ -26,6 +26,8 @@ export const endpoints = {
     "lich-su-dat-gia": "phiendaugianguoidung/lich-su/",
     "don-cua-toi": "thanhtoan/cua-toi",
     "thanh-toan-don": (id) => `thanhtoan/${id}/thanh-toan`,
+    "them-tk-nganhang": "taikhoannganhang/them",
+    "tk-nganhang-cua-toi": "taikhoannganhang/cua-toi",
 
 };
 

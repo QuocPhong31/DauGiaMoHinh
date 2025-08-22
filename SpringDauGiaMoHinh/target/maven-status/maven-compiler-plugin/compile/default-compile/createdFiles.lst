@@ -1,4 +1,5 @@
 com\dgmh\repositories\impl\SanPhamRepositoryImpl.class
+com\dgmh\repositories\impl\ThongTinTaiKhoanRepositoryImpl.class
 com\dgmh\services\impl\PhienDauGiaServiceImpl.class
 com\dgmh\dto\ThongKeDTO.class
 com\dgmh\repositories\ThongKeRepository.class
@@ -13,6 +14,7 @@ com\dgmh\springdaugiamohinh\JakartaRestConfiguration.class
 com\dgmh\springdaugiamohinh\resources\JakartaEE11Resource.class
 com\dgmh\filters\JwtFilter.class
 com\dgmh\services\PhienDauGiaService.class
+com\dgmh\repositories\ThongTinTaiKhoanRepository.class
 com\dgmh\configs\HibernateConfigs.class
 com\dgmh\configs\WebAppContextConfigs.class
 com\dgmh\pojo\SanPham.class
@@ -29,6 +31,7 @@ com\dgmh\services\DonThanhToanDauGiaService.class
 com\dgmh\repositories\impl\TheoDoiSanPhamRepositoryImpl.class
 com\dgmh\configs\ThymeleafConfig.class
 com\dgmh\controllers\ApiNguoiDungController.class
+com\dgmh\pojo\ThongTinTaiKhoan.class
 com\dgmh\repositories\TheoDoiSanPhamRepository.class
 com\dgmh\repositories\PhienDauGiaNguoiDungRepository.class
 com\dgmh\repositories\SanPhamRepository.class
@@ -41,6 +44,7 @@ com\dgmh\repositories\LoaiSanPhamRepository.class
 com\dgmh\pojo\NguoiDung.class
 com\dgmh\configs\SecurityWebApplicationInitializer.class
 com\dgmh\configs\SpringSecurityConfigs.class
+com\dgmh\services\ThongTinTaiKhoanService.class
 com\dgmh\services\SanPhamService.class
 com\dgmh\controllers\PhienDauGiaController.class
 com\dgmh\repositories\DonThanhToanDauGiaRepository.class
@@ -53,6 +57,8 @@ com\dgmh\controllers\IndexController.class
 com\dgmh\controllers\AdminController.class
 com\dgmh\pojo\PhienDauGiaNguoiDung.class
 com\dgmh\controllers\ApiSanPhamController.class
+com\dgmh\controllers\ApiThongTinTaiKhoanController.class
+com\dgmh\services\impl\ThongTinTaiKhoanServiceImpl.class
 com\dgmh\services\LoaiSanPhamService.class
 com\dgmh\services\TheoDoiSanPhamService.class
 com\dgmh\services\impl\PhienDauGiaNguoiDungServiceImpl.class

@@ -40,6 +40,12 @@ public class DonThanhToanDauGia implements Serializable{
     private NguoiDung nguoiMua;
 
     private BigDecimal soTien;
+    
+    @ManyToOne
+    @JoinColumn(name = "thongTinTaiKhoan_id")
+    private ThongTinTaiKhoan thongTinTaiKhoan;
+    
+    private String minhChungUrl;
 
     @Enumerated(EnumType.STRING)
     private TrangThai trangThai = TrangThai.PENDING;
@@ -57,8 +63,11 @@ public class DonThanhToanDauGia implements Serializable{
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayThanhToan;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ngaySellerDuyet;
 
-    public enum TrangThai { PENDING, PAID, CANCELLED }
+    public enum TrangThai { PENDING, SELLER_REVIEW, PAID, CANCELLED }
     public enum PhuongThuc { COD, BANK }
     
     public Integer getId() {
@@ -87,6 +96,22 @@ public class DonThanhToanDauGia implements Serializable{
     }
     public void setSoTien(BigDecimal soTien) {
         this.soTien = soTien;
+    }
+    
+    public ThongTinTaiKhoan getThongTinTaiKhoan() {
+        return thongTinTaiKhoan;
+    }
+
+    public void setThongTinTaiKhoan(ThongTinTaiKhoan thongTinTaiKhoan) {
+        this.thongTinTaiKhoan = thongTinTaiKhoan;
+    }
+    
+    public String getMinhChungUrl() {
+        return minhChungUrl;
+    }
+
+    public void setMinhChungUrl(String minhChungUrl) {
+        this.minhChungUrl = minhChungUrl;
     }
 
     public TrangThai getTrangThai() {
@@ -143,5 +168,13 @@ public class DonThanhToanDauGia implements Serializable{
     }
     public void setNgayThanhToan(Date ngayThanhToan) {
         this.ngayThanhToan = ngayThanhToan;
+    }
+    
+    public Date getNgaySellerDuyet() {
+        return ngaySellerDuyet;
+    }
+
+    public void setNgaySellerDuyet(Date ngaySellerDuyet) {
+        this.ngaySellerDuyet = ngaySellerDuyet;
     }
 }

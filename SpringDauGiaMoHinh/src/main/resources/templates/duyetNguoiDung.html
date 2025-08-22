@@ -34,12 +34,14 @@
                     <th>Tên đăng nhập</th>
                     <th>Email</th>
                     <th>Vai trò</th>
+                    <th>Hiện tại</th>
                     <th>Trạng thái</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="user : ${users}">
                     <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
                     <td th:text="${user.email}"></td>
                     <td th:text="${user.vaiTro}"></td>
                     <td th:text="${user.trangThai}"></td>

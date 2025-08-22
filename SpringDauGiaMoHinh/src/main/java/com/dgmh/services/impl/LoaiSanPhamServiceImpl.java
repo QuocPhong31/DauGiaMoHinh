@@ -26,6 +26,11 @@ public class LoaiSanPhamServiceImpl implements LoaiSanPhamService{
     }
     
     @Override
+    public List<LoaiSanPham> getLoaiSanPham() {
+        return loaiSanPhamRepository.getLoaiSanPham();
+    }
+    
+    @Override
     public List<LoaiSanPham> getLoaiSanPhamHoatDong() {
         return loaiSanPhamRepository.getLoaiSanPhamHoatDong();
     }

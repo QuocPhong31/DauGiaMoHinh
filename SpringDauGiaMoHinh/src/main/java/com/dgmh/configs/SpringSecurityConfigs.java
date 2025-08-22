@@ -105,6 +105,7 @@ public class SpringSecurityConfigs {
                 .requestMatchers("/api/phiendaugia/bai-dau-gia/**").authenticated()
                 .requestMatchers("/api/phiendaugia/baidau/**").authenticated()
                 .requestMatchers("/api/thanhtoan/**").authenticated()
+                .requestMatchers("/api/taikhoannganhang/**").authenticated()
                 // 4) Còn lại trong /api cho phép (nếu bạn muốn GET công khai)
                 .requestMatchers("/api/**").permitAll()
                 // 5) Vai trò

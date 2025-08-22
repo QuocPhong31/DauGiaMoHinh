@@ -34,7 +34,7 @@ public class LoaiSanPhamController {
     @GetMapping("/admin/loaiSanPham")
     public String loaiSanPhamForm(Model model) {
         model.addAttribute("loaiSanPham", new LoaiSanPham());
-        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPham());
         return "loaiSanPham";
     }
 
@@ -52,7 +52,7 @@ public class LoaiSanPhamController {
             loaiSanPhamService.addLoaiSanPham(loaiSanPham);
             model.addAttribute("successMessage", "Thêm loại sản phẩm thành công!");
         }
-        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPham());
         return "loaiSanPham";
     }
     
@@ -70,7 +70,7 @@ public class LoaiSanPhamController {
         }
 
         model.addAttribute("loaiSanPham", new LoaiSanPham());
-        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPham());
         return "loaiSanPham";
     }
 
@@ -79,7 +79,7 @@ public class LoaiSanPhamController {
         loaiSanPhamService.khoaLoaiSanPham(id);
         model.addAttribute("successMessage", "Đã khóa loại sản phẩm!");
         model.addAttribute("loaiSanPham", new LoaiSanPham());
-        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPham());
         return "loaiSanPham";
     }
 
@@ -88,7 +88,7 @@ public class LoaiSanPhamController {
         loaiSanPhamService.moKhoaLoaiSanPham(id);
         model.addAttribute("successMessage", "Đã mở khóa loại sản phẩm!");
         model.addAttribute("loaiSanPham", new LoaiSanPham());
-        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPhamHoatDong());
+        model.addAttribute("dsLoai", loaiSanPhamService.getLoaiSanPham());
         return "loaiSanPham";
     }
 }

@@ -31,11 +31,19 @@ public class LoaiSanPhamRepositoryImpl implements LoaiSanPhamRepository {
         session.persist(loaiSanPham);
         return loaiSanPham;
     }
+    
+    @Override
+    public List<LoaiSanPham> getLoaiSanPham() {
+        Session session = this.factory.getObject().getCurrentSession();
+        String hql = "FROM LoaiSanPham WHERE trangThai IN ('HOAT_DONG', 'BI_KHOA')";
+        Query<LoaiSanPham> query = session.createQuery(hql, LoaiSanPham.class);
+        return query.getResultList();
+    }
 
     @Override
     public List<LoaiSanPham> getLoaiSanPhamHoatDong() {
         Session session = this.factory.getObject().getCurrentSession();
-        String hql = "FROM LoaiSanPham WHERE trangThai IN ('HOAT_DONG', 'BI_KHOA')";
+        String hql = "FROM LoaiSanPham WHERE trangThai IN ('HOAT_DONG')";
         Query<LoaiSanPham> query = session.createQuery(hql, LoaiSanPham.class);
         return query.getResultList();
     }
