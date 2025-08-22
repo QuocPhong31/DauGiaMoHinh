@@ -36,9 +36,11 @@ public class ChayPhienDauGia {
                 if (ketThuc) {
                     // Gọi lại phiên để lấy thông tin mới cập nhật
                     PhienDauGia phienCapNhat = phienDauGiaService.getLayPhienTheoId(phien.getId());
-
+                    System.out.println("➡️ Đang kiểm tra phiên #" + phien.getId());
                     // Chỉ tạo đơn nếu có winner và giá chốt
-                    if (phienCapNhat.getNguoiThangDauGia() != null && phienCapNhat.getGiaChot() != null) {
+                    if (phienCapNhat.getNguoiThangDauGia() != null && phienCapNhat.getGiaChot() != null) 
+                    {
+                        System.out.println("✅ Điều kiện đúng, tạo đơn cho phiên #" + phien.getId());
                         donThanhToanDauGiaService.taoDon(phienCapNhat);
                         System.out.println("✅ Đã tạo đơn thanh toán cho phiên #" + phien.getId());
                     }

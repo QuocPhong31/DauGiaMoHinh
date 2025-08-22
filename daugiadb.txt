@@ -95,8 +95,6 @@ CREATE TABLE donthanhtoan_daugia (
   phienDauGia_id INT NOT NULL,
   nguoiMua_id INT NOT NULL,            -- người thắng phiên
   soTien DECIMAL(10,2) NOT NULL,       -- = giaChot
-  thongTinTaiKhoan_id INT NULL,
-  minhChungUrl VARCHAR(255) NULL,
   trangThai ENUM('PENDING','SELLER_REVIEW','PAID','CANCELLED') DEFAULT 'PENDING',
   phuongThuc ENUM('COD','BANK') DEFAULT 'COD',
   hoTenNhan VARCHAR(100),
@@ -108,8 +106,7 @@ CREATE TABLE donthanhtoan_daugia (
   ngaySellerDuyet TIMESTAMP NULL,
   UNIQUE(phienDauGia_id),
   FOREIGN KEY (phienDauGia_id) REFERENCES phiendaugia(id),
-  FOREIGN KEY (nguoiMua_id) REFERENCES nguoidungs(id),
-  FOREIGN KEY (thongTinTaiKhoan_id) REFERENCES thongtintaikhoan(id)
+  FOREIGN KEY (nguoiMua_id) REFERENCES nguoidungs(id)
 );
 
 USE daugiadb;

@@ -10,8 +10,14 @@ const TrangDonThanhToan = () => {
   const [message, setMessage] = useState(null);
   const [submittingId, setSubmittingId] = useState(null);
 
-  const STATUS_LABELS = { PENDING: "Chưa trả", PAID: "Đã trả", CANCELLED: "Đã hủy" };
-  const STATUS_BADGE = { PENDING: "warning", PAID: "success", CANCELLED: "secondary" };
+  const STATUS_LABELS = {
+    PENDING: "Chưa trả",
+    SELLER_REVIEW: "Đang chờ người bán duyệt",
+    PAID: "Đã trả",
+    CANCELLED: "Đã hủy"
+  };
+
+  const STATUS_BADGE = { PENDING: "warning", SELLER_REVIEW: "sc", PAID: "success", CANCELLED: "secondary" };
 
   const fetchOrders = async () => {
     try {
@@ -23,7 +29,8 @@ const TrangDonThanhToan = () => {
         _soDienThoai: d.soDienThoai || "",
         _diaChiNhan: d.diaChiNhan || "",
         _phuongThuc: d.phuongThuc || "COD",
-        _ghiChu: d.ghiChu || ""
+        _ghiChu: d.ghiChu || "",
+        _minhChungFile: null
       }));
       setOrders(data);
     } catch (err) {
@@ -54,6 +61,11 @@ const TrangDonThanhToan = () => {
     }
   };
 
+  const onChangeMinhChung = (donId, file) => {
+    const preview = file ? URL.createObjectURL(file) : null;
+    setOrders(prev => prev.map(d => d.id === donId ? { ...d, _minhChungFile: file, _minhChungPreview: preview } : d));
+  };
+
   const validate = (d) => {
     if (!d._hoTenNhan?.trim()) return "Vui lòng nhập Họ tên nhận.";
     if (!d._soDienThoai?.trim()) return "Vui lòng nhập Số điện thoại.";
@@ -65,14 +77,12 @@ const TrangDonThanhToan = () => {
   const handlePay = async (don) => {
     setMessage(null);
 
-    // giống DangSanPham: kiểm tra token
     const token = cookie.load("token");
     if (!token) {
       setMessage({ type: "danger", text: "Bạn cần đăng nhập để thanh toán." });
       return;
     }
 
-    // validate input
     const v = validate(don);
     if (v) {
       setMessage({ type: "danger", text: v });
@@ -81,23 +91,26 @@ const TrangDonThanhToan = () => {
 
     setSubmittingId(don.id);
 
-    const payload = {
-      phuongThuc: don._phuongThuc || "COD",
-      hoTenNhan: don._hoTenNhan,
-      soDienThoai: don._soDienThoai,
-      diaChiNhan: don._diaChiNhan,
-      ghiChu: don._ghiChu || "",
-    };
-
     try {
+      const payload = {
+        phuongThuc: don._phuongThuc, // "COD" hoặc "BANK"
+        hoTenNhan: don._hoTenNhan,
+        soDienThoai: don._soDienThoai,
+        diaChiNhan: don._diaChiNhan,
+        ghiChu: don._ghiChu || ""
+      };
+
       await authApis().post(
         endpoints["thanh-toan-don"](don.id),
         payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
       );
 
       setMessage({ type: "success", text: "Thanh toán thành công!" });
-
-      // reload để DB trả về các cột đã được nạp (hoTenNhan, soDienThoai,...)
       await fetchOrders();
     } catch (err) {
       let msg = err?.response?.data || "Thanh toán thất bại!";
@@ -109,6 +122,7 @@ const TrangDonThanhToan = () => {
       setSubmittingId(null);
     }
   };
+
 
   const pending = orders.filter(o => o.trangThai === "PENDING");
 
@@ -204,20 +218,25 @@ const TrangDonThanhToan = () => {
                               </Form.Group>
                             </Col>
                           </Row>
-                          {d._phuongThuc === "BANK" && taiKhoanMap[d?.phienDauGia?.id] && (
-                            <div className="border rounded p-3 bg-light mt-3">
-                              <h6 className="mb-2">💳 Thông tin chuyển khoản</h6>
-                              <div><strong>Ngân hàng:</strong> {taiKhoanMap[d.phienDauGia.id].nganHang}</div>
-                              <div><strong>Số tài khoản:</strong> {taiKhoanMap[d.phienDauGia.id].soTaiKhoan}</div>
-                              <div><strong>Chủ tài khoản:</strong> {taiKhoanMap[d.phienDauGia.id].tenNguoiNhan}</div>
-                              {taiKhoanMap[d.phienDauGia.id].qrUrl && (
-                                <div className="mt-2">
-                                  <img src={taiKhoanMap[d.phienDauGia.id].qrUrl} alt="QR chuyển khoản" style={{ maxWidth: 200 }} />
+                          {d._phuongThuc === "BANK" && (
+                            <div className="mt-3">
+                              {taiKhoanMap[d?.phienDauGia?.id] && (
+                                <div className="border rounded p-3 bg-light mb-3">
+                                  <h6 className="mb-2">💳 Thông tin chuyển khoản</h6>
+                                  <div><strong>Ngân hàng:</strong> {taiKhoanMap[d.phienDauGia.id].nganHang}</div>
+                                  <div><strong>Số tài khoản:</strong> {taiKhoanMap[d.phienDauGia.id].soTaiKhoan}</div>
+                                  <div><strong>Chủ tài khoản:</strong> {taiKhoanMap[d.phienDauGia.id].tenNguoiNhan}</div>
+                                  {taiKhoanMap[d.phienDauGia.id].qrUrl && (
+                                    <div className="mt-2">
+                                      <img src={taiKhoanMap[d.phienDauGia.id].qrUrl} alt="QR chuyển khoản" style={{ maxWidth: 200 }} />
+                                    </div>
+                                  )}
                                 </div>
                               )}
                             </div>
                           )}
                         </Form>
+
 
                         <div className="d-flex justify-content-end mt-3">
                           <Button

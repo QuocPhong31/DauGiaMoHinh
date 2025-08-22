@@ -72,9 +72,9 @@ public class ApiPhienDauGiaController {
             }
             
             // Nếu có WINNER + giá chốt thì tạo đơn
-            if (phien.getGiaChot() != null && phien.getNguoiThangDauGia() != null) {
-                donThanhToanDauGiaService.taoDon(phien);
-            }
+//            if (phien.getGiaChot() != null && phien.getNguoiThangDauGia() != null) {
+//                donThanhToanDauGiaService.taoDon(phien);
+//            }
 
             return ResponseEntity.ok(phien);
         }

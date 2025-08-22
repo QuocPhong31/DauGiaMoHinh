@@ -40,12 +40,6 @@ public class DonThanhToanDauGia implements Serializable{
     private NguoiDung nguoiMua;
 
     private BigDecimal soTien;
-    
-    @ManyToOne
-    @JoinColumn(name = "thongTinTaiKhoan_id")
-    private ThongTinTaiKhoan thongTinTaiKhoan;
-    
-    private String minhChungUrl;
 
     @Enumerated(EnumType.STRING)
     private TrangThai trangThai = TrangThai.PENDING;
@@ -96,22 +90,6 @@ public class DonThanhToanDauGia implements Serializable{
     }
     public void setSoTien(BigDecimal soTien) {
         this.soTien = soTien;
-    }
-    
-    public ThongTinTaiKhoan getThongTinTaiKhoan() {
-        return thongTinTaiKhoan;
-    }
-
-    public void setThongTinTaiKhoan(ThongTinTaiKhoan thongTinTaiKhoan) {
-        this.thongTinTaiKhoan = thongTinTaiKhoan;
-    }
-    
-    public String getMinhChungUrl() {
-        return minhChungUrl;
-    }
-
-    public void setMinhChungUrl(String minhChungUrl) {
-        this.minhChungUrl = minhChungUrl;
     }
 
     public TrangThai getTrangThai() {

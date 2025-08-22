@@ -82,7 +82,7 @@ public class ApiDonThanhToanDauGiaController {
             return ResponseEntity.status(403).body("Bạn không có quyền thao tác đơn này");
         }
 
-        if (don.getTrangThai() == DonThanhToanDauGia.TrangThai.PAID) {
+        if (don.getTrangThai() == DonThanhToanDauGia.TrangThai.SELLER_REVIEW) {
             return ResponseEntity.badRequest().body("Đơn đã thanh toán");
         }
 

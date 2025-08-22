@@ -8,11 +8,11 @@ const DangSanPham = () => {
   const [dsLoai, setDsLoai] = useState([]);
   const [loaiSanPhamId, setLoaiSanPhamId] = useState("");
   const [tenSanPham, setTenSanPham] = useState("");
+  const [avatar, setAvatar] = useState(null);
+  const [thoiGianKetThuc, setThoiGianKetThuc] = useState("");
   const [moTa, setMoTa] = useState("");
   const [giaKhoiDiem, setGiaKhoiDiem] = useState("");
   const [buocNhay, setBuocNhay] = useState("");
-  const [thoiGianKetThuc, setThoiGianKetThuc] = useState("");
-  const [avatar, setAvatar] = useState(null);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
@@ -52,10 +52,10 @@ const DangSanPham = () => {
 
     const formData = new FormData();
     formData.append("tenSanPham", tenSanPham);
+    formData.append("thoiGianKetThuc", thoiGianKetThuc);
     formData.append("moTa", moTa);
     formData.append("giaKhoiDiem", giaKhoiDiem);
     formData.append("buocNhay", Math.round(parseFloat(buocNhay)));
-    formData.append("thoiGianKetThuc", thoiGianKetThuc);
     formData.append("loaiSanPham_id", loaiSanPhamId);
     if (avatar) formData.append("avatar", avatar);
 
@@ -69,11 +69,11 @@ const DangSanPham = () => {
       setMessage({ type: "success", text: "Đăng sản phẩm thành công!" });
       // Reset form
       setTenSanPham("");
+      setAvatar("");
+      setThoiGianKetThuc("");
       setMoTa("");
       setGiaKhoiDiem("");
       setBuocNhay("");
-      setThoiGianKetThuc("");
-      setAvatar("");
       setLoaiSanPhamId("");
     } catch (err) {
       console.error(err);
@@ -108,6 +108,21 @@ const DangSanPham = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
+            <Form.Label>Hình ảnh sản phẩm</Form.Label>
+            <Form.Control type="file" onChange={(e) => setAvatar(e.target.files[0])} accept="image/*" required />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Thời gian kết thúc</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              value={thoiGianKetThuc}
+              onChange={(e) => setThoiGianKetThuc(e.target.value)}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
             <Form.Label>Mô tả</Form.Label>
             <Form.Control as="textarea" rows={3} value={moTa} onChange={(e) => setMoTa(e.target.value)} required />
           </Form.Group>
@@ -132,21 +147,6 @@ const DangSanPham = () => {
               required
               className="custom-input-number"
             />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Thời gian kết thúc</Form.Label>
-            <Form.Control
-              type="datetime-local"
-              value={thoiGianKetThuc}
-              onChange={(e) => setThoiGianKetThuc(e.target.value)}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Hình ảnh sản phẩm</Form.Label>
-            <Form.Control type="file" onChange={(e) => setAvatar(e.target.files[0])} accept="image/*" required />
           </Form.Group>
 
           <Button variant="primary" type="submit" className="w-100">
