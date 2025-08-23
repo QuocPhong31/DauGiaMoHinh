@@ -96,6 +96,7 @@ CREATE TABLE donthanhtoan_daugia (
   nguoiMua_id INT NOT NULL,            -- người thắng phiên
   soTien DECIMAL(10,2) NOT NULL,       -- = giaChot
   trangThai ENUM('PENDING','SELLER_REVIEW','PAID','CANCELLED') DEFAULT 'PENDING',
+  lyDoTuNguoiBan TEXT,
   phuongThuc ENUM('COD','BANK') DEFAULT 'COD',
   hoTenNhan VARCHAR(100),
   soDienThoai VARCHAR(20),
