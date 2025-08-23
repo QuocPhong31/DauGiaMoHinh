@@ -17,7 +17,12 @@ const TrangDonThanhToan = () => {
     CANCELLED: "Đã hủy"
   };
 
-  const STATUS_BADGE = { PENDING: "warning", SELLER_REVIEW: "sc", PAID: "success", CANCELLED: "secondary" };
+  const STATUS_BADGE = { 
+    PENDING: "warning", //vàng
+    SELLER_REVIEW: "primary", //xanh dương
+    PAID: "success", //xanh lá
+    CANCELLED: "secondary" // màu xám
+   };
 
   const fetchOrders = async () => {
     try {

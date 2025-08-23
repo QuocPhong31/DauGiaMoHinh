@@ -35,13 +35,13 @@ public class ApiPhienDauGiaController {
 
     @Autowired
     private PhienDauGiaService phienDauGiaService;
-    
+
     @Autowired
     private PhienDauGiaNguoiDungService phienDauGiaNguoiDungService;
-    
+
     @Autowired
     private DonThanhToanDauGiaService donThanhToanDauGiaService;
-     
+
     @Autowired
     private NguoiDungService nguoiDungService;
 
@@ -58,8 +58,8 @@ public class ApiPhienDauGiaController {
     public ResponseEntity<?> layChiTietPhien(@PathVariable(name = "id") int id) {
         // Gọi service để cập nhật trạng thái, người thắng nếu phiên đã kết thúc
         phienDauGiaService.capNhatKetQuaPhien(id);
-        
-         // Lấy lại phiên đã cập nhật
+
+        // Lấy lại phiên đã cập nhật
         PhienDauGia phien = phienDauGiaService.getLayPhienTheoId(id);
         if (phien != null) {
             // Cập nhật giá hiện tại
@@ -70,18 +70,17 @@ public class ApiPhienDauGiaController {
                 //phien.setGiaHienTai(phien.getSanPham().getGiaKhoiDiem());
                 phien.setGiaHienTai(null);
             }
-            
+
             // Nếu có WINNER + giá chốt thì tạo đơn
 //            if (phien.getGiaChot() != null && phien.getNguoiThangDauGia() != null) {
 //                donThanhToanDauGiaService.taoDon(phien);
 //            }
-
             return ResponseEntity.ok(phien);
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy phiên đấu giá");
     }
-    
+
     @GetMapping("/baidau")
     public ResponseEntity<?> layDanhSachBaiDauCuaNguoiBan(Principal principal) {
         String username = principal.getName();
@@ -108,6 +107,8 @@ public class ApiPhienDauGiaController {
             } else {
                 phien.setGiaHienTai(null);  // Nếu chưa có ai đấu giá
             }
+            DonThanhToanDauGia don = donThanhToanDauGiaService.findByPhien(phien);
+            phien.setDonThanhToan(don);
         }
 
         return ResponseEntity.ok(phienDauGias);

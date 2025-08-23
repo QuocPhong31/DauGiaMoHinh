@@ -29,7 +29,7 @@ public class PhienDauGia implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @ManyToOne
     @JoinColumn(name = "nguoiDang_id")
     private NguoiDung nguoiDang;
@@ -50,11 +50,14 @@ public class PhienDauGia implements Serializable {
     @ManyToOne
     @JoinColumn(name = "nguoiThangDauGia_id")
     private NguoiDung nguoiThangDauGia;
-    
+
     private Boolean daThongBaoKQ;
-    
+
     @Transient
     private BigDecimal giaHienTai;
+
+    @Transient
+    private DonThanhToanDauGia donThanhToan;
 
     public Integer getId() {
         return id;
@@ -63,7 +66,7 @@ public class PhienDauGia implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public NguoiDung getNguoiDang() {
         return nguoiDang;
     }
@@ -119,7 +122,7 @@ public class PhienDauGia implements Serializable {
     public void setNguoiThangDauGia(NguoiDung nguoiThangDauGia) {
         this.nguoiThangDauGia = nguoiThangDauGia;
     }
-    
+
     public Boolean getDaThongBaoKQ() {
         return daThongBaoKQ;
     }
@@ -134,6 +137,14 @@ public class PhienDauGia implements Serializable {
 
     public void setGiaHienTai(BigDecimal giaHienTai) {
         this.giaHienTai = giaHienTai;
+    }
+    
+    public DonThanhToanDauGia getDonThanhToan() { 
+        return donThanhToan; 
+    }
+    
+    public void setDonThanhToan(DonThanhToanDauGia don) { 
+        this.donThanhToan = don; 
     }
 
 }

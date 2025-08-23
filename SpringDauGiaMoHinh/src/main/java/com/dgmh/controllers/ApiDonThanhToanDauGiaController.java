@@ -31,13 +31,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/thanhtoan")
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ApiDonThanhToanDauGiaController {
-    @Autowired 
+
+    @Autowired
     private DonThanhToanDauGiaService donService;
-    @Autowired 
+    @Autowired
     private PhienDauGiaService phienService;
-    @Autowired 
+    @Autowired
     private NguoiDungService userService;
 
     // Tạo đơn cho phiên đã kết thúc (gọi sau khi xác định winner)
@@ -57,11 +58,12 @@ public class ApiDonThanhToanDauGiaController {
 //        d.setTrangThai(DonThanhToanDauGia.TrangThai.PENDING);
 //        return ResponseEntity.ok(donService.add(d));
 //    }
-
     // Danh sách đơn của tôi (người thắng xem trên Header)
     @GetMapping("/cua-toi")
     public ResponseEntity<?> donCuaToi(Principal principal) {
-        if (principal == null) return ResponseEntity.status(401).build();
+        if (principal == null) {
+            return ResponseEntity.status(401).build();
+        }
         NguoiDung u = userService.getByUsername(principal.getName());
         return ResponseEntity.ok(donService.findByNguoiMua(u));
     }
@@ -69,12 +71,16 @@ public class ApiDonThanhToanDauGiaController {
     // Cập nhật thanh toán (COD/BANK + địa chỉ…)
     @PostMapping("/{donId}/thanh-toan")
     public ResponseEntity<?> thanhToan(@PathVariable("donId") int donId,
-                                       @RequestBody Map<String, String> body,
-                                       Principal principal) {
-        if (principal == null) return ResponseEntity.status(401).build();
+            @RequestBody Map<String, String> body,
+            Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).build();
+        }
 
         DonThanhToanDauGia don = donService.getById(donId);
-        if (don == null) return ResponseEntity.notFound().build();
+        if (don == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         // Chỉ chủ đơn (người thắng) mới được thao tác
         NguoiDung nguoiDangNhap = userService.getByUsername(principal.getName());
@@ -102,20 +108,52 @@ public class ApiDonThanhToanDauGiaController {
             }
 
             // Set thông tin thanh toán
-            DonThanhToanDauGia.PhuongThuc pm =
-                    "BANK".equalsIgnoreCase(phuongThuc) ? DonThanhToanDauGia.PhuongThuc.BANK
-                                                        : DonThanhToanDauGia.PhuongThuc.COD;
+            DonThanhToanDauGia.PhuongThuc pm
+                    = "BANK".equalsIgnoreCase(phuongThuc) ? DonThanhToanDauGia.PhuongThuc.BANK
+                    : DonThanhToanDauGia.PhuongThuc.COD;
             don.setPhuongThuc(pm);
             don.setHoTenNhan(hoTenNhan);
             don.setSoDienThoai(soDienThoai);
             don.setDiaChiNhan(diaChiNhan);
             don.setGhiChu(ghiChu);
-            don.setTrangThai(DonThanhToanDauGia.TrangThai.PAID);
+            don.setTrangThai(DonThanhToanDauGia.TrangThai.SELLER_REVIEW);
             don.setNgayThanhToan(new java.util.Date());
 
             return ResponseEntity.ok(donService.update(don));
         } catch (Exception ex) {
             return ResponseEntity.internalServerError().body("Lỗi xử lý thanh toán");
         }
+    }
+
+    @PutMapping("/{donId}/xac-nhan")
+    public ResponseEntity<?> xacNhanDon(@PathVariable("donId") int donId, Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        DonThanhToanDauGia don = donService.getById(donId);
+        if (don == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Lấy người dùng hiện tại
+        NguoiDung nguoiDangNhap = userService.getByUsername(principal.getName());
+
+        // Chỉ cho phép người đăng phiên đấu xác nhận đơn
+        PhienDauGia phien = don.getPhienDauGia();
+        if (phien == null || !phien.getNguoiDang().getId().equals(nguoiDangNhap.getId())) {
+            return ResponseEntity.status(403).body("Bạn không có quyền xác nhận đơn này");
+        }
+
+        // Chỉ xác nhận nếu trạng thái hiện tại là SELLER_REVIEW
+        if (don.getTrangThai() != DonThanhToanDauGia.TrangThai.SELLER_REVIEW) {
+            return ResponseEntity.badRequest().body("Chỉ được xác nhận đơn ở trạng thái SELLER_REVIEW");
+        }
+
+        // Cập nhật trạng thái sang PAID
+        don.setTrangThai(DonThanhToanDauGia.TrangThai.PAID);
+        don.setNgaySellerDuyet(new Date()); // nếu có field này, hoặc có thể bỏ qua
+
+        return ResponseEntity.ok(donService.update(don));
     }
 }

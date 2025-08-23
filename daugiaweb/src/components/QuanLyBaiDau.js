@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { authApis, endpoints } from "../configs/Apis";
 import { Link } from "react-router-dom";
-import '../css/QuanLyBaiDau.css'; // Thêm file CSS để cải tiến giao diện
+import '../css/QuanLyBaiDau.css';
 
 const QuanLyBaiDau = () => {
   const [baiDau, setBaiDau] = useState([]);
@@ -11,15 +11,24 @@ const QuanLyBaiDau = () => {
     const fetchBaiDau = async () => {
       try {
         const res = await authApis().get(endpoints["quan-ly-bai-dau"]);
-        console.log(res); // Kiểm tra kết quả từ API
         setBaiDau(res.data || []);
       } catch (error) {
-        console.error("Yêu cầu thất bại với mã lỗi:", error.response?.status);
-        console.error("Chi tiết lỗi:", error.response?.data);
+        console.error("Lỗi:", error);
       }
     };
     fetchBaiDau();
   }, []);
+
+  const handleXacNhan = async (donId) => {
+    try {
+      await authApis().put(endpoints["xac-nhan-don"](donId));
+      alert("Đã xác nhận đơn thành công");
+      window.location.reload();
+    } catch (err) {
+      console.error("❌ Chi tiết lỗi:", err.response?.data || err.message);
+      alert("Xác nhận thất bại! " + (err.response?.data || ""));
+    }
+  };
 
   return (
     <Container className="mt-4">
@@ -27,7 +36,29 @@ const QuanLyBaiDau = () => {
       <Row className="g-4">
         {baiDau.map((phien) => (
           <Col md={4} key={phien.id}>
-            <Card className="custom-card">
+            <Card className="custom-card position-relative">
+              {/* Badge trạng thái */}
+              {phien.nguoiThangDauGia && (
+                <Badge
+                  bg={
+                    phien.donThanhToan?.trangThai === "PAID"
+                      ? "success"
+                      : phien.donThanhToan?.trangThai === "SELLER_REVIEW"
+                        ? "info"
+                        : "warning"
+                  }
+                  className="position-absolute top-0 end-0 m-2"
+                >
+                  {
+                    phien.donThanhToan?.trangThai === "PAID"
+                      ? "Đã thanh toán"
+                      : phien.donThanhToan?.trangThai === "SELLER_REVIEW"
+                        ? "Chờ xác nhận"
+                        : "Chưa thanh toán"
+                  }
+                </Badge>
+              )}
+
               <Card.Body>
                 <Row>
                   <Col md={4}>
@@ -42,9 +73,7 @@ const QuanLyBaiDau = () => {
                     <Card.Title>{phien.sanPham.tenSanPham}</Card.Title>
                     <Card.Text>
                       <strong>Giá hiện tại: </strong>
-                      {phien.giaHienTai
-                        ? phien.giaHienTai.toLocaleString() + " đ"
-                        : "Chưa có giá chốt"}
+                      {phien.giaHienTai?.toLocaleString() + " đ" || "Chưa có"}
                     </Card.Text>
                     {phien.nguoiThangDauGia && (
                       <Card.Text>
@@ -52,12 +81,18 @@ const QuanLyBaiDau = () => {
                         {phien.nguoiThangDauGia.hoTen}
                       </Card.Text>
                     )}
-                    {phien.thanhToan !== undefined && (
-                      <Card.Text>
-                        <strong>Trạng thái thanh toán: </strong>
-                        {phien.thanhToan ? "Đã thanh toán" : "Chưa thanh toán"}
-                      </Card.Text>
+
+                    {/* Hiện nút xác nhận nếu đơn ở trạng thái SELLER_REVIEW */}
+                    {phien.donThanhToan?.trangThai === "SELLER_REVIEW" && (
+                      <Button
+                        variant="success"
+                        className="mb-2 w-100"
+                        onClick={() => handleXacNhan(phien.donThanhToan.id)}
+                      >
+                        ✅ Xác nhận đơn
+                      </Button>
                     )}
+
                     <Link to={`/cuoc-dau-gia/${phien.id}`}>
                       <Button variant="primary" className="w-100">Xem chi tiết</Button>
                     </Link>
