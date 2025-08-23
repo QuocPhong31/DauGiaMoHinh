@@ -53,4 +53,13 @@ public class DonThanhToanDauGiaServiceImpl implements DonThanhToanDauGiaService{
     public DonThanhToanDauGia taoDon(PhienDauGia p) { 
         return repo.taoDon(p); 
     }
+    
+    @Override
+    public List<DonThanhToanDauGia> DonQuaHanChuaThanhToan() {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.add(java.util.Calendar.DATE, -3); // Trừ 3 ngày
+        java.util.Date deadline = calendar.getTime();
+
+        return repo.DonQuaHanChuaThanhToan(DonThanhToanDauGia.TrangThai.PENDING, deadline);
+    }
 }

@@ -20,4 +20,5 @@ public interface DonThanhToanDauGiaService {
     DonThanhToanDauGia update(DonThanhToanDauGia d);
     DonThanhToanDauGia getById(Integer id);
     DonThanhToanDauGia taoDon(PhienDauGia p);
+    List<DonThanhToanDauGia> DonQuaHanChuaThanhToan();
 }

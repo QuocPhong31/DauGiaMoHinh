@@ -4,6 +4,7 @@
  */
 package com.dgmh.schedulers;
 
+import com.dgmh.pojo.DonThanhToanDauGia;
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.services.DonThanhToanDauGiaService;
 import com.dgmh.services.PhienDauGiaService;
@@ -18,16 +19,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ChayPhienDauGia {
+
     @Autowired
     private PhienDauGiaService phienDauGiaService;
-    
+
     @Autowired
     private DonThanhToanDauGiaService donThanhToanDauGiaService;
 
     // Chạy mỗi phút
     @Scheduled(fixedRate = 60000)
     public void kiemTraPhienHetHan() {
-        
+
         List<PhienDauGia> tatCaPhien = phienDauGiaService.getLayTatCaPhien();
         for (PhienDauGia phien : tatCaPhien) {
             if ("dang_dien_ra".equals(phien.getTrangThai())) {
@@ -38,14 +40,24 @@ public class ChayPhienDauGia {
                     PhienDauGia phienCapNhat = phienDauGiaService.getLayPhienTheoId(phien.getId());
                     System.out.println("➡️ Đang kiểm tra phiên #" + phien.getId());
                     // Chỉ tạo đơn nếu có winner và giá chốt
-                    if (phienCapNhat.getNguoiThangDauGia() != null && phienCapNhat.getGiaChot() != null) 
-                    {
+                    if (phienCapNhat.getNguoiThangDauGia() != null && phienCapNhat.getGiaChot() != null) {
                         System.out.println("✅ Điều kiện đúng, tạo đơn cho phiên #" + phien.getId());
                         donThanhToanDauGiaService.taoDon(phienCapNhat);
                         System.out.println("✅ Đã tạo đơn thanh toán cho phiên #" + phien.getId());
                     }
                 }
             }
+        }
+    }
+
+    public void huyDonQuaHan() {
+        List<DonThanhToanDauGia> donQuaHan = donThanhToanDauGiaService.DonQuaHanChuaThanhToan();
+
+        for (DonThanhToanDauGia don : donQuaHan) {
+            don.setTrangThai(DonThanhToanDauGia.TrangThai.CANCELLED);
+            don.setGhiChu("Đơn bị hủy vì quá hạn thanh toán 3 ngày.");
+            donThanhToanDauGiaService.update(don);
+            System.out.println("Đã hủy đơn #" + don.getId() + " vì quá hạn thanh toán.");
         }
     }
 }

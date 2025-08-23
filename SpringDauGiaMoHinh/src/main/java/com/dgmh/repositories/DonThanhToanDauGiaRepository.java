@@ -20,4 +20,5 @@ public interface DonThanhToanDauGiaRepository {
     DonThanhToanDauGia update(DonThanhToanDauGia d);
     DonThanhToanDauGia getById(Integer id);
     DonThanhToanDauGia taoDon(PhienDauGia p);
+    List<DonThanhToanDauGia> DonQuaHanChuaThanhToan(DonThanhToanDauGia.TrangThai trangThai, java.util.Date deadline);
 }

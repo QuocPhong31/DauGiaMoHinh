@@ -8,6 +8,7 @@ import com.dgmh.pojo.DonThanhToanDauGia;
 import com.dgmh.pojo.NguoiDung;
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.repositories.DonThanhToanDauGiaRepository;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +79,14 @@ public class DonThanhToanDauGiaRepositoryImpl implements DonThanhToanDauGiaRepos
         s().persist(d);
         return d;
     }
+    
+    @Override
+    public List<DonThanhToanDauGia> DonQuaHanChuaThanhToan(DonThanhToanDauGia.TrangThai trangThai, Date deadline) {
+        String hql = "FROM DonThanhToanDauGia d WHERE d.trangThai = :trangThai AND d.ngayTao < :deadline";
+        return s().createQuery(hql, DonThanhToanDauGia.class)
+                  .setParameter("trangThai", trangThai)
+                  .setParameter("deadline", deadline)
+                  .getResultList();
+    }
+
 }
