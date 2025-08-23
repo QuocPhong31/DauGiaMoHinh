@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class DonThanhToanDauGiaServiceImpl implements DonThanhToanDauGiaService{
+public class DonThanhToanDauGiaServiceImpl implements DonThanhToanDauGiaService {
+
     @Autowired
     private DonThanhToanDauGiaRepository repo;
 
@@ -43,17 +44,17 @@ public class DonThanhToanDauGiaServiceImpl implements DonThanhToanDauGiaService{
     public DonThanhToanDauGia update(DonThanhToanDauGia d) {
         return repo.update(d);
     }
-    
-    @Override 
-    public DonThanhToanDauGia getById(Integer id){ 
-        return repo.getById(id); 
-    }
-    
+
     @Override
-    public DonThanhToanDauGia taoDon(PhienDauGia p) { 
-        return repo.taoDon(p); 
+    public DonThanhToanDauGia getById(Integer id) {
+        return repo.getById(id);
     }
-    
+
+    @Override
+    public DonThanhToanDauGia taoDon(PhienDauGia p) {
+        return repo.taoDon(p);
+    }
+
     @Override
     public List<DonThanhToanDauGia> DonQuaHanChuaThanhToan() {
         java.util.Calendar calendar = java.util.Calendar.getInstance();
@@ -61,5 +62,10 @@ public class DonThanhToanDauGiaServiceImpl implements DonThanhToanDauGiaService{
         java.util.Date deadline = calendar.getTime();
 
         return repo.DonQuaHanChuaThanhToan(DonThanhToanDauGia.TrangThai.PENDING, deadline);
+    }
+
+    @Override
+    public void huyDon(int donId, String lyDo) {
+        repo.huyDon(donId, lyDo);
     }
 }

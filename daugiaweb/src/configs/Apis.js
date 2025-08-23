@@ -30,8 +30,7 @@ export const endpoints = {
     "tk-nganhang-cua-toi": "taikhoannganhang/cua-toi",
     "tk-nguoi-ban": (phienId) => `taikhoannganhang/nguoiban/${phienId}`,
     "xac-nhan-don": (id) => `thanhtoan/${id}/xac-nhan`,
-
-
+    "huy-don": (id) => `thanhtoan/huy/${id}`,
 };
 
 // Gọi API có kèm token (xác thực)

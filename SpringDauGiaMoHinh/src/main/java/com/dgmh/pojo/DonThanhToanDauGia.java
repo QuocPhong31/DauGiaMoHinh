@@ -62,6 +62,7 @@ public class DonThanhToanDauGia implements Serializable{
     private Date ngaySellerDuyet;
 
     public enum TrangThai { PENDING, SELLER_REVIEW, PAID, CANCELLED }
+    private String lyDoTuNguoiBan;
     public enum PhuongThuc { COD, BANK }
     
     public Integer getId() {
@@ -104,6 +105,13 @@ public class DonThanhToanDauGia implements Serializable{
     }
     public void setPhuongThuc(PhuongThuc phuongThuc) {
         this.phuongThuc = phuongThuc;
+    }
+    
+    public String getLyDoTuNguoiBan() {
+        return lyDoTuNguoiBan;
+    }
+    public void setLyDoTuNguoiBan(String lyDoTuNguoiBan) {
+        this.lyDoTuNguoiBan = lyDoTuNguoiBan;
     }
 
     public String getHoTenNhan() {

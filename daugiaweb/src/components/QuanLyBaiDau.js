@@ -25,8 +25,24 @@ const QuanLyBaiDau = () => {
       alert("Đã xác nhận đơn thành công");
       window.location.reload();
     } catch (err) {
-      console.error("❌ Chi tiết lỗi:", err.response?.data || err.message);
+      console.error(" Chi tiết lỗi:", err.response?.data || err.message);
       alert("Xác nhận thất bại! " + (err.response?.data || ""));
+    }
+  };
+
+  const handleHuyDon = async (donId) => {
+    const lyDo = prompt("Nhập lý do hủy đơn:");
+    if (!lyDo || lyDo.trim() === "") {
+      alert("Vui lòng nhập lý do.");
+      return;
+    }
+
+    try {
+      await authApis().put(endpoints["huy-don"](donId), { lyDo });
+      alert("Đã hủy đơn thành công.");
+      window.location.reload();
+    } catch (err) {
+      alert("Hủy đơn thất bại! " + (err.response?.data || ""));
     }
   };
 
@@ -45,7 +61,9 @@ const QuanLyBaiDau = () => {
                       ? "success"
                       : phien.donThanhToan?.trangThai === "SELLER_REVIEW"
                         ? "info"
-                        : "warning"
+                        : phien.donThanhToan?.trangThai === "CANCELLED"
+                          ? "secondary"
+                          : "warning"
                   }
                   className="position-absolute top-0 end-0 m-2"
                 >
@@ -54,7 +72,9 @@ const QuanLyBaiDau = () => {
                       ? "Đã thanh toán"
                       : phien.donThanhToan?.trangThai === "SELLER_REVIEW"
                         ? "Chờ xác nhận"
-                        : "Chưa thanh toán"
+                        : phien.donThanhToan?.trangThai === "CANCELLED"
+                          ? "Đã hủy"
+                          : "Chưa thanh toán"
                   }
                 </Badge>
               )}
@@ -82,15 +102,27 @@ const QuanLyBaiDau = () => {
                       </Card.Text>
                     )}
 
+                    {phien.donThanhToan?.phuongThuc && (
+                      <Card.Text>
+                        <strong>Phương thức thanh toán: </strong>
+                        {phien.donThanhToan.phuongThuc === "COD" ? "Thanh toán khi nhận hàng (COD)" : "Chuyển khoản ngân hàng (BANK)"}
+                      </Card.Text>
+                    )}
+
                     {/* Hiện nút xác nhận nếu đơn ở trạng thái SELLER_REVIEW */}
                     {phien.donThanhToan?.trangThai === "SELLER_REVIEW" && (
-                      <Button
-                        variant="success"
-                        className="mb-2 w-100"
-                        onClick={() => handleXacNhan(phien.donThanhToan.id)}
-                      >
-                        ✅ Xác nhận đơn
-                      </Button>
+                      <>
+                        <Button variant="danger" className="mb-2 w-100" onClick={() => handleHuyDon(phien.donThanhToan.id)}>
+                          ❌ Hủy xác nhận
+                        </Button>
+                        <Button
+                          variant="success"
+                          className="mb-2 w-100"
+                          onClick={() => handleXacNhan(phien.donThanhToan.id)}
+                        >
+                          ✅ Xác nhận đơn
+                        </Button>
+                      </>
                     )}
 
                     <Link to={`/cuoc-dau-gia/${phien.id}`}>

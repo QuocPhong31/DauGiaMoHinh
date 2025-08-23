@@ -21,4 +21,5 @@ public interface DonThanhToanDauGiaRepository {
     DonThanhToanDauGia getById(Integer id);
     DonThanhToanDauGia taoDon(PhienDauGia p);
     List<DonThanhToanDauGia> DonQuaHanChuaThanhToan(DonThanhToanDauGia.TrangThai trangThai, java.util.Date deadline);
+    void huyDon(int donId, String lyDo);
 }

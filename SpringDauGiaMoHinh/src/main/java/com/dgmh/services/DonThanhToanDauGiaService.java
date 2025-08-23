@@ -21,4 +21,5 @@ public interface DonThanhToanDauGiaService {
     DonThanhToanDauGia getById(Integer id);
     DonThanhToanDauGia taoDon(PhienDauGia p);
     List<DonThanhToanDauGia> DonQuaHanChuaThanhToan();
+    void huyDon(int donId, String lyDo);
 }

@@ -22,26 +22,29 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class DonThanhToanDauGiaRepositoryImpl implements DonThanhToanDauGiaRepository{
+public class DonThanhToanDauGiaRepositoryImpl implements DonThanhToanDauGiaRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
-    private Session s() { return factory.getObject().getCurrentSession(); }
+    private Session s() {
+        return factory.getObject().getCurrentSession();
+    }
 
     @Override
     public DonThanhToanDauGia findByPhien(PhienDauGia p) {
         String hql = "FROM DonThanhToanDauGia d WHERE d.phienDauGia = :p";
         return s().createQuery(hql, DonThanhToanDauGia.class)
-                  .setParameter("p", p)
-                  .uniqueResult();
+                .setParameter("p", p)
+                .uniqueResult();
     }
 
     @Override
     public List<DonThanhToanDauGia> findByNguoiMua(NguoiDung u) {
         String hql = "FROM DonThanhToanDauGia d WHERE d.nguoiMua = :u ORDER BY d.ngayTao DESC";
         return s().createQuery(hql, DonThanhToanDauGia.class)
-                  .setParameter("u", u)
-                  .getResultList();
+                .setParameter("u", u)
+                .getResultList();
     }
 
     @Override
@@ -55,19 +58,22 @@ public class DonThanhToanDauGiaRepositoryImpl implements DonThanhToanDauGiaRepos
         s().merge(d);
         return d;
     }
-    
+
     @Override
     public DonThanhToanDauGia getById(Integer id) {
         return s().get(DonThanhToanDauGia.class, id);
     }
-    
+
     @Override
     public DonThanhToanDauGia taoDon(PhienDauGia p) {
-        if (p == null || p.getGiaChot() == null || p.getNguoiThangDauGia() == null)
+        if (p == null || p.getGiaChot() == null || p.getNguoiThangDauGia() == null) {
             return null;
+        }
 
         DonThanhToanDauGia existed = findByPhien(p);
-        if (existed != null) return existed;
+        if (existed != null) {
+            return existed;
+        }
 
         DonThanhToanDauGia d = new DonThanhToanDauGia();
         d.setPhienDauGia(p);
@@ -79,14 +85,24 @@ public class DonThanhToanDauGiaRepositoryImpl implements DonThanhToanDauGiaRepos
         s().persist(d);
         return d;
     }
-    
+
     @Override
     public List<DonThanhToanDauGia> DonQuaHanChuaThanhToan(DonThanhToanDauGia.TrangThai trangThai, Date deadline) {
         String hql = "FROM DonThanhToanDauGia d WHERE d.trangThai = :trangThai AND d.ngayTao < :deadline";
         return s().createQuery(hql, DonThanhToanDauGia.class)
-                  .setParameter("trangThai", trangThai)
-                  .setParameter("deadline", deadline)
-                  .getResultList();
+                .setParameter("trangThai", trangThai)
+                .setParameter("deadline", deadline)
+                .getResultList();
+    }
+
+    @Override
+    public void huyDon(int donId, String lyDo) {
+        DonThanhToanDauGia don = s().get(DonThanhToanDauGia.class, donId);
+        if (don != null && don.getTrangThai() == DonThanhToanDauGia.TrangThai.SELLER_REVIEW) {
+            don.setTrangThai(DonThanhToanDauGia.TrangThai.CANCELLED);
+            don.setLyDoTuNguoiBan(lyDo);
+            s().merge(don);  // Cập nhật
+        }
     }
 
 }

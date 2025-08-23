@@ -156,4 +156,16 @@ public class ApiDonThanhToanDauGiaController {
 
         return ResponseEntity.ok(donService.update(don));
     }
+
+    @PutMapping("/huy/{id}")
+    public ResponseEntity<?> huyDon(@PathVariable("id") int id, @RequestBody Map<String, String> body) {
+        String lyDo = body.get("lyDo");
+
+        if (lyDo == null || lyDo.isBlank()) {
+            return ResponseEntity.badRequest().body("Lý do không được để trống.");
+        }
+
+        donService.huyDon(id, lyDo);
+        return ResponseEntity.ok("Đơn đã được hủy.");
+    }
 }
