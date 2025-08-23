@@ -86,7 +86,7 @@ public class ApiThongTinTaiKhoanController {
             return ResponseEntity.ok(ds.get(0));
 
         } catch (Exception e) {
-            e.printStackTrace(); // log lỗi
+            e.printStackTrace(); 
             return ResponseEntity.status(500).body("Lỗi khi lấy tài khoản người bán.");
         }
     }

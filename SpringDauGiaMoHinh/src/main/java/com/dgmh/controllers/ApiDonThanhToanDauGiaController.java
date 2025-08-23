@@ -152,7 +152,7 @@ public class ApiDonThanhToanDauGiaController {
 
         // Cập nhật trạng thái sang PAID
         don.setTrangThai(DonThanhToanDauGia.TrangThai.PAID);
-        don.setNgaySellerDuyet(new Date()); // nếu có field này, hoặc có thể bỏ qua
+        don.setNgaySellerDuyet(new Date());
 
         return ResponseEntity.ok(donService.update(don));
     }

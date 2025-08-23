@@ -99,10 +99,9 @@ public class ApiPhienDauGiaNguoiDungController {
 
             this.phienDauGiaNguoiDungService.datGia(pdgNd);
 
-            // === Cập nhật giaHienTai của phiên ===
+            // Cập nhật giaHienTai của phiên 
             phien.setGiaHienTai(giaMoi); // kể cả khi = giá khởi điểm
             this.phienDauGiaService.capNhatPhien(phien);
-            // =====================================
 
             return ResponseEntity.ok("Đặt giá thành công!");
         } catch (Exception e) {

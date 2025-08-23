@@ -179,6 +179,6 @@ public class AdminController {
         model.addAttribute("totalRevenue", tongDoanhThu);
         model.addAttribute("totalOrders", tongDon);
 
-        return "thongKeDauGia"; // trùng tên file .html
+        return "thongKeDauGia"; 
     }
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Container, Row, Col, Card, Image, Form, Button, Alert } from "react-bootstrap";
 import { MyUserContext } from "../configs/Contexts";
 import { authApis, endpoints } from "../configs/Apis";
@@ -11,6 +11,23 @@ const ThongTinCaNhan = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState({ type: "", text: "" });
     const [roleUpdated, setRoleUpdated] = useState(false);
+    const [taiKhoan, setTaiKhoan] = useState(null);
+
+    useEffect(() => {
+        const fetchTaiKhoan = async () => {
+            try {
+                const res = await authApis().get(endpoints["tk-nganhang-cua-toi"]);
+                if (Array.isArray(res.data) && res.data.length > 0) {
+                    setTaiKhoan(res.data[0]);  // ✅ lấy phần tử đầu tiên
+                    console.log("Dữ liệu tài khoản ngân hàng:", res.data[0]);
+                }
+            } catch (err) {
+                console.error("Lỗi khi lấy tài khoản:", err);
+            }
+        };
+
+        fetchTaiKhoan();
+    }, []);
 
     const handleChangePassword = async (e) => {
         e.preventDefault();
@@ -41,7 +58,7 @@ const ThongTinCaNhan = () => {
 
     const handleUpgradeToSeller = async () => {
         try {
-            const res = await authApis().post(endpoints["chuyen-vai-tro"]); 
+            const res = await authApis().post(endpoints["chuyen-vai-tro"]);
             if (res.status === 200) {
                 setRoleUpdated(true);
                 setMessage({ type: "success", text: "Chuyển vai trò thành công, vui lòng đăng nhập lại." });
@@ -81,6 +98,15 @@ const ThongTinCaNhan = () => {
                             <Button variant="warning" onClick={handleUpgradeToSeller}>
                                 Chuyển vai trò sang người bán
                             </Button>
+                        )}
+
+                        {taiKhoan && (
+                            <>
+                                <hr />
+                                <p className="mb-1"><strong>Tên người nhận:</strong> {taiKhoan.tenNguoiNhan}</p>
+                                <p className="mb-1"><strong>Ngân hàng:</strong> {taiKhoan.nganHang}</p>
+                                <p className="mb-1"><strong>Số tài khoản:</strong> {taiKhoan.soTaiKhoan}</p>
+                            </>
                         )}
                     </Card>
                 </Col>
