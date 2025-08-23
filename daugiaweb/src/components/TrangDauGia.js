@@ -165,6 +165,19 @@ const TrangDauGia = () => {
               </div>
 
               <Card.Body>
+
+                {phien.nguoiDang && (
+                  <div className="d-flex align-items-center mb-3">
+                    <img
+                      src={phien.nguoiDang.avatar || "https://via.placeholder.com/40"}
+                      alt="avatar"
+                      width={40}
+                      height={40}
+                      className="rounded-circle me-2"
+                    />
+                    <span className="small text-muted">{phien.nguoiDang.hoTen}</span>
+                  </div>
+                )}
                 <div className="d-flex justify-content-between align-items-start mb-2">
                   <h5 className="fw-bold mb-0 text-truncate">
                     {phien.sanPham?.tenSanPham}
