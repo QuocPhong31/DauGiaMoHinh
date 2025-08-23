@@ -136,10 +136,24 @@ const ChiTietBaiDauGia = () => {
 
   return (
     <Container className="mt-4">
-      <h3 className="text-center mb-4">{sp.tenSanPham}</h3>
+      {phien.nguoiDang && (
+        <div className="d-flex align-items-center mb-3">
+          <img
+            src={phien.nguoiDang.avatar || "https://via.placeholder.com/40"}
+            alt="avatar"
+            width={40}
+            height={40}
+            className="rounded-circle me-2"
+          />
+          <span className="small text-muted">{phien.nguoiDang.hoTen}</span>
+        </div>
+      )}
       <Row>
         <Col md={7}>
           <Card body>
+            <h4 style={{ color: "#654be9ff", fontWeight: "bold" }}>
+              {sp.tenSanPham}
+            </h4>
             <p>
               <strong>Loại sản phẩm:</strong> {sp.loaiSanPham?.tenLoai}
             </p>
