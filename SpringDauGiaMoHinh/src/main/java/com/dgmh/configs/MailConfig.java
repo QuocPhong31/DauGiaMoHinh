@@ -5,8 +5,10 @@
 package com.dgmh.configs;
 
 import java.util.Properties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -15,15 +17,29 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
  * @author Tran Quoc Phong
  */
 @Configuration
+@PropertySource("classpath:application.properties")
 public class MailConfig {
+
+    @Value("${spring.mail.host}")
+    private String host;
+
+    @Value("${spring.mail.port}")
+    private int port;
+
+    @Value("${spring.mail.username}")
+    private String username;
+
+    @Value("${spring.mail.password}")
+    private String password;
+
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com"); // hoặc SMTP server khác
-        mailSender.setPort(587);
 
-        mailSender.setUsername("asamikiri2004@gmail.com");
-        mailSender.setPassword("hqpd gtxq fjvq uhzh"); // App password nếu dùng Gmail
+        mailSender.setHost(host);
+        mailSender.setPort(port);
+        mailSender.setUsername(username);
+        mailSender.setPassword(password);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
