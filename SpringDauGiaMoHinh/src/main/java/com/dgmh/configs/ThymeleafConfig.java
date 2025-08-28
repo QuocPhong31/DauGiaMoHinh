@@ -32,7 +32,7 @@ public class ThymeleafConfig {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.addDialect(new SpringSecurityDialect()); // nếu bạn không dùng spring security có thể bỏ dòng này
+        templateEngine.addDialect(new SpringSecurityDialect()); 
         return templateEngine;
     }
 

@@ -11,3 +11,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* BẮT BUỘC: khung layout toàn trang */
+html, body, #root {
+  height: 100%;
+  margin: 0;              /* tránh khoảng trắng mặc định */
+}
+
+#root {
+  display: flex;
+  flex-direction: column; /* xếp dọc: Header | Main | Footer */
+}
+
+/* vùng nội dung giãn ra, đẩy footer xuống đáy */
+.main-content {
+  flex: 1;
+}
+
+/* footer tràn ngang, không chừa khoảng dưới */
+.site-footer {
+  margin-bottom: 0;
+  border-radius: 0;
+}

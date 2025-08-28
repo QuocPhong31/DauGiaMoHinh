@@ -25,10 +25,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
     "com.dgmh.controllers",
-    "com.dgmh.repositories",   // cần tạo nếu dùng DAO
+    "com.dgmh.repositories",   
     "com.dgmh.repositories.impl",
     //"com.dgmh.formatters",
-    "com.dgmh.services",      // cần tạo nếu có Service
+    "com.dgmh.services",    
     "com.dgmh.services.impl",
     "com.dgmh.pojo",
     "com.dgmh.schedulers",

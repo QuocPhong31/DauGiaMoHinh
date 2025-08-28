@@ -1,3 +1,16 @@
+.page-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.6);
+  opacity: 0.8;
+}
+
 /* Giao diện banner */
 .banner {
     background-color: #28a745;  /* Màu xanh lá */
@@ -49,6 +62,22 @@
 .effect-card:hover {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     transform: translateY(-8px);
+}
+
+/* Icon trong card tính năng chính */
+.feature-icon {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #fff8e1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Khi hover card thì icon phóng to nhẹ */
+.effect-card:hover .feature-icon {
+  transform: scale(1.08);
 }
 
 /* Điều chỉnh kiểu chữ cho tiêu đề và phần mô tả */
@@ -116,4 +145,8 @@ h1 {
 .carousel {
   margin-bottom: 50px; /* Tạo khoảng cách dưới slider ảnh */
   margin-top: 50px;
+}
+
+.text-purple {
+  color: #800080 !important;  
 }

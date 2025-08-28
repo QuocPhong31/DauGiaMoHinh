@@ -8,6 +8,7 @@ import com.dgmh.pojo.DonThanhToanDauGia;
 import com.dgmh.pojo.PhienDauGia;
 import com.dgmh.services.DonThanhToanDauGiaService;
 import com.dgmh.services.PhienDauGiaService;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -50,14 +51,23 @@ public class ChayPhienDauGia {
         }
     }
 
-    public void huyDonQuaHan() {
-        List<DonThanhToanDauGia> donQuaHan = donThanhToanDauGiaService.DonQuaHanChuaThanhToan();
+    @Scheduled(fixedRate = 70000)
+    public void kiemTraDonQuaHan() {
 
-        for (DonThanhToanDauGia don : donQuaHan) {
-            don.setTrangThai(DonThanhToanDauGia.TrangThai.CANCELLED);
-            don.setGhiChu("Đơn bị hủy vì quá hạn thanh toán 3 ngày.");
-            donThanhToanDauGiaService.update(don);
-            System.out.println("Đã hủy đơn #" + don.getId() + " vì quá hạn thanh toán.");
+        // Lấy tất cả các đơn chưa thanh toán và chưa hủy
+        List<DonThanhToanDauGia> donChuaThanhToan = donThanhToanDauGiaService.DonQuaHanChuaThanhToan();
+
+        // Lặp qua các đơn hàng để kiểm tra
+        for (DonThanhToanDauGia don : donChuaThanhToan) {
+            Date today = new Date();
+            // Kiểm tra nếu đơn hàng đã quá 3 ngày chưa thanh toán
+            if (don.getNgayTao().before(new Date(today.getTime() - 3L * 24 * 60 * 60 * 1000))) {
+                // Cập nhật trạng thái đơn hàng thành CANCELLED
+                don.setTrangThai(DonThanhToanDauGia.TrangThai.CANCELLED);
+                don.setGhiChu("Đơn bị hủy vì quá hạn thanh toán 3 ngày.");
+                donThanhToanDauGiaService.update(don);
+                System.out.println("Đã hủy đơn #" + don.getId() + " vì quá hạn thanh toán.");
+            }
         }
     }
 }

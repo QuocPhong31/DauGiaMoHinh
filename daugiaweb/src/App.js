@@ -49,25 +49,27 @@ const App = () => {
       <MyDispatchContext.Provider value={dispatch}>
         <BrowserRouter>
           <Header />
-          <Container>
-            <Routes>
-              <Route path="/" element={<TrangChu />} />
-              <Route path="/dangnhap" element={<DangNhap />} />
-              <Route path="/dangky" element={<DangKy />} />
-              <Route path="/thongtincanhan" element={<ThongTinCaNhan />} />
-              <Route path="/taodaugia" element={<DangSanPham />} />
-              <Route path="/cuocdaugia" element={<TrangDauGia />} />
-              <Route path="/quanlybaidau" element={<QuanLyBaiDau />} />
-              <Route path="/thanhtoan" element={<TrangDonThanhToan />} />
-              <Route path="/themtaikhoan" element={<ThemTaiKhoan />} />
-              <Route path="/cuoc-dau-gia/:id" element={<ChiTietBaiDauGia />} />
-              <Route path="/lienhe" element={<LienHe />} />
-            </Routes>
-          </Container>
-          <Footer />
-        </BrowserRouter>
-      </MyDispatchContext.Provider>
-    </MyUserContext.Provider>
+          <div className="main-content">
+            <Container>
+              <Routes>
+                <Route path="/" element={<TrangChu />} />
+                <Route path="/dangnhap" element={<DangNhap />} />
+                <Route path="/dangky" element={<DangKy />} />
+                <Route path="/thongtincanhan" element={<ThongTinCaNhan />} />
+                <Route path="/taodaugia" element={<DangSanPham />} />
+                <Route path="/cuocdaugia" element={<TrangDauGia />} />
+                <Route path="/quanlybaidau" element={<QuanLyBaiDau />} />
+                <Route path="/thanhtoan" element={<TrangDonThanhToan />} />
+                <Route path="/themtaikhoan" element={<ThemTaiKhoan />} />
+                <Route path="/cuoc-dau-gia/:id" element={<ChiTietBaiDauGia />} />
+                <Route path="/lienhe" element={<LienHe />} />
+              </Routes>
+            </Container>
+          </div>
+        <Footer />
+      </BrowserRouter>
+    </MyDispatchContext.Provider>
+    </MyUserContext.Provider >
   );
 };
 

@@ -1,0 +1,78 @@
+/* ===== Header entrance + glass effect ===== */
+.navbar-animated {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: #ffcc00 !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: dropIn 0.6s ease-out both;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+.navbar-animated:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+@keyframes dropIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== Brand micro-animations ===== */
+.brand-jh {
+  color: #e60023;                 /* đỏ JH */
+  display: inline-block;
+  animation: jhPulse 2.2s ease-in-out infinite;
+}
+.brand-figure { color: #111; }     /* FIGURE đen */
+.brand-sub {                       /* Đấu Giá Mô Hình */
+  color: #e35d6a;
+  margin-left: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+@keyframes jhPulse {
+  0%, 100% { text-shadow: 0 0 0 rgba(230, 0, 35, 0); }
+  50%      { text-shadow: 0 0 16px rgba(230, 0, 35, 0.45); }
+}
+
+/* ===== Nav link underline slide + lift ===== */
+.nav-anim {
+  position: relative;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+.nav-anim::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  height: 2px; width: 0;
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #5f27cd);
+  transition: width 0.3s ease;
+}
+.nav-anim:hover { transform: translateY(-1px); }
+.nav-anim:hover::after { width: 100%; }
+
+/* ===== Button micro-interaction ===== */
+.btn-anim {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-anim:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 8px 18px rgba(220, 53, 69, 0.25);
+}
+
+/* ===== Respect reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .navbar-animated,
+  .brand-jh,
+  .nav-anim,
+  .btn-anim {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Small tweak for mobile */
+@media (max-width: 991.98px) {
+  .nav-anim::after { bottom: -2px; }
+}

@@ -61,7 +61,7 @@ public class DonThanhToanDauGiaServiceImpl implements DonThanhToanDauGiaService 
         calendar.add(java.util.Calendar.DATE, -3); // Trừ 3 ngày
         java.util.Date deadline = calendar.getTime();
 
-        return repo.DonQuaHanChuaThanhToan(DonThanhToanDauGia.TrangThai.PENDING, deadline);
+        return repo.DonQuaHanChuaThanhToan();
     }
 
     @Override
