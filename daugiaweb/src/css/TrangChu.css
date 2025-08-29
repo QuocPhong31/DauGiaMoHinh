@@ -128,12 +128,12 @@ h1 {
 
 /* Thêm phần padding cho các card */
 .card {
-    padding: 20px;
+    padding: 10px;
 }
 
 /* Thêm khoảng cách giữa các card */
 .card-body {
-    padding: 20px;
+    padding: 10px;
 }
 
 /* Giới hạn chiều rộng ảnh, giúp ảnh tràn và cân đối */

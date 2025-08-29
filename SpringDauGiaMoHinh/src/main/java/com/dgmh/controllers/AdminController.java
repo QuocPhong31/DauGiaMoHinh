@@ -9,6 +9,7 @@ import com.dgmh.pojo.NguoiDung;
 import com.dgmh.services.MailService;
 import com.dgmh.services.NguoiDungService;
 import com.dgmh.services.ThongKeService;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -112,7 +113,7 @@ public class AdminController {
         redirectAttrs.addFlashAttribute("message", "Thêm người dùng thành công!");
         return "redirect:/admin";
     }
-    
+
     @PostMapping("/khoa-user")
     public String khoaUser(@RequestParam("userId") int id, RedirectAttributes redirectAttrs) {
         boolean result = nguoiDungService.khoaUser(id);
@@ -137,7 +138,7 @@ public class AdminController {
 
         return "redirect:/admin";
     }
-    
+
     @PostMapping("/mo-khoa-user")
     public String moKhoaUser(@RequestParam("userId") int id, RedirectAttributes redirectAttrs) {
         boolean result = nguoiDungService.moKhoaUser(id);
@@ -165,20 +166,32 @@ public class AdminController {
             endDate = t;
         }
 
-        List<ThongKeDTO> ds = thongKeService.thongKeTheoNgay(startDate, endDate);
+        // Lấy thống kê tổng tiền từ phương thức thongKeTheoNgay
+        List<ThongKeDTO> revenueStats = thongKeService.thongKeTheoNgay(startDate, endDate);
+        model.addAttribute("revenueStats", revenueStats);
 
-        model.addAttribute("auctionStats", ds);
-        model.addAttribute("startDate", startDate);
-        model.addAttribute("endDate", endDate);
+        // Lấy thống kê số người tham gia và số phiên đấu giá từ phương thức thongKePhienDauGiaNgay
+        List<ThongKeDTO> auctionStats = thongKeService.thongKePhienDauGiaNgay(startDate, endDate);
+        model.addAttribute("auctionStats", auctionStats);
 
-        var tongDoanhThu = ds.stream()
+        // Tính tổng doanh thu và tổng số đơn đã thanh toán
+        var tongDoanhThu = revenueStats.stream()
                 .map(ThongKeDTO::getTongTien)
-                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
-        var tongDon = ds.stream().mapToLong(ThongKeDTO::getSoDonThanhToan).sum();
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        var tongDon = revenueStats.stream().mapToLong(ThongKeDTO::getSoDonThanhToan).sum();
+
+        // Tính tổng số người tham gia và số phiên đấu giá
+        var soNguoiThamGia = auctionStats.stream().mapToLong(ThongKeDTO::getSoNguoiThamGia).sum();
+        var soPhienDauGia = auctionStats.stream().mapToLong(ThongKeDTO::getSoPhienDauGia).sum();
 
         model.addAttribute("totalRevenue", tongDoanhThu);
         model.addAttribute("totalOrders", tongDon);
+        model.addAttribute("totalParticipants", soNguoiThamGia);
+        model.addAttribute("totalAuctions", soPhienDauGia);
 
-        return "thongKeDauGia"; 
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+
+        return "thongKeDauGia";
     }
 }

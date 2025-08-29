@@ -14,4 +14,5 @@ import java.util.List;
 
 public interface ThongKeRepository {
     List<ThongKeDTO> thongKeTheoNgay(LocalDate tuNgay, LocalDate denNgay);
+    List<ThongKeDTO> thongKePhienDauGiaNgay(LocalDate tuNgay, LocalDate denNgay);
 }

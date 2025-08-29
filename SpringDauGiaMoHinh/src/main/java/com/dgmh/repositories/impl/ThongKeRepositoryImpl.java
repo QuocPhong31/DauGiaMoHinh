@@ -57,5 +57,36 @@ public class ThongKeRepositoryImpl implements ThongKeRepository {
         }
         return kq;
     }
+    
+    @Override
+    public List<ThongKeDTO> thongKePhienDauGiaNgay(LocalDate tuNgay, LocalDate denNgay) {
+        Session s = factory.getObject().getCurrentSession();
+
+        String sql = """
+            SELECT DATE(p.thoiGianBatDau) AS ngay,
+                   COUNT(DISTINCT pgn.nguoiDung_id) AS soNguoiThamGia,
+                   COUNT(DISTINCT p.id) AS soPhienDauGia
+            FROM daugiadb.phiendaugia p
+            LEFT JOIN daugiadb.phiendaugia_nguoidung pgn
+            ON p.id = pgn.phienDauGia_id
+            WHERE DATE(p.thoiGianBatDau) BETWEEN :tu AND :den
+            GROUP BY DATE(p.thoiGianBatDau)
+            ORDER BY DATE(p.thoiGianBatDau)
+        """;
+
+        NativeQuery<Object[]> q = s.createNativeQuery(sql);
+        q.setParameter("tu", Date.valueOf(tuNgay));
+        q.setParameter("den", Date.valueOf(denNgay));
+
+        List<Object[]> rows = q.getResultList();
+        List<ThongKeDTO> kq = new ArrayList<>();
+        for (Object[] r : rows) {
+            LocalDate ngay = ((Date) r[0]).toLocalDate();
+            long soNguoiThamGia = ((Number) r[1]).longValue();
+            long soPhienDauGia = ((Number) r[2]).longValue();
+            kq.add(new ThongKeDTO(ngay, soNguoiThamGia, soPhienDauGia));
+        }
+        return kq;
+    }
 }
 

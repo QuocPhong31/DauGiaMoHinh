@@ -22,8 +22,8 @@ const TrangChu = () => {
     }, []);
 
     return (
-        <>
-            <div className="page-background" style={{ backgroundImage: "url('/fuhua.jpg')" }}></div>
+        // <>
+        //     <div className="page-background" style={{ backgroundImage: "url('/icon4.png')" }}></div>
             <Container className="mt-5">
                 {/* Phần giới thiệu */}
                 <Row className="justify-content-center mb-5">
@@ -31,9 +31,7 @@ const TrangChu = () => {
                         <h1 className="fw-bold mb-3 text-uppercase text-gradient">
                             Chào mừng đến với hệ thống đấu giá trực tuyến
                         </h1>
-                        <p className="fs-5 text-muted">
-                            Khám phá những phiên đấu giá độc đáo và sưu tầm những món đồ quý giá!
-                        </p>
+
                         {!user ? (
                             <div className="d-flex justify-content-center gap-3 mt-4">
                                 <Link to="/dangnhap">
@@ -82,6 +80,33 @@ const TrangChu = () => {
                             </Card>
                         </Col>
                     )}
+
+                    {user?.vaiTro === "ROLE_NGUOIBAN" && (
+                        <Col md={4}>
+                            <Card className="mb-4 shadow-lg effect-card">
+                                <Card.Body>
+                                    <Link to="/quanlybaidau" className="text-decoration-none text-dark">
+                                        <img src="/icons/icon6.png" alt="Đấu giá" className="feature-icon mb-3" />
+                                        <Card.Title>bài đấu đã đăng</Card.Title>
+                                        <Card.Text>quản lý bài đấu giá đã được duyệt</Card.Text>
+                                    </Link>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    )}
+
+                    <Col md={4}>
+                        <Card className="mb-4 shadow-lg effect-card">
+                            <Card.Body>
+                                <Link to="/lienhe" className="text-decoration-none text-dark">
+                                    <img src="/icons/icon5.png" alt="Đấu giá" className="feature-icon mb-3" />
+                                    <Card.Title>Chat bạn bè</Card.Title>
+                                    <Card.Text>Nhắn tin với mọi người.</Card.Text>
+                                </Link>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    
                     <Col md={4}>
                         <Card className="mb-4 shadow-lg effect-card">
                             <Card.Body>
@@ -169,7 +194,7 @@ const TrangChu = () => {
                     )}
                 </Row>
             </Container>
-        </>
+        // </>
     );
 };
 

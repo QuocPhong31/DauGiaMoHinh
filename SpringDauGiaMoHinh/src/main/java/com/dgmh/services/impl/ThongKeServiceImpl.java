@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class ThongKeServiceImpl implements ThongKeService {
     @Autowired
     private ThongKeRepository repo;
@@ -26,6 +27,10 @@ public class ThongKeServiceImpl implements ThongKeService {
     @Transactional(readOnly = true)
     public List<ThongKeDTO> thongKeTheoNgay(LocalDate tuNgay, LocalDate denNgay) {
         return repo.thongKeTheoNgay(tuNgay, denNgay);
+    }
+    
+    public List<ThongKeDTO> thongKePhienDauGiaNgay(LocalDate tuNgay, LocalDate denNgay) {
+        return repo.thongKePhienDauGiaNgay(tuNgay, denNgay);
     }
 }
 
