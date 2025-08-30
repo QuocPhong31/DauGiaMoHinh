@@ -88,7 +88,13 @@ const ChiTietBaiDauGia = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // chặn luôn ở client
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+    if (!user) {
+      setMessage({ type: "warning", text: "Bạn cần đăng nhập/đăng ký để tham gia đấu giá." });
+      return;
+    }
+
+    // Kiểm tra nếu là chủ sở hữu sản phẩm
     if (isOwner) {
       setMessage({ type: "warning", text: "Bạn không thể đấu giá sản phẩm của chính mình." });
       return;

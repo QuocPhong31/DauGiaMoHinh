@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { authApis, endpoints } from '../configs/Apis';
 import cookie from 'react-cookies';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Thêm thư viện react-icons để dùng icon mắt
 import '../css/DangKy.css';
 
 const DangKy = () => {
@@ -19,6 +20,8 @@ const DangKy = () => {
   });
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State để kiểm soát việc hiển thị/ẩn mật khẩu
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State để kiểm soát việc hiển thị/ẩn xác nhận mật khẩu
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -70,7 +73,6 @@ const DangKy = () => {
     e.target.style.height = `${e.target.scrollHeight}px`;  // Cập nhật chiều cao theo chiều dài nội dung
   };
 
-
   return (
     <Container className="signup-container">
       <Row className="justify-content-center">
@@ -91,28 +93,42 @@ const DangKy = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="password" className="mb-3">
+            <Form.Group controlId="password" className="mb-3 position-relative">
               <Form.Label>Mật khẩu</Form.Label>
               <Form.Control
-                type="password"
+                type={showPassword ? "text" : "password"} // Hiển thị mật khẩu nếu showPassword là true
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 required
                 className="form-input"
               />
+              {/* Icon mắt để hiển thị/ẩn mật khẩu */}
+              <span
+                className="password-eye-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </Form.Group>
 
-            <Form.Group controlId="confirmPassword" className="mb-3">
+            <Form.Group controlId="confirmPassword" className="mb-3 position-relative">
               <Form.Label>Xác nhận mật khẩu</Form.Label>
               <Form.Control
-                type="password"
+                type={showConfirmPassword ? "text" : "password"} // Hiển thị xác nhận mật khẩu nếu showConfirmPassword là true
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
                 className="form-input"
               />
+              {/* Icon mắt để hiển thị/ẩn xác nhận mật khẩu */}
+              <span
+                className="password-eye-icon"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </Form.Group>
 
             <Form.Group controlId="hoTen" className="mb-3">
@@ -164,7 +180,6 @@ const DangKy = () => {
                 className="form-input"
               />
             </Form.Group>
-
 
             <Form.Group controlId="vaiTro" className="mb-3">
               <Form.Label>Vai trò</Form.Label>

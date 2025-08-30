@@ -5,12 +5,14 @@ import cookie from "react-cookies";
 import Apis, { authApis, endpoints } from "../configs/Apis";
 import { MyDispatchContext } from "../configs/Contexts";
 import MySpinner from "./layout/MySpinner";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 import '../css/DangNhap.css';
 
 const DangNhap = () => {
     const [user, setUser] = useState({});
     const [msg, setMsg] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); 
     const dispatch = useContext(MyDispatchContext);
     const [q] = useSearchParams();
     const nav = useNavigate();
@@ -53,15 +55,22 @@ const DangNhap = () => {
                     />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3 position-relative">
                     <Form.Control
-                        type="password"
+                        type={showPassword ? "text" : "password"} 
                         placeholder="Mật khẩu"
                         value={user.password || ""}
                         onChange={e => setUser({ ...user, password: e.target.value })}
                         required
                         className="form-input"
                     />
+                    {/* Eye icon */}
+                    <span
+                        className="password-eye-icon"
+                        onClick={() => setShowPassword(!showPassword)} 
+                    >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
                 </Form.Group>
 
                 <div className="text-center">

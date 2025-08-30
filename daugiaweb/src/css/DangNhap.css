@@ -1,5 +1,6 @@
 /* Cải tiến giao diện đăng nhập */
 .login-container {
+  background-image: url('/public/anh2.jpg');
   max-width: 500px;
   margin: 50px auto;
   padding: 30px;
@@ -35,4 +36,14 @@
 
 .submit-button:hover {
   background-color: #218838;
+}
+
+.password-eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+    color: #6c757d;
 }
